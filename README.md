@@ -1,17 +1,9 @@
 # lovely_cats
 
-one cat to world
+一个放置类游戏
 
-## Getting Started
+*创建一个喵喵王国*
 
-This project is a starting point for a Flutter application.
+_创意来源/致敬  ->猫国建造者_
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.io/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.io/docs/cookbook)
-
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.io/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
-# lovely_cat
+>非商用，也不会盈利，主旨在于我和我媳妇娱乐&&个人学习flutter
