@@ -25,4 +25,10 @@ class Const {
   static const String CONTEXT = "context";
 
   static const int PASS_TIME_COUNT = 10;
+
+  static const oneSec = const Duration(seconds: 1);
+
+  static const String FIRST_PLAY = "FirstPlay";
+
+
 }

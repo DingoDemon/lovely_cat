@@ -1,7 +1,7 @@
 import 'dart:collection';
 
 import 'package:lovely_cats/object/Cats.dart';
-import 'package:lovely_cats/object/Const.dart';
+import 'package:lovely_cats/Const.dart';
 import 'package:lovely_cats/object/ResourceEnum.dart';
 import 'package:lovely_cats/process/Context.dart';
 import 'dart:math' as math;

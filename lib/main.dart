@@ -1,9 +1,9 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:lovely_cats/application.dart';
-import 'package:lovely_cats/object/Const.dart';
+import 'package:lovely_cats/Const.dart';
 import 'package:lovely_cats/process/Context.dart';
-import 'package:lovely_cats/routes.dart';
+import 'package:lovely_cats/route/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 

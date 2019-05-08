@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:lovely_cats/object/Building.dart';
 import 'package:lovely_cats/object/Cats.dart';
-import 'package:lovely_cats/object/Const.dart';
+import 'package:lovely_cats/Const.dart';
 import 'package:lovely_cats/object/ResourceEnum.dart';
 import 'package:lovely_cats/process/Context.dart';
 import 'package:lovely_cats/util/FuncUtil.dart';

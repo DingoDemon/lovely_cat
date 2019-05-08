@@ -3,6 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class GamePage extends StatefulWidget {
+
+
+  String firstPlay;
+
+  GamePage(this.firstPlay);
+
   @override
   State<StatefulWidget> createState() {
     return GamePageStates();
@@ -12,6 +18,16 @@ class GamePage extends StatefulWidget {
 class GamePageStates extends State<GamePage> {
   @override
   Widget build(BuildContext context) {
+
+    Fluttertoast.showToast(
+        msg: widget.firstPlay,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIos: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
+
     return WillPopScope(
       onWillPop: () {
         Fluttertoast.showToast(

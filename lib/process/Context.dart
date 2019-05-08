@@ -4,7 +4,7 @@ import 'dart:math' as math;
 import 'package:decimal/decimal.dart';
 import 'package:lovely_cats/object/Building.dart';
 import 'package:lovely_cats/object/Cats.dart';
-import 'package:lovely_cats/object/Const.dart';
+import 'package:lovely_cats/Const.dart';
 import 'package:lovely_cats/object/ResourceEnum.dart';
 
 class Context {

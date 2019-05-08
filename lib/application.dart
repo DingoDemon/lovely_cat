@@ -7,5 +7,4 @@ class Application {
   static TabController controller;
   static Context gameContext;
 
-  static const oneSec = const Duration(seconds: 1);
 }

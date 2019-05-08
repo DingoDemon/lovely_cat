@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:lovely_cats/application.dart';
-import 'package:lovely_cats/object/Const.dart';
+import 'package:lovely_cats/Const.dart';
 import 'package:lovely_cats/process/Context.dart';
 import 'package:gif_ani/gif_ani.dart';
-import 'package:lovely_cats/routes.dart';
+import 'package:lovely_cats/route/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -19,7 +19,6 @@ class WelComeStates extends State<WelcomePage> with TickerProviderStateMixin {
   GifController gifController;
   AnimationController gifAnimationController;
   AnimationController buttonController;
-  AnimationController buttonStyleController;
   Animation<double> alphaAnimation;
   Animation<double> scaleAnimation;
   Animation<double> buttonTextScaleAnimation;
@@ -37,11 +36,8 @@ class WelComeStates extends State<WelcomePage> with TickerProviderStateMixin {
         vsync: this, frameCount: 12, duration: Duration(milliseconds: 930));
     gifAnimationController = new AnimationController(
         vsync: this, duration: Duration(milliseconds: 2500));
-    buttonController = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 1000));
-
-    buttonStyleController = new AnimationController(
-        vsync: this, duration: Duration(milliseconds: 600));
+    buttonController =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 1600));
 
     alphaAnimation = Tween(
       begin: 0.0,
@@ -54,7 +50,10 @@ class WelComeStates extends State<WelcomePage> with TickerProviderStateMixin {
 
     step = Step.One;
 
-    scaleAnimation = Tween(begin: 120.0, end: 0.0).animate(buttonController);
+    final Animation curve = new CurvedAnimation(
+        parent: buttonController, curve: Curves.elasticInOut);
+
+    scaleAnimation = Tween(begin: 120.0, end: 0.0).animate(curve);
 
     scaleAnimation.addListener(() {
       setState(() {});
@@ -65,17 +64,24 @@ class WelComeStates extends State<WelcomePage> with TickerProviderStateMixin {
         Context game = new Context();
         Application.gameContext = game;
         Navigator.pop(context);
-        Application.router.navigateTo(context, Routes.page2,
-            transition: TransitionType.nativeModal,transitionDuration: Duration(seconds: 2));
+        Application.router.navigateTo(
+          context,
+          '/game/true',
+          transition: TransitionType.fadeIn,
+          transitionDuration: Const.oneSec,
+        );
       }
     });
 
+    final Animation textSizeAni =
+        new CurvedAnimation(parent: buttonController, curve: Curves.bounceOut);
+
     buttonTextScaleAnimation =
-        Tween(begin: 14.0, end: 0.0).animate(buttonStyleController);
+        Tween(begin: 14.0, end: 0.0).animate(textSizeAni);
     colorTween = ColorTween(
       begin: Colors.white,
       end: Colors.blue,
-    ).animate(buttonStyleController);
+    ).animate(buttonController);
 
     buttonTextScaleAnimation.addListener(() {
       setState(() {});
@@ -87,7 +93,6 @@ class WelComeStates extends State<WelcomePage> with TickerProviderStateMixin {
     gifController.dispose();
     gifAnimationController.dispose();
     buttonController.dispose();
-    buttonStyleController.dispose();
     super.dispose();
   }
 
@@ -149,8 +154,10 @@ class WelComeStates extends State<WelcomePage> with TickerProviderStateMixin {
                 Expanded(
                   child: Center(
                     child: new Container(
-                      height: scaleAnimation.value,
-                      width: scaleAnimation.value,
+                      height:
+                          scaleAnimation.value < 0 ? 0 : scaleAnimation.value,
+                      width:
+                          scaleAnimation.value < 0 ? 0 : scaleAnimation.value,
                       child: RaisedButton(
                         child: Text('  当然喵！\n (=￣ω￣=)',
                             style: TextStyle(
@@ -161,7 +168,6 @@ class WelComeStates extends State<WelcomePage> with TickerProviderStateMixin {
                         textColor: colorTween.value,
                         splashColor: Colors.blueGrey,
                         onPressed: () {
-                          buttonStyleController.forward();
                           buttonController.forward();
                         },
                         shape: CircleBorder(),

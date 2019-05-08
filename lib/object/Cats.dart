@@ -1,4 +1,4 @@
-import 'package:lovely_cats/object/Const.dart';
+import 'package:lovely_cats/Const.dart';
 import 'package:lovely_cats/util/EnumCovert.dart';
 import 'package:lovely_cats/object/ResourceEnum.dart';
 import 'package:lovely_cats/util/FuncUtil.dart';

@@ -96,11 +96,11 @@ class EnumCovert {
       case Season.Spring:
         return "懒洋洋的春天";
       case Season.Summer:
-        return "夏天";
+        return "闷闷热的夏天";
       case Season.Fall:
         return "困乏乏的秋天";
       case Season.Winter:
-        return "冬天";
+        return "冷飕飕的冬天";
       default:
         return "";
     }
