@@ -98,4 +98,10 @@ class Engine {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString(Const.CONTEXT, json);
   }
+
+  double pickSomeCatmint(){
+    double add =FuncUtil().getRandomDouble();
+    context.wareHouse.receiveCatmint(add);
+    return add;
+  }
 }

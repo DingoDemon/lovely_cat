@@ -36,8 +36,8 @@ class WelComeStates extends State<WelcomePage> with TickerProviderStateMixin {
         vsync: this, frameCount: 12, duration: Duration(milliseconds: 930));
     gifAnimationController = new AnimationController(
         vsync: this, duration: Duration(milliseconds: 2500));
-    buttonController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 1600));
+    buttonController = AnimationController(
+        vsync: this, duration: Duration(milliseconds: 1600));
 
     alphaAnimation = Tween(
       begin: 0.0,

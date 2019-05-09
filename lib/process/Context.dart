@@ -5,6 +5,7 @@ import 'package:decimal/decimal.dart';
 import 'package:lovely_cats/object/Building.dart';
 import 'package:lovely_cats/object/Cats.dart';
 import 'package:lovely_cats/Const.dart';
+import 'package:lovely_cats/object/RandomEvent.dart';
 import 'package:lovely_cats/object/ResourceEnum.dart';
 
 class Context {
@@ -18,6 +19,7 @@ class Context {
   HashMap<CatJob, int> catProfession;
   LinkedHashMap<ExpeditionResource, double> expeditions;
   int gameStartTime;
+  Queue<Event> events;
 
   Context() {
     age = Age.Chaos;
@@ -28,6 +30,7 @@ class Context {
     catsLimit = 0;
     catProfession = new HashMap();
     gameStartTime = DateTime.now().millisecondsSinceEpoch;
+    events = new Queue();
   }
 }
 

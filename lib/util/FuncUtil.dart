@@ -18,6 +18,12 @@ class FuncUtil {
     return random.nextInt(max);
   }
 
+  double getRandomDouble() {
+    Random random = new Random();
+    double result = random.nextDouble();
+    return result == 0 ? getRandomDouble() : result * 3;
+  }
+
   BloodLines getCatBlood() {
     Random random = new Random();
     int i = random.nextInt(25);
@@ -50,7 +56,7 @@ class FuncUtil {
     }
   }
 
-  double happiness(LinkedHashMap<ExpeditionResource, double> expeditions){
+  double happiness(LinkedHashMap<ExpeditionResource, double> expeditions) {
     return 0;
   }
 }
