@@ -12,10 +12,8 @@ class BuildingsState extends State<BuildingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color(0xFFB39DDB),
-        appBar: AppBar(
-          title: Text(""),
-        ),
+        backgroundColor: Color(0xFFFFF59D),
+        appBar: AppBar(title: Text(""), leading: Text('')),
         body: Application.gameContext.buildings.isEmpty
             ? Center(
                 child: Text("这里一片荒凉"),

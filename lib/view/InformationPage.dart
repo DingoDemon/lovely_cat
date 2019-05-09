@@ -12,9 +12,10 @@ class InformationState extends State<InformationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color(0xFFB2DFDB),
+        backgroundColor: Color(0xFF80DEEA),
         appBar: AppBar(
           title: Text(""),
+            leading: Text('')
         ),
         body: Application.gameContext.events.isEmpty
             ? Center(

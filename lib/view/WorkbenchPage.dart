@@ -16,6 +16,7 @@ class WorkbenchState extends State<WorkbenchPage> {
         backgroundColor: Color(0xFFBBDEFB),
         appBar: AppBar(
           title: Text(""),
+            leading: Text('')
         ),
         body: Application.gameContext.age == Age.Chaos
             ? Center(
