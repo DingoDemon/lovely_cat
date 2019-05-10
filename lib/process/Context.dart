@@ -23,7 +23,7 @@ class Context {
 
   Context() {
     age = Age.Chaos;
-    season = Season.Spring;
+    season = Season.Winter;
     wareHouse = new WareHouse();
     buildings = new LinkedHashMap();
     cats = new List();

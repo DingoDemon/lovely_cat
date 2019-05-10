@@ -12,4 +12,5 @@ class Application {
   static Engine engine;
   static const Duration one_second = Duration(seconds: 1);
   static TimerUtil mTimerUtil = TimerUtil();
+  static Size size;
 }

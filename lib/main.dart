@@ -20,7 +20,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final router = new Router();
 
     Routes.configureRoutes(router);
@@ -37,6 +36,4 @@ class MyApp extends StatelessWidget {
         ),
         home: welcomePage);
   }
-
-
 }

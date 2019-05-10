@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lovely_cats/application.dart';
 import 'package:lovely_cats/process/Engine.dart';
+import 'package:lovely_cats/view/ActivePage.dart';
 import 'package:lovely_cats/view/gameFour/BuildingsPage.dart';
 import 'package:lovely_cats/view/gameFour/CatsManagerPage.dart';
 import 'package:lovely_cats/widget/GamePageDragger.dart';
 import 'package:lovely_cats/view/gameFour/InformationPage.dart';
 import 'package:lovely_cats/widget/PageReveal.dart';
 import 'package:lovely_cats/view/gameFour/WorkbenchPage.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 class GamePage extends StatefulWidget {
   String firstPlay;
@@ -142,7 +144,24 @@ class GamePageStates extends State<GamePage> with TickerProviderStateMixin {
             )
           ],
         ),
-        floatingActionButton: FloatingActionButton(onPressed: () {}),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ActivePage()));
+          },
+          child: Container(
+            width: 200.0,
+            height: 200.0,
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("images/dafu_erfu.png"),
+                  fit: BoxFit.cover,
+                ),
+                shape: BoxShape.circle),
+          ),
+          elevation: 15,
+          heroTag: "Active",
+        ),
       ),
     );
   }
@@ -162,6 +181,5 @@ class GamePageStates extends State<GamePage> with TickerProviderStateMixin {
 }
 
 abstract class GamePageRefresh {
-
   void update();
 }

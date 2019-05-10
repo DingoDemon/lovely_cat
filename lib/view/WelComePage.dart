@@ -108,6 +108,8 @@ class WelComeStates extends State<WelcomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    Application.size = MediaQuery.of(context).size;
+
     if (step == Step.One) {
       return Container(
         decoration: BoxDecoration(color: Colors.white),
