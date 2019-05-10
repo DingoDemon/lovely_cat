@@ -35,14 +35,7 @@ packages:
       name: common_utils
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.0.1"
-  cupertino_icons:
-    dependency: "direct main"
-    description:
-      name: cupertino_icons
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.1.2"
+    version: "1.1.1"
   decimal:
     dependency: "direct main"
     description:

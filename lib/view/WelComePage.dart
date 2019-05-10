@@ -5,6 +5,7 @@ import 'package:lovely_cats/application.dart';
 import 'package:lovely_cats/Const.dart';
 import 'package:lovely_cats/process/Context.dart';
 import 'package:gif_ani/gif_ani.dart';
+import 'package:lovely_cats/process/Engine.dart';
 import 'package:lovely_cats/route/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -84,7 +85,9 @@ class WelComeStates extends State<WelcomePage> with TickerProviderStateMixin {
     ).animate(buttonController);
 
     buttonTextScaleAnimation.addListener(() {
-      setState(() {});
+      setState(() {
+
+      });
     });
   }
 

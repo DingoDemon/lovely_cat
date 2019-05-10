@@ -105,4 +105,19 @@ class EnumCovert {
         return "";
     }
   }
+
+  Season getNextSeason(Season current){
+    switch (current) {
+      case Season.Spring:
+        return Season.Summer;
+      case Season.Summer:
+        return Season.Fall;
+      case Season.Fall:
+        return Season.Winter;
+      case Season.Winter:
+        return Season.Spring;
+      default:
+        return Season.Spring;
+    }
+  }
 }

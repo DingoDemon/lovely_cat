@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lovely_cats/application.dart';
+import 'package:lovely_cats/util/FuncUtil.dart';
 
 class InformationPage extends StatefulWidget {
   @override
@@ -14,9 +15,9 @@ class InformationState extends State<InformationPage> {
     return Scaffold(
         backgroundColor: Color(0xFF80DEEA),
         appBar: AppBar(
-          title: Text(""),
-            leading: Text('')
-        ),
+            title: Text(FuncUtil().getGameTitle(Application.gameContext)),
+            leading: Text(''),
+            centerTitle: true),
         body: Application.gameContext.events.isEmpty
             ? Center(
                 child: Text("今日无事"),

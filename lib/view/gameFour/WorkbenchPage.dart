@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lovely_cats/application.dart';
 import 'package:lovely_cats/object/ResourceEnum.dart';
+import 'package:lovely_cats/util/FuncUtil.dart';
 
 class WorkbenchPage extends StatefulWidget {
   @override
@@ -15,9 +16,9 @@ class WorkbenchState extends State<WorkbenchPage> {
     return Scaffold(
         backgroundColor: Color(0xFFBBDEFB),
         appBar: AppBar(
-          title: Text(""),
-            leading: Text('')
-        ),
+            title: Text(FuncUtil().getGameTitle(Application.gameContext)),
+            leading: Text(''),
+            centerTitle: true),
         body: Application.gameContext.age == Age.Chaos
             ? Center(
                 child: Text("喵喵的思想还在混沌中"),

@@ -1,8 +1,11 @@
 import 'dart:collection';
 import 'dart:math';
 
+import 'package:common_utils/common_utils.dart';
 import 'package:lovely_cats/object/Cats.dart';
 import 'package:lovely_cats/object/ResourceEnum.dart';
+import 'package:lovely_cats/process/Context.dart';
+import 'package:lovely_cats/util/EnumCovert.dart';
 
 class FuncUtil {
   static final FuncUtil _singleton = new FuncUtil._internal();
@@ -58,5 +61,14 @@ class FuncUtil {
 
   double happiness(LinkedHashMap<ExpeditionResource, double> expeditions) {
     return 0;
+  }
+
+  String getGameTitle(Context c) {
+    int now = DateUtil.getNowDateMs();
+    int start = c.gameStartTime;
+    int passed = (now - start) ~/ 1000;
+    int year = passed ~/ 400;
+    int lastDay = passed % 400;
+    return '第$year喵年,第$lastDay天,${EnumCovert().getSeasonName(c.season)}';
   }
 }

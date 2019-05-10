@@ -2,12 +2,14 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:lovely_cats/view/BuildingsPage.dart';
-import 'package:lovely_cats/view/CatsManagerPage.dart';
-import 'package:lovely_cats/view/GamePageDragger.dart';
-import 'package:lovely_cats/view/InformationPage.dart';
-import 'package:lovely_cats/view/PageReveal.dart';
-import 'package:lovely_cats/view/WorkbenchPage.dart';
+import 'package:lovely_cats/application.dart';
+import 'package:lovely_cats/process/Engine.dart';
+import 'package:lovely_cats/view/gameFour/BuildingsPage.dart';
+import 'package:lovely_cats/view/gameFour/CatsManagerPage.dart';
+import 'package:lovely_cats/widget/GamePageDragger.dart';
+import 'package:lovely_cats/view/gameFour/InformationPage.dart';
+import 'package:lovely_cats/widget/PageReveal.dart';
+import 'package:lovely_cats/view/gameFour/WorkbenchPage.dart';
 
 class GamePage extends StatefulWidget {
   String firstPlay;
@@ -95,6 +97,13 @@ class GamePageStates extends State<GamePage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    Application.mTimerUtil.setOnTimerTickCallback((int tick) {
+      Engine().primed();
+      setState(() {
+        currentPage = getCurrentPage(activeIndex);
+      });
+    });
+    Application.mTimerUtil.startTimer();
   }
 
   @override
@@ -150,4 +159,9 @@ class GamePageStates extends State<GamePage> with TickerProviderStateMixin {
         return InformationPage();
     }
   }
+}
+
+abstract class GamePageRefresh {
+
+  void update();
 }

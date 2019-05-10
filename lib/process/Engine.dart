@@ -1,17 +1,18 @@
 import 'dart:collection';
 import 'dart:convert';
 
+import 'package:common_utils/common_utils.dart';
+import 'package:lovely_cats/application.dart';
 import 'package:lovely_cats/object/Building.dart';
 import 'package:lovely_cats/object/Cats.dart';
 import 'package:lovely_cats/Const.dart';
 import 'package:lovely_cats/object/ResourceEnum.dart';
 import 'package:lovely_cats/process/Context.dart';
+import 'package:lovely_cats/util/EnumCovert.dart';
 import 'package:lovely_cats/util/FuncUtil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Engine {
-  Context context;
-
   double efficiencyCoefficient; //生产系数
 
   static final Engine _singleton = new Engine._internal();
@@ -22,65 +23,82 @@ class Engine {
 
   Engine._internal();
 
-  void setContext(Context c) {
-    this.context = c;
-  }
-
   int passTimes = 0;
 
-  void primed(BigInt timeStamp) {
+  void primed() {
+    //如果抛出异常，检查代码在初始化Application.gameApplication.gameContext之前就开始运行
+    assert(Application.gameContext != null);
+
     if (passTimes < Const.PASS_TIME_COUNT) {
       passTimes++;
     } else {
       passTimes = 0;
     }
-    perPlanckTime(timeStamp);
+    perPlanckTime();
   }
 
 // 每秒进行一次
-  void perPlanckTime(BigInt timeStamp) {
+  void perPlanckTime() {
     //如果喵子领导是leader，增加效率
-    if (context.leader.type == CatType.Leader) {
-      efficiencyCoefficient =
-          context.leader.happinessOutput * efficiencyCoefficient;
+    if (Application.gameContext.leader != null &&
+        Application.gameContext.leader.type == CatType.Leader) {
+      efficiencyCoefficient = Application.gameContext.leader.happinessOutput *
+          efficiencyCoefficient;
     }
 
     //人口是生产系数的重要影响部分
-    efficiencyCoefficient = efficiencyCoefficient *
-        FuncUtil().saturability(
-            context.cats.length, FuncUtil().happiness(context.expeditions));
+    if (Application.gameContext.cats.length > 1) {
+      efficiencyCoefficient = efficiencyCoefficient *
+          FuncUtil().saturability(Application.gameContext.cats.length,
+              FuncUtil().happiness(Application.gameContext.expeditions));
+    }
 
+    checkSeason();
     catmintOutput();
     catOutput();
   }
 
-  void catmintOutput() {
-    LinkedHashMap building = context.buildings;
-    if (building.containsKey(BuildingExample.catmintField)) {
-      double except = CatmintFieldBuilder.instance.output(context);
+  void checkSeason() {
+    int now = DateUtil.getNowDateMs();
+    int start = Application.gameContext.gameStartTime;
+    int passed = (now - start) ~/ 1000;
+    int lastDay = passed % 400;
+    if (lastDay == 100 || lastDay == 200 || lastDay == 300 || lastDay == 0) {
+      Application.gameContext.season =
+          EnumCovert().getNextSeason(Application.gameContext.season);
+    }
+  }
 
-      if (context.season == Season.Winter) {
+  void catmintOutput() {
+    LinkedHashMap building = Application.gameContext.buildings;
+    if (building.containsKey(BuildingExample.catmintField)) {
+      double except =
+          CatmintFieldBuilder.instance.output(Application.gameContext);
+
+      if (Application.gameContext.season == Season.Winter) {
         return;
       }
-      if (context.leader.type == CatType.Farmer) {}
+      if (Application.gameContext.leader.type == CatType.Farmer) {}
 
-      if (context.leader.type == CatType.Farmer) {
-        except = context.leader.agriculturalOutput * except;
+      if (Application.gameContext.leader.type == CatType.Farmer) {
+        except = Application.gameContext.leader.agriculturalOutput * except;
       }
 
-      context.wareHouse.receiveCatmint(except);
+      Application.gameContext.wareHouse.receiveCatmint(except);
     }
   }
 
   void catOutput() {
-    HashMap<CatJob, int> cats = context.catProfession;
+    HashMap<CatJob, int> cats = Application.gameContext.catProfession;
     cats.forEach((job, int) {
       switch (job) {
         case CatJob.Farmer:
-          context.wareHouse.receiveCatmint(efficiencyCoefficient * int * 5);
+          Application.gameContext.wareHouse
+              .receiveCatmint(efficiencyCoefficient * int * 5);
           break;
         case CatJob.Craftsman:
-          context.wareHouse.receiveCatmint(efficiencyCoefficient * int * 3);
+          Application.gameContext.wareHouse
+              .receiveCatmint(efficiencyCoefficient * int * 3);
           break;
         case CatJob.Hunter:
           break;
@@ -94,14 +112,14 @@ class Engine {
 
   //每10秒储存一次
   void saveContext() async {
-    String json = jsonEncode(context);
+    String json = jsonEncode(Application.gameContext);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString(Const.CONTEXT, json);
   }
 
-  double pickSomeCatmint(){
-    double add =FuncUtil().getRandomDouble();
-    context.wareHouse.receiveCatmint(add);
+  double pickSomeCatmint() {
+    double add = FuncUtil().getRandomDouble();
+    Application.gameContext.wareHouse.receiveCatmint(add);
     return add;
   }
 }
