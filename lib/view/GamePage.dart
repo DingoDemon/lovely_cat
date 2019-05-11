@@ -146,19 +146,13 @@ class GamePageStates extends State<GamePage> with TickerProviderStateMixin {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ActivePage()));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ActivePage(),
+                ));
           },
-          child: Container(
-            width: 200.0,
-            height: 200.0,
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("images/dafu_erfu.png"),
-                  fit: BoxFit.cover,
-                ),
-                shape: BoxShape.circle),
-          ),
+          child: getShareImage(true),
           elevation: 15,
           heroTag: "Active",
         ),
@@ -177,6 +171,30 @@ class GamePageStates extends State<GamePage> with TickerProviderStateMixin {
       case 3:
         return InformationPage();
     }
+  }
+}
+
+Widget getShareImage(bool isFirstPage) {
+  if (isFirstPage) {
+    return Container(
+        decoration: BoxDecoration(
+      image: DecorationImage(
+        image: AssetImage("images/dafu_erfu.png"),
+        fit: BoxFit.cover,
+      ),
+      shape: BoxShape.circle,
+    ));
+  } else {
+    return Container(
+        width: 400.0,
+        height: 250.0,
+        decoration: BoxDecoration(
+            border: Border.all(color: Color(0xFFBDBDBD)),
+            image: DecorationImage(
+              image: AssetImage("images/dafu_erfu.png"),
+              fit: BoxFit.cover,
+            ),
+            borderRadius: BorderRadius.circular(10)));
   }
 }
 

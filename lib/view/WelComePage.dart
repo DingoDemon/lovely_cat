@@ -41,7 +41,7 @@ class WelComeStates extends State<WelcomePage> with TickerProviderStateMixin {
     gifAnimationController = new AnimationController(
         vsync: this, duration: Duration(milliseconds: 2500));
     buttonController = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 1600));
+        vsync: this, duration: Duration(milliseconds: 1000));
     alphaAnimation = Tween(
       begin: 0.0,
       end: 1.0,
@@ -234,3 +234,4 @@ class ShakeCurve extends Curve {
     }
   }
 }
+
