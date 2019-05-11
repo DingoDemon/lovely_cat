@@ -16,20 +16,20 @@ class ActivePage extends AlertDialog {
         .containsKey(BuildingExample.chickenCoop)) {
       tip = '树枝制成的鸡窝，深受喵婊贝喜欢';
     }
-    return getWidget(context);
+    return AlertDialog(
+      content: getWidget(context),
+    );
   }
 
   Widget getWidget(BuildContext context) {
     switch (Application.gameContext.age) {
       case Age.Chaos:
-        return Scaffold(
-          backgroundColor: Colors.white,
-          appBar: AppBar(
-            centerTitle: true,
-            title: Text("喵王之手"),
-          ),
-          body: Container(
-            margin: EdgeInsets.only(top: 80),
+        return Material(
+          type: MaterialType.transparency,
+          child: Container(
+            width: double.infinity,
+            height: 500,
+            margin: EdgeInsets.only(top: 30),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -42,10 +42,7 @@ class ActivePage extends AlertDialog {
                   margin: EdgeInsets.only(top: 40, left: 15, right: 15),
                   child: Text(
                     tip,
-                    style: TextStyle(
-                        fontSize: 24,
-                        fontFamily: 'Miao',
-                        color: Colors.deepOrange[400]),
+                    style: TextStyle(fontSize: 18, color: Colors.grey[800],fontFamily: 'Simple'),
                   ),
                 )
               ],

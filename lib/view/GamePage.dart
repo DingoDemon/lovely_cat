@@ -148,9 +148,10 @@ class GamePageStates extends State<GamePage> with TickerProviderStateMixin {
           onPressed: () {
             Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => ActivePage(),
-                ));
+                HeroDialogRoute(
+                    builder: (BuildContext context) => Center(
+                          child: ActivePage(),
+                        )));
           },
           child: getShareImage(true),
           elevation: 15,
@@ -179,20 +180,19 @@ Widget getShareImage(bool isFirstPage) {
     return Container(
         decoration: BoxDecoration(
       image: DecorationImage(
-        image: AssetImage("images/dafu_erfu.png"),
+        image: AssetImage("images/we.png"),
         fit: BoxFit.cover,
       ),
       shape: BoxShape.circle,
     ));
   } else {
     return Container(
-        width: 400.0,
-        height: 250.0,
+        width: 180,
+        height: 180,
         decoration: BoxDecoration(
-            border: Border.all(color: Color(0xFFBDBDBD)),
             image: DecorationImage(
-              image: AssetImage("images/dafu_erfu.png"),
-              fit: BoxFit.cover,
+              image: AssetImage("images/we.png"),
+              fit: BoxFit.contain,
             ),
             borderRadius: BorderRadius.circular(10)));
   }
@@ -200,4 +200,42 @@ Widget getShareImage(bool isFirstPage) {
 
 abstract class GamePageRefresh {
   void update();
+}
+
+class HeroDialogRoute<T> extends PageRoute<T> {
+  HeroDialogRoute({this.builder}) : super();
+
+  final WidgetBuilder builder;
+
+  @override
+  bool get opaque => false;
+
+  @override
+  bool get barrierDismissible => true;
+
+  @override
+  Duration get transitionDuration => const Duration(milliseconds: 500);
+
+  @override
+  bool get maintainState => true;
+
+  @override
+  Color get barrierColor => Colors.black54;
+
+  @override
+  Widget buildTransitions(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation, Widget child) {
+    return new FadeTransition(
+        opacity: new CurvedAnimation(parent: animation, curve: Curves.easeOut),
+        child: child);
+  }
+
+  @override
+  Widget buildPage(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation) {
+    return builder(context);
+  }
+
+  @override
+  String get barrierLabel => null;
 }

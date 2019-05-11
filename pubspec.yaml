@@ -50,13 +50,19 @@ flutter:
     - images/doubt.gif
     - images/welcome.gif
     - images/dafu_erfu.png
+    - images/we.png
     - fonts/hanyi_lemiao.ttf
-
+    - fonts/hanyi.ttf
 
   fonts:
     - family: Miao
       fonts:
         - asset: fonts/hanyi_lemiao.ttf
+    - family: Simple
+      fonts:
+        - asset: fonts/hanyi.ttf
+
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
 
