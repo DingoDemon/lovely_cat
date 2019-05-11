@@ -20,6 +20,7 @@ class WelComeStates extends State<WelcomePage> with TickerProviderStateMixin {
   GifController gifController;
   AnimationController gifAnimationController;
   AnimationController buttonController;
+
   Animation<double> alphaAnimation;
   Animation<double> scaleAnimation;
   Animation<double> buttonTextScaleAnimation;
@@ -30,6 +31,8 @@ class WelComeStates extends State<WelcomePage> with TickerProviderStateMixin {
 
   Widget current;
 
+  String buttonText = "  当然喵！\n (=￣ω￣=)'";
+
   @override
   void initState() {
     super.initState();
@@ -39,7 +42,6 @@ class WelComeStates extends State<WelcomePage> with TickerProviderStateMixin {
         vsync: this, duration: Duration(milliseconds: 2500));
     buttonController = AnimationController(
         vsync: this, duration: Duration(milliseconds: 1600));
-
     alphaAnimation = Tween(
       begin: 0.0,
       end: 1.0,
@@ -51,13 +53,17 @@ class WelComeStates extends State<WelcomePage> with TickerProviderStateMixin {
 
     step = Step.One;
 
-    final Animation curve = new CurvedAnimation(
-        parent: buttonController, curve: Curves.elasticInOut);
+    final Animation curve =
+        new CurvedAnimation(parent: buttonController, curve: ShakeCurve());
 
     scaleAnimation = Tween(begin: 120.0, end: 0.0).animate(curve);
 
     scaleAnimation.addListener(() {
-      setState(() {});
+      setState(() {
+        if (scaleAnimation.value > 130) {
+          buttonText = "那么，开始了 \n (*˘︶˘*).。.:*♡";
+        }
+      });
     });
 
     scaleAnimation.addStatusListener((status) {
@@ -74,8 +80,8 @@ class WelComeStates extends State<WelcomePage> with TickerProviderStateMixin {
       }
     });
 
-    final Animation textSizeAni =
-        new CurvedAnimation(parent: buttonController, curve: Curves.bounceOut);
+    final Animation textSizeAni = new CurvedAnimation(
+        parent: buttonController, curve: Curves.bounceInOut);
 
     buttonTextScaleAnimation =
         Tween(begin: 14.0, end: 0.0).animate(textSizeAni);
@@ -85,9 +91,7 @@ class WelComeStates extends State<WelcomePage> with TickerProviderStateMixin {
     ).animate(buttonController);
 
     buttonTextScaleAnimation.addListener(() {
-      setState(() {
-
-      });
+      setState(() {});
     });
   }
 
@@ -132,12 +136,11 @@ class WelComeStates extends State<WelcomePage> with TickerProviderStateMixin {
             ),
             body: Column(
               mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                SizedBox(
-                  height: 150,
-                  width: 1,
-                ),
-                Expanded(
+                Container(
+                  margin: EdgeInsets.only(top: 40),
+                  padding: EdgeInsets.all(30),
                   child: FadeTransition(
                     opacity: alphaAnimation,
                     child: GifAnimation(
@@ -150,7 +153,7 @@ class WelComeStates extends State<WelcomePage> with TickerProviderStateMixin {
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
                     child: Text(
-                      "喵喵好像没有找到存档，是否开始新一轮的喵喵纪元",
+                      '喵喵好像没有找到存档，是否开始新一轮的喵喵纪元',
                       style: TextStyle(fontFamily: 'Miao', fontSize: 24),
                     ),
                   ),
@@ -159,18 +162,19 @@ class WelComeStates extends State<WelcomePage> with TickerProviderStateMixin {
                 Expanded(
                   child: Center(
                     child: new Container(
+                      margin: EdgeInsets.only(bottom: 30),
                       height:
                           scaleAnimation.value < 0 ? 0 : scaleAnimation.value,
                       width:
                           scaleAnimation.value < 0 ? 0 : scaleAnimation.value,
                       child: RaisedButton(
-                        child: Text('  当然喵！\n (=￣ω￣=)',
+                        child: Text(buttonText,
                             style: TextStyle(
                                 fontFamily: 'Miao',
                                 fontSize: buttonTextScaleAnimation.value)),
                         color: Theme.of(context).accentColor,
                         elevation: 4.0,
-                        textColor: colorTween.value,
+                        textColor: Colors.white,
                         splashColor: Colors.blueGrey,
                         onPressed: () {
                           buttonController.forward();
@@ -180,10 +184,6 @@ class WelComeStates extends State<WelcomePage> with TickerProviderStateMixin {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 100,
-                  width: 1,
-                )
               ],
             ));
       }
@@ -220,4 +220,17 @@ SlideTransition createTransition(Animation<double> animation, Widget child) {
     ).animate(animation),
     child: child,
   );
+}
+
+class ShakeCurve extends Curve {
+  @override
+  double transform(double t) {
+    if (t < 0.4) {
+      return 5 * t * t - 4 * t;
+    } else if (t >= 0.4 && t < 0.8) {
+      return -0.8;
+    } else {
+      return 9 * t - 8;
+    }
+  }
 }
