@@ -25,10 +25,6 @@ class BuildingsState extends State<BuildingsPage> {
 
     return Scaffold(
         backgroundColor: Color(0xFFFFF59D),
-        appBar: AppBar(
-            title: Text(FuncUtil().getGameTitle(Application.gameContext)),
-            leading: Text(''),
-            centerTitle: true),
         body: Application.gameContext.buildings.isEmpty
             ? Center(
                 child: Text("这里一片荒凉"),

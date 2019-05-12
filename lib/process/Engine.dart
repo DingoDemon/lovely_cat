@@ -172,6 +172,7 @@ class Engine {
     }
     Application.gameContext.wareHouse.foods[FoodResource.catmint] =
         Application.gameContext.wareHouse.foods[FoodResource.catmint] - 20;
+    Application.gameContext.wareHouse.receiveBranch(1.0);
     return true;
   }
 }

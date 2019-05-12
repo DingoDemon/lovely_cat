@@ -3,7 +3,7 @@ import 'package:lovely_cats/application.dart';
 import 'package:lovely_cats/util/FuncUtil.dart';
 import 'package:lovely_cats/view/GamePage.dart';
 
-class CatsManagerPage extends StatefulWidget{
+class CatsManagerPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return CatsManagerState();
@@ -15,7 +15,6 @@ class CatsManagerState extends State<CatsManagerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Color(0xFFFFAB91),
-        appBar: AppBar(title: Text(FuncUtil().getGameTitle(Application.gameContext)), leading: Text(''),centerTitle: true),
         body: Application.gameContext.cats.isEmpty
             ? Center(
                 child: Text("没有喵喵在此驻足"),

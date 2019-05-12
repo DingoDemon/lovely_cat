@@ -7,6 +7,7 @@ import 'package:lovely_cats/application.dart';
 import 'package:lovely_cats/object/ResourceEnum.dart';
 import 'package:lovely_cats/process/Engine.dart';
 import 'package:lovely_cats/util/EnumCovert.dart';
+import 'package:lovely_cats/util/FuncUtil.dart';
 import 'package:lovely_cats/view/ActivePage.dart';
 import 'package:lovely_cats/view/gameFour/BuildingsPage.dart';
 import 'package:lovely_cats/view/gameFour/CatsManagerPage.dart';
@@ -132,7 +133,12 @@ class GamePageStates extends State<GamePage> with TickerProviderStateMixin {
             fontSize: 16.0);
       },
       child: Scaffold(
+        resizeToAvoidBottomPadding: false,
         backgroundColor: Colors.amber,
+        appBar: AppBar(
+            title: Text(FuncUtil().getGameTitle(Application.gameContext)),
+            leading: items.length > 0 ? null : Text(''),
+            centerTitle: true),
         body: Stack(
           children: <Widget>[
             currentPage,
@@ -161,20 +167,33 @@ class GamePageStates extends State<GamePage> with TickerProviderStateMixin {
           heroTag: "Active",
         ),
         drawer: Drawer(
-          child: ListView.builder(
-            itemBuilder: (BuildContext context, int index) {
-              if (items[index] is FoodResource) {
-                Text(
-                  EnumCovert().getFoodReceiveInfo(items[index]),
-                  style: TextStyle(color: Colors.blue),
-                );
-              } else if (items[index] is BuildingResource) {
-                Text(EnumCovert().getBuildingResourceReceiveInfo(items[index]),
-                    style: TextStyle(color: Colors.blue));
-              } else {}
-            },
-            itemCount: items.length,
-          ).build(context),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Image.asset('images/dafu_erfu.png'),
+              Container(
+                  height: 600,
+                  child: ListView.builder(
+                    addRepaintBoundaries: true,
+                    itemBuilder: (BuildContext context, int index) {
+                      if (items[index] is FoodResource) {
+                        return Text(
+                          EnumCovert().getFoodReceiveInfo(items[index]),
+                          style: TextStyle(color: Colors.blue, fontSize: 16),
+                        );
+                      } else if (items[index] is BuildingResource) {
+                        return Text(
+                            EnumCovert()
+                                .getBuildingResourceReceiveInfo(items[index]),
+                            style: TextStyle(color: Colors.tealAccent[700]));
+                      } else {
+                        return Text("!!!");
+                      }
+                    },
+                    itemCount: items.length,
+                  )),
+            ],
+          ),
         ),
       ),
     );
