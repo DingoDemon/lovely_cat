@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lovely_cats/application.dart';
+import 'package:lovely_cats/object/Building.dart';
 import 'package:lovely_cats/object/ResourceEnum.dart';
+import 'package:lovely_cats/process/Engine.dart';
 
 import 'GamePage.dart';
 
 class ActivePage extends AlertDialog {
   String tip;
 
+
   @override
   Widget build(BuildContext context) {
     if (!Application.gameContext.buildings
         .containsKey(BuildingExample.catmintField)) {
-      tip = '去林子里采点猫薄荷回来吧,只要采到足够的猫薄荷,就能种一片猫薄荷田';
+      tip = '去林子里采点猫薄荷回来吧';
     } else if (!Application.gameContext.buildings
         .containsKey(BuildingExample.chickenCoop)) {
       tip = '树枝制成的鸡窝，深受喵婊贝喜欢';
@@ -39,10 +43,38 @@ class ActivePage extends AlertDialog {
                   child: getShareImage(false),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 40, left: 15, right: 15),
+                  margin: EdgeInsets.only(top: 60, left: 15, right: 15),
                   child: Text(
                     tip,
-                    style: TextStyle(fontSize: 18, color: Colors.grey[800],fontFamily: 'Simple'),
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.grey[800],
+                        fontFamily: 'Simple'),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 40, left: 15, right: 15),
+                  child: RaisedButton(
+                    child: Text("采集猫薄荷",
+                        style: TextStyle(
+                          fontFamily: 'Miao',
+                          fontSize: 14,
+                          color: Colors.white,
+                        )),
+                    onPressed: () {
+                      double value = Engine().pickSomeCatmint();
+                      Fluttertoast.showToast(
+                          msg:
+                              "从林子里采集到里$value猫薄荷,${CatmintFieldBuilder.instance.getNecessaryTip(Application.gameContext)}",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.BOTTOM,
+                          timeInSecForIos: 1,
+                          backgroundColor: Colors.tealAccent[700],
+                          textColor: Colors.white,
+                          fontSize: 16.0);
+                    },
+                    color: Theme.of(context).accentColor,
+                    splashColor: Colors.blueGrey,
                   ),
                 )
               ],

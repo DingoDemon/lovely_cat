@@ -34,11 +34,11 @@ class Engine {
     } else {
       passTimes = 0;
     }
-    perPlanckTime();
+    _perPlanckTime();
   }
 
 // 每秒进行一次
-  void perPlanckTime() {
+  void _perPlanckTime() {
     //如果喵子领导是leader，增加效率
     if (Application.gameContext.leader != null &&
         Application.gameContext.leader.type == CatType.Leader) {
@@ -53,12 +53,12 @@ class Engine {
               FuncUtil().happiness(Application.gameContext.expeditions));
     }
 
-    checkSeason();
-    catmintOutput();
-    catOutput();
+    _checkSeason();
+    _catmintOutput();
+    _catOutput();
   }
 
-  void checkSeason() {
+  void _checkSeason() {
     int now = DateUtil.getNowDateMs();
     int start = Application.gameContext.gameStartTime;
     int passed = (now - start) ~/ 1000;
@@ -69,7 +69,7 @@ class Engine {
     }
   }
 
-  void catmintOutput() {
+  void _catmintOutput() {
     LinkedHashMap building = Application.gameContext.buildings;
     if (building.containsKey(BuildingExample.catmintField)) {
       double except =
@@ -88,7 +88,7 @@ class Engine {
     }
   }
 
-  void catOutput() {
+  void _catOutput() {
     HashMap<CatJob, int> cats = Application.gameContext.catProfession;
     cats.forEach((job, int) {
       switch (job) {
@@ -111,7 +111,7 @@ class Engine {
   }
 
   //每10秒储存一次
-  void saveContext() async {
+  void _saveContext() async {
     String json = jsonEncode(Application.gameContext);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString(Const.CONTEXT, json);

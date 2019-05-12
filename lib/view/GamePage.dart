@@ -122,7 +122,7 @@ class GamePageStates extends State<GamePage> with TickerProviderStateMixin {
         Fluttertoast.showToast(
             msg: "back",
             toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.CENTER,
+            gravity: ToastGravity.BOTTOM,
             timeInSecForIos: 1,
             backgroundColor: Colors.red,
             textColor: Colors.white,

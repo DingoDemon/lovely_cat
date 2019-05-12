@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:common_utils/common_utils.dart';
 import 'package:lovely_cats/object/Cats.dart';
 import 'package:lovely_cats/Const.dart';
 import 'package:lovely_cats/object/ResourceEnum.dart';
@@ -66,6 +67,15 @@ class CatmintFieldBuilder extends OperativeBuilder {
     }
 
     return c.wareHouse.foods[FoodResource.catmint] >= catmintNecessary;
+  }
+
+  String getNecessaryTip(Context c) {
+    if (couldBuild(c)) {
+      return "已经可以建造一片新的猫薄荷田了";
+    } else {
+      double value = catmintNecessary - c.wareHouse.foods[FoodResource.catmint];
+      return "还差${NumUtil.getNumByValueDouble(value, 2)}猫薄荷，才能建造一片新的猫薄荷田";
+    }
   }
 
   @override

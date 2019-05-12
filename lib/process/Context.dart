@@ -50,15 +50,18 @@ class WareHouse {
   void init() {
     List<FoodResource> food = FoodResource.values;
     for (FoodResource resource in food) {
+      foods[resource] = 0;
       foodsLimit[resource] = 500;
     }
     List<BuildingResource> build = BuildingResource.values;
     for (BuildingResource resource in build) {
+      buildingMaterials[resource] = 0;
       buildingMaterialsLimit[resource] = 200;
     }
 
     List<PointResource> point = PointResource.values;
     for (PointResource resource in point) {
+      points[resource] = 0;
       pointsLimit[resource] = 100;
     }
   }

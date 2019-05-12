@@ -24,7 +24,8 @@ class FuncUtil {
   double getRandomDouble() {
     Random random = new Random();
     double result = random.nextDouble();
-    return result == 0 ? getRandomDouble() : result * 3;
+    result = result == 0 ? getRandomDouble() : result * 3;
+    return NumUtil.getNumByValueDouble(result, 2);
   }
 
   BloodLines getCatBlood() {
