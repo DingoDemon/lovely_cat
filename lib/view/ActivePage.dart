@@ -9,16 +9,40 @@ import 'GamePage.dart';
 
 class ActivePage extends AlertDialog {
   String tip;
-
+  ChaosStep chaosStep;
 
   @override
   Widget build(BuildContext context) {
-    if (!Application.gameContext.buildings
-        .containsKey(BuildingExample.catmintField)) {
-      tip = '去林子里采点猫薄荷回来吧';
-    } else if (!Application.gameContext.buildings
-        .containsKey(BuildingExample.chickenCoop)) {
-      tip = '树枝制成的鸡窝，深受喵婊贝喜欢';
+    switch (Application.gameContext.age) {
+      case Age.Chaos:
+        if (!Application.gameContext.buildings
+            .containsKey(BuildingExample.catmintField)) {
+          tip = '去林子里采点猫薄荷回来吧';
+          chaosStep = ChaosStep.one;
+        } else if (Application.gameContext.buildings
+                .containsKey(BuildingExample.catmintField) &&
+            !Application.gameContext.buildings
+                .containsKey(BuildingExample.chickenCoop)) {
+          tip = '树枝制成的鸡窝，能吸引新的喵婊贝';
+          chaosStep = ChaosStep.two;
+        }
+        break;
+      case Age.Bronze:
+        break;
+      case Age.Feudal:
+        break;
+      case Age.Industry:
+        break;
+      case Age.Iron:
+        break;
+      case Age.Modern:
+        break;
+      case Age.Space:
+        break;
+      case Age.Stone:
+        break;
+      default:
+        break;
     }
     return AlertDialog(
       content: getWidget(context),
@@ -52,31 +76,7 @@ class ActivePage extends AlertDialog {
                         fontFamily: 'Simple'),
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.only(top: 40, left: 15, right: 15),
-                  child: RaisedButton(
-                    child: Text("采集猫薄荷",
-                        style: TextStyle(
-                          fontFamily: 'Miao',
-                          fontSize: 14,
-                          color: Colors.white,
-                        )),
-                    onPressed: () {
-                      double value = Engine().pickSomeCatmint();
-                      Fluttertoast.showToast(
-                          msg:
-                              "从林子里采集到里$value猫薄荷,${CatmintFieldBuilder.instance.getNecessaryTip(Application.gameContext)}",
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.BOTTOM,
-                          timeInSecForIos: 1,
-                          backgroundColor: Colors.tealAccent[700],
-                          textColor: Colors.white,
-                          fontSize: 16.0);
-                    },
-                    color: Theme.of(context).accentColor,
-                    splashColor: Colors.blueGrey,
-                  ),
-                )
+                getChaosActive(context, chaosStep)
               ],
             ),
           ),
@@ -99,4 +99,96 @@ class ActivePage extends AlertDialog {
         return Container();
     }
   }
+
+  Widget getChaosActive(BuildContext context, ChaosStep step) {
+    if (step == ChaosStep.one) {
+      return Container(
+        margin: EdgeInsets.only(top: 40, left: 15, right: 15),
+        child: RaisedButton(
+          child: Text("采集猫薄荷",
+              style: TextStyle(
+                fontFamily: 'Miao',
+                fontSize: 14,
+                color: Colors.white,
+              )),
+          onPressed: () {
+            double value = Engine().pickSomeCatmint();
+            Fluttertoast.showToast(
+                msg:
+                "从林子里采集到里$value猫薄荷,${CatmintFieldBuilder.instance.getNecessaryTip(Application.gameContext)}",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIos: 1,
+                backgroundColor: Colors.tealAccent[700],
+                textColor: Colors.white,
+                fontSize: 16.0);
+          },
+          color: Theme.of(context).accentColor,
+          splashColor: Colors.blueGrey,
+        ),
+      );
+    } else {
+      bool makeBranchEnable =
+          Application.gameContext.wareHouse.foods[FoodResource.catmint] >= 20;
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(top: 40, left: 15, right: 15),
+            child: RaisedButton(
+              child: Text("采集猫薄荷",
+                  style: TextStyle(
+                    fontFamily: 'Miao',
+                    fontSize: 14,
+                    color: Colors.white,
+                  )),
+              onPressed: () {
+                double value = Engine().pickSomeCatmint();
+                Fluttertoast.showToast(
+                    msg:
+                    "从林子里采集到里$value猫薄荷,${CatmintFieldBuilder.instance.getNecessaryTip(Application.gameContext)}",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIos: 1,
+                    backgroundColor: Colors.tealAccent[700],
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+              },
+              color: Theme.of(context).accentColor,
+              splashColor: Colors.blueGrey,
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 40, left: 15, right: 15),
+            child: RaisedButton(
+              child: Text("将20个猫薄荷碾成树枝",
+                  style: TextStyle(
+                    fontFamily: 'Miao',
+                    fontSize: 14,
+                    color: Colors.white,
+                  )),
+              onPressed: makeBranchEnable
+                  ? () {
+                bool success = Engine().makeCatmintToBranch();
+                Fluttertoast.showToast(
+                    msg: success ? "碾压完成，注意余粮哦" : "碾压失败",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIos: 1,
+                    backgroundColor: Colors.tealAccent[700],
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+              }
+                  : null,
+              color: Theme.of(context).accentColor,
+              splashColor: Colors.blueGrey,
+            ),
+          )
+        ],
+      );
+    }
+  }
 }
+
+enum ChaosStep { one, two }
+

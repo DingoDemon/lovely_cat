@@ -7,7 +7,11 @@ import 'package:lovely_cats/object/ResourceEnum.dart';
 import 'package:lovely_cats/process/Context.dart';
 import 'dart:math' as math;
 
+import '../application.dart';
+
 abstract class abstractBuildier {
+  bool couldShow(Context c);
+
   bool couldBuild(Context c);
 
   void build(Context c);
@@ -40,7 +44,21 @@ class CatmintFieldBuilder extends OperativeBuilder {
     return instance;
   }
 
-  CatmintFieldBuilder.create();
+  CatmintFieldBuilder.create() {
+    if (Application.gameContext == null) {
+      throw StateError("Application.gameContext ==null");
+    }
+
+    LinkedHashMap buildings = Application.gameContext.buildings;
+
+    if (!buildings.containsKey(BuildingExample.catmintField)) {
+      catmintNecessary = Const.FIRST_BUILD_CATMINT_FIELD_NEED;
+    } else {
+      catmintNecessary = Const.FIRST_BUILD_CATMINT_FIELD_NEED *
+          math.pow(Const.CATMINT_FIELD_BUILD_SEED,
+              buildings[BuildingExample.catmintField]);
+    }
+  }
 
   @override
   void build(Context c) {
@@ -56,16 +74,6 @@ class CatmintFieldBuilder extends OperativeBuilder {
 
   @override
   bool couldBuild(Context c) {
-    LinkedHashMap buildings = c.buildings;
-
-    if (!buildings.containsKey(BuildingExample.catmintField)) {
-      catmintNecessary = Const.FIRST_BUILD_CATMINT_FIELD_NEED;
-    } else {
-      catmintNecessary = Const.FIRST_BUILD_CATMINT_FIELD_NEED *
-          math.pow(Const.CATMINT_FIELD_BUILD_SEED,
-              buildings[BuildingExample.catmintField]);
-    }
-
     return c.wareHouse.foods[FoodResource.catmint] >= catmintNecessary;
   }
 
@@ -81,7 +89,12 @@ class CatmintFieldBuilder extends OperativeBuilder {
   @override
   double output(Context c) {
     //PlanckTime内产出
-    return (c.buildings[BuildingExample.catmintField] * 1) as double;
+    return c.buildings[BuildingExample.catmintField] * 1.2 ;
+  }
+
+  @override
+  bool couldShow(Context c) {
+    return c.wareHouse.foods[FoodResource.catmint] > catmintNecessary / 3;
   }
 }
 
@@ -95,7 +108,21 @@ class ChickenCoopBuilder extends StaticBuilder {
     return instance;
   }
 
-  ChickenCoopBuilder.create();
+  ChickenCoopBuilder.create() {
+    if (Application.gameContext == null) {
+      throw StateError("Application.gameContext ==null");
+    }
+
+    LinkedHashMap buildings = Application.gameContext.buildings;
+
+    if (!buildings.containsKey(BuildingExample.chickenCoop)) {
+      branchNeed = Const.FIRST_CHICKEN_COOP_NEED;
+    } else {
+      branchNeed = Const.FIRST_CHICKEN_COOP_NEED *
+          math.pow(Const.CHICKEN_COOP_BUILD_SEED,
+              buildings[BuildingExample.chickenCoop]);
+    }
+  }
 
   @override
   void build(Context c) {
@@ -116,15 +143,12 @@ class ChickenCoopBuilder extends StaticBuilder {
 
   @override
   bool couldBuild(Context c) {
-    LinkedHashMap buildings = c.buildings;
-
-    if (!buildings.containsKey(BuildingExample.chickenCoop)) {
-      branchNeed = Const.FIRST_CHICKEN_COOP_NEED;
-    } else {
-      branchNeed = Const.FIRST_CHICKEN_COOP_NEED *
-          math.pow(Const.CHICKEN_COOP_BUILD_SEED,
-              buildings[BuildingExample.chickenCoop]);
-    }
     return c.wareHouse.buildingMaterials[BuildingResource.branch] >= branchNeed;
+  }
+
+  @override
+  bool couldShow(Context c) {
+    return c.wareHouse.buildingMaterials[BuildingResource.branch] >
+        branchNeed / 3;
   }
 }

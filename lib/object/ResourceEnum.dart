@@ -4,7 +4,7 @@ enum FoodResource { catmint }
 //建筑资源
 enum BuildingResource {
   branch, //树枝
-  bole, //树干
+  beam, //树干
   stone,
   iron,
   steel,

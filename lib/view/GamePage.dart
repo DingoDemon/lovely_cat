@@ -1,9 +1,12 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lovely_cats/application.dart';
+import 'package:lovely_cats/object/ResourceEnum.dart';
 import 'package:lovely_cats/process/Engine.dart';
+import 'package:lovely_cats/util/EnumCovert.dart';
 import 'package:lovely_cats/view/ActivePage.dart';
 import 'package:lovely_cats/view/gameFour/BuildingsPage.dart';
 import 'package:lovely_cats/view/gameFour/CatsManagerPage.dart';
@@ -116,7 +119,7 @@ class GamePageStates extends State<GamePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    print(currentPage.toString());
+    List<Object> items = Application.gameContext.wareHouse.getItems();
     return WillPopScope(
       onWillPop: () {
         Fluttertoast.showToast(
@@ -157,6 +160,22 @@ class GamePageStates extends State<GamePage> with TickerProviderStateMixin {
           elevation: 15,
           heroTag: "Active",
         ),
+        drawer: Drawer(
+          child: ListView.builder(
+            itemBuilder: (BuildContext context, int index) {
+              if (items[index] is FoodResource) {
+                Text(
+                  EnumCovert().getFoodReceiveInfo(items[index]),
+                  style: TextStyle(color: Colors.blue),
+                );
+              } else if (items[index] is BuildingResource) {
+                Text(EnumCovert().getBuildingResourceReceiveInfo(items[index]),
+                    style: TextStyle(color: Colors.blue));
+              } else {}
+            },
+            itemCount: items.length,
+          ).build(context),
+        ),
       ),
     );
   }
@@ -171,6 +190,8 @@ class GamePageStates extends State<GamePage> with TickerProviderStateMixin {
         return WorkbenchPage();
       case 3:
         return InformationPage();
+      default:
+        return null;
     }
   }
 }

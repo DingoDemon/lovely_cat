@@ -1,3 +1,5 @@
+import 'package:common_utils/common_utils.dart';
+import 'package:lovely_cats/application.dart';
 import 'package:lovely_cats/object/Cats.dart';
 import 'package:lovely_cats/object/ResourceEnum.dart';
 
@@ -9,6 +11,46 @@ class EnumCovert {
   }
 
   EnumCovert._internal() {}
+
+  String getBuildingName(BuildingExample b) {
+    switch (b) {
+      case BuildingExample.catmintField:
+        return "猫薄荷田";
+      case BuildingExample.chickenCoop:
+        return "鸡窝";
+
+      default:
+        return "";
+    }
+  }
+
+  String getFoodName(FoodResource f) {
+    switch (f) {
+      case FoodResource.catmint:
+        return "猫薄荷";
+      default:
+        return "";
+    }
+  }
+
+  String getBuildResourceName(BuildingResource b) {
+    switch (b) {
+      case BuildingResource.branch:
+        return "树枝";
+      case BuildingResource.beam:
+        return "木梁";
+      case BuildingResource.cement:
+        return "水泥";
+      case BuildingResource.iron:
+        return "铁";
+      case BuildingResource.steel:
+        return "钢";
+      case BuildingResource.stone:
+        return "骨头";
+      default:
+        return "";
+    }
+  }
 
   String getBloodName(BloodLines b) {
     switch (b) {
@@ -106,7 +148,7 @@ class EnumCovert {
     }
   }
 
-  Season getNextSeason(Season current){
+  Season getNextSeason(Season current) {
     switch (current) {
       case Season.Spring:
         return Season.Summer;
@@ -119,5 +161,19 @@ class EnumCovert {
       default:
         return Season.Spring;
     }
+  }
+
+  String getFoodReceiveInfo(FoodResource f) {
+    return '${EnumCovert().getFoodName(f)} '
+        '${NumUtil.getNumByValueDouble(Application.gameContext.wareHouse.foods[f], 2)} '
+        '/ '
+        '${NumUtil.getNumByValueDouble(Application.gameContext.wareHouse.foodsLimit[f], 2)}';
+  }
+
+  String getBuildingResourceReceiveInfo(BuildingResource b) {
+    return '${EnumCovert().getBuildResourceName(b)} '
+        '${NumUtil.getNumByValueDouble(Application.gameContext.wareHouse.buildingMaterials[b], 2)} '
+        '/'
+        ' ${NumUtil.getNumByValueDouble(Application.gameContext.wareHouse.buildingMaterialsLimit[b], 2)}';
   }
 }

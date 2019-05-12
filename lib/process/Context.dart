@@ -1,12 +1,15 @@
 import 'dart:collection';
 import 'dart:convert';
 import 'dart:math' as math;
+import 'package:common_utils/common_utils.dart';
 import 'package:decimal/decimal.dart';
+import 'package:lovely_cats/application.dart';
 import 'package:lovely_cats/object/Building.dart';
 import 'package:lovely_cats/object/Cats.dart';
 import 'package:lovely_cats/Const.dart';
 import 'package:lovely_cats/object/RandomEvent.dart';
 import 'package:lovely_cats/object/ResourceEnum.dart';
+import 'package:lovely_cats/util/EnumCovert.dart';
 
 class Context {
   Age age;
@@ -66,9 +69,33 @@ class WareHouse {
     }
   }
 
+  List<Object> getItems() {
+    List<Object> list = [];
+    foods.forEach((key, value) {
+      if (value != null && value > 0) list.add(key);
+    });
+    buildingMaterials.forEach((key, value) {
+      if (value != null && value > 0) list.add(key);
+    });
+    points.forEach((key, value) {
+      if (value != null && value > 0) list.add(key);
+    });
+    return list;
+  }
+
+
   void receiveCatmint(double d) {
     if (foods[FoodResource.catmint] + d < foodsLimit[FoodResource.catmint]) {
       foods[FoodResource.catmint] += d;
+    } else {
+      return;
+    }
+  }
+
+  void receiveBranch(double d) {
+    if (buildingMaterials[BuildingResource.branch] + d <
+        buildingMaterialsLimit[BuildingResource.branch]) {
+      buildingMaterials[BuildingResource.branch] += d;
     } else {
       return;
     }
