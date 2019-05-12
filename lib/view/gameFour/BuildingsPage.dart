@@ -27,12 +27,28 @@ class BuildingsState extends State<BuildingsPage> {
         backgroundColor: Color(0xFFFFF59D),
         body: Application.gameContext.buildings.isEmpty
             ? Center(
-                child: Text("这里一片荒凉"),
+                child: Text(
+                  "这里一片荒凉",
+                  style: TextStyle(
+                      color: Colors.grey[850],
+                      fontSize: 24,
+                      fontFamily: 'Miao'),
+                ),
               )
             : ListView.builder(
                 itemBuilder: (BuildContext context, int index) {
+                  bool couldBuild = FuncUtil()
+                      .getBuilder(list[index].key)
+                      .couldBuild(Application.gameContext);
                   return MaterialButton(
-                    onPressed: () {},
+                    onPressed: couldBuild
+                        ? () {
+                            FuncUtil()
+                                .getBuilder(list[index].key)
+                                .build(Application.gameContext);
+                            setState(() {});
+                          }
+                        : null,
                     child: Text(
                         '${EnumCovert().getBuildingName(list[index].key)} (${list[index].value}) '),
                   );

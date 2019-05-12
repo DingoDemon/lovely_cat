@@ -17,8 +17,11 @@ class CatsManagerState extends State<CatsManagerPage> {
         backgroundColor: Color(0xFFFFAB91),
         body: Application.gameContext.cats.isEmpty
             ? Center(
-                child: Text("没有喵喵在此驻足"),
-              )
+                child: Text(
+                "没有喵喵在此驻足",
+                style: TextStyle(
+                    color: Colors.grey[850], fontSize: 24, fontFamily: 'Miao'),
+              ))
             : Column());
   }
 }

@@ -121,9 +121,9 @@ class Engine {
       if (Application.gameContext.season == Season.Winter) {
         return;
       }
-      if (Application.gameContext.leader.type == CatType.Farmer) {}
 
-      if (Application.gameContext.leader.type == CatType.Farmer) {
+      if (Application.gameContext.leader != null &&
+          Application.gameContext.leader.type == CatType.Farmer) {
         except = Application.gameContext.leader.agriculturalOutput * except;
       }
 

@@ -2,6 +2,7 @@ import 'dart:collection';
 import 'dart:math';
 
 import 'package:common_utils/common_utils.dart';
+import 'package:lovely_cats/object/Building.dart';
 import 'package:lovely_cats/object/Cats.dart';
 import 'package:lovely_cats/object/ResourceEnum.dart';
 import 'package:lovely_cats/process/Context.dart';
@@ -71,5 +72,40 @@ class FuncUtil {
     int year = passed ~/ 400;
     int lastDay = passed % 400;
     return '第$year喵年,第$lastDay天,${EnumCovert().getSeasonName(c.season)}';
+  }
+
+  AbstractBuilder getBuilder(BuildingExample example) {
+    switch (example) {
+      case BuildingExample.catmintField:
+        return CatmintFieldBuilder();
+      case BuildingExample.tent:
+        return null;
+      case BuildingExample.researchInstitute:
+        return null;
+      case BuildingExample.advancedCattery:
+        return null;
+      case BuildingExample.box:
+        return null;
+      case BuildingExample.cattery:
+        return null;
+      case BuildingExample.library:
+        return null;
+      case BuildingExample.logCabin:
+        return null;
+      case BuildingExample.loggingCamp:
+        return null;
+      case BuildingExample.researchInstitute:
+        return null;
+      case BuildingExample.tent:
+        return null;
+      case BuildingExample.university:
+        return null;
+      case BuildingExample.mineField:
+        return null;
+      case BuildingExample.chickenCoop:
+        return ChickenCoopBuilder();
+      default:
+        return null;
+    }
   }
 }

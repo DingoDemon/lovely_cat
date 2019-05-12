@@ -9,7 +9,7 @@ import 'dart:math' as math;
 
 import '../application.dart';
 
-abstract class abstractBuildier {
+abstract class AbstractBuilder {
   bool couldShow(Context c);
 
   bool couldBuild(Context c);
@@ -22,7 +22,7 @@ abstract class abstractBuildier {
 }
 
 //对Context只处理一次，例如:人口建筑
-abstract class StaticBuilder extends abstractBuildier {
+abstract class StaticBuilder extends AbstractBuilder {
   @override
   double output(Context c) {
     return double.minPositive;
@@ -30,7 +30,7 @@ abstract class StaticBuilder extends abstractBuildier {
 }
 
 //对Context每次都要处理，例如:产出建筑
-abstract class OperativeBuilder extends abstractBuildier {
+abstract class OperativeBuilder extends AbstractBuilder {
   @override
   void change(Context c) {}
 }
@@ -89,7 +89,7 @@ class CatmintFieldBuilder extends OperativeBuilder {
   @override
   double output(Context c) {
     //PlanckTime内产出
-    return c.buildings[BuildingExample.catmintField] * 1.2 ;
+    return c.buildings[BuildingExample.catmintField] * 1.2;
   }
 
   @override
@@ -151,4 +151,5 @@ class ChickenCoopBuilder extends StaticBuilder {
     return c.wareHouse.buildingMaterials[BuildingResource.branch] >
         branchNeed / 3;
   }
+
 }

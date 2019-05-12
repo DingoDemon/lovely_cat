@@ -16,7 +16,11 @@ class InformationState extends State<InformationPage> {
         backgroundColor: Color(0xFF80DEEA),
         body: Application.gameContext.events.isEmpty
             ? Center(
-                child: Text("今日无事"),
+                child: Text("今日无事",
+                    style: TextStyle(
+                        color: Colors.grey[850],
+                        fontSize: 24,
+                        fontFamily: 'Miao')),
               )
             : Column());
   }

@@ -17,7 +17,13 @@ class WorkbenchState extends State<WorkbenchPage> {
         backgroundColor: Color(0xFFBBDEFB),
         body: Application.gameContext.age == Age.Chaos
             ? Center(
-                child: Text("喵喵的思想还在混沌中"),
+                child: Text(
+                  "喵喵的思想还在混沌中",
+                  style: TextStyle(
+                      color: Colors.grey[850],
+                      fontSize: 24,
+                      fontFamily: 'Miao'),
+                ),
               )
             : Column());
   }
