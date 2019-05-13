@@ -50,6 +50,9 @@ flutter:
     - images/doubt.gif
     - images/welcome.gif
     - images/dafu_erfu.png
+    - images/dafu_erfu0.png
+    - images/dafu_erfu1.png
+    - images/dafu_erfu2.png
     - images/we.png
     - fonts/hanyi_lemiao.ttf
     - fonts/hanyi.ttf

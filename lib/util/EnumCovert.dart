@@ -12,6 +12,18 @@ class EnumCovert {
 
   EnumCovert._internal() {}
 
+  String getEnumName(Object o) {
+    if (o is BuildingExample) {
+      return getBuildingName(o);
+    } else if (o == BuildingResource) {
+      return getBuildResourceName(o);
+    } else if (o is FoodResource) {
+      return getFoodName(o);
+    } else {
+      return "";
+    }
+  }
+
   String getBuildingName(BuildingExample b) {
     switch (b) {
       case BuildingExample.catmintField:

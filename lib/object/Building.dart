@@ -101,7 +101,7 @@ class CatmintFieldBuilder extends OperativeBuilder {
     if (!buildings.containsKey(BuildingExample.catmintField)) {
       catmintNecessary = Const.FIRST_BUILD_CATMINT_FIELD_NEED;
     } else {
-      catmintNecessary = catmintNecessary*2;
+      catmintNecessary = catmintNecessary * 2;
     }
     buildResource[FoodResource.catmint] = catmintNecessary;
   }

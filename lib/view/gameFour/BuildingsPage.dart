@@ -3,6 +3,9 @@ import 'package:lovely_cats/application.dart';
 import 'package:lovely_cats/object/ResourceEnum.dart';
 import 'package:lovely_cats/util/EnumCovert.dart';
 import 'package:lovely_cats/util/FuncUtil.dart';
+import 'package:lovely_cats/widget/BuildCard.dart';
+
+import '../GamePage.dart';
 
 class BuildingsPage extends StatefulWidget {
   @override
@@ -37,9 +40,6 @@ class BuildingsState extends State<BuildingsPage> {
               )
             : ListView.builder(
                 itemBuilder: (BuildContext context, int index) {
-                  bool couldBuild = FuncUtil()
-                      .getBuilder(list[index].key)
-                      .couldBuild(Application.gameContext);
                   return Container(
                     height: 44,
                     width: 80,
@@ -47,16 +47,15 @@ class BuildingsState extends State<BuildingsPage> {
                       child: MaterialButton(
                         color: Colors.lightBlueAccent[400],
                         elevation: 8,
-                        onPressed: couldBuild
-                            ? () {
-                                FuncUtil()
-                                    .getBuilder(list[index].key)
-                                    .build(Application.gameContext);
-                                setState(() {});
-                              }
-                            : null,
-                        child: Text(
-                            '${EnumCovert().getBuildingName(list[index].key)} (${list[index].value}) '),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              HeroDialogRoute(
+                                  builder: (BuildContext context) => Center(
+                                        child: BuildCard(index),
+                                      )));
+                        },
+                        child: getBuildName(list[index]),
                       ),
                     ),
                   );
@@ -64,4 +63,8 @@ class BuildingsState extends State<BuildingsPage> {
                 itemCount: list.length,
               ));
   }
+}
+
+Text getBuildName(MapEntry<BuildingExample, int> item) {
+  return Text('${EnumCovert().getBuildingName(item.key)} (${item.value}) ');
 }
