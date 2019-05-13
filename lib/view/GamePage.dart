@@ -8,7 +8,7 @@ import 'package:lovely_cats/object/ResourceEnum.dart';
 import 'package:lovely_cats/process/Engine.dart';
 import 'package:lovely_cats/util/EnumCovert.dart';
 import 'package:lovely_cats/util/FuncUtil.dart';
-import 'package:lovely_cats/view/ActivePage.dart';
+import 'package:lovely_cats/view/active/ActivePage.dart';
 import 'package:lovely_cats/view/gameFour/BuildingsPage.dart';
 import 'package:lovely_cats/view/gameFour/CatsManagerPage.dart';
 import 'package:lovely_cats/widget/GamePageDragger.dart';
@@ -185,7 +185,8 @@ class GamePageStates extends State<GamePage> with TickerProviderStateMixin {
                         return Text(
                             EnumCovert()
                                 .getBuildingResourceReceiveInfo(items[index]),
-                            style: TextStyle(color: Colors.tealAccent[700]));
+                            style: TextStyle(
+                                color: Colors.tealAccent[700], fontSize: 16));
                       } else {
                         return Text("!!!");
                       }

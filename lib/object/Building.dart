@@ -10,6 +10,8 @@ import 'dart:math' as math;
 import '../application.dart';
 
 abstract class AbstractBuilder {
+  LinkedHashMap<Object, double> buildResource = new LinkedHashMap();
+
   bool couldShow(Context c);
 
   bool couldBuild(Context c);
@@ -19,6 +21,8 @@ abstract class AbstractBuilder {
   double output(Context c);
 
   void change(Context c);
+
+  void updateResource();
 }
 
 //对Context只处理一次，例如:人口建筑
@@ -48,16 +52,7 @@ class CatmintFieldBuilder extends OperativeBuilder {
     if (Application.gameContext == null) {
       throw StateError("Application.gameContext ==null");
     }
-
-    LinkedHashMap buildings = Application.gameContext.buildings;
-
-    if (!buildings.containsKey(BuildingExample.catmintField)) {
-      catmintNecessary = Const.FIRST_BUILD_CATMINT_FIELD_NEED;
-    } else {
-      catmintNecessary = Const.FIRST_BUILD_CATMINT_FIELD_NEED *
-          math.pow(Const.CATMINT_FIELD_BUILD_SEED,
-              buildings[BuildingExample.catmintField]);
-    }
+    updateResource();
   }
 
   @override
@@ -70,11 +65,13 @@ class CatmintFieldBuilder extends OperativeBuilder {
       c.buildings[BuildingExample.catmintField] =
           c.buildings[BuildingExample.catmintField] + 1;
     }
+    updateResource();
   }
 
   @override
   bool couldBuild(Context c) {
-    return c.wareHouse.foods[FoodResource.catmint] >= catmintNecessary;
+    return c.wareHouse.foods[FoodResource.catmint] >=
+        buildResource[FoodResource.catmint];
   }
 
   String getNecessaryTip(Context c) {
@@ -96,6 +93,18 @@ class CatmintFieldBuilder extends OperativeBuilder {
   bool couldShow(Context c) {
     return c.wareHouse.foods[FoodResource.catmint] > catmintNecessary / 3;
   }
+
+  @override
+  void updateResource() {
+    LinkedHashMap buildings = Application.gameContext.buildings;
+
+    if (!buildings.containsKey(BuildingExample.catmintField)) {
+      catmintNecessary = Const.FIRST_BUILD_CATMINT_FIELD_NEED;
+    } else {
+      catmintNecessary = catmintNecessary*2;
+    }
+    buildResource[FoodResource.catmint] = catmintNecessary;
+  }
 }
 
 //鸡窝
@@ -112,16 +121,7 @@ class ChickenCoopBuilder extends StaticBuilder {
     if (Application.gameContext == null) {
       throw StateError("Application.gameContext ==null");
     }
-
-    LinkedHashMap buildings = Application.gameContext.buildings;
-
-    if (!buildings.containsKey(BuildingExample.chickenCoop)) {
-      branchNeed = Const.FIRST_CHICKEN_COOP_NEED;
-    } else {
-      branchNeed = Const.FIRST_CHICKEN_COOP_NEED *
-          math.pow(Const.CHICKEN_COOP_BUILD_SEED,
-              buildings[BuildingExample.chickenCoop]);
-    }
+    updateResource();
   }
 
   @override
@@ -134,6 +134,7 @@ class ChickenCoopBuilder extends StaticBuilder {
           c.wareHouse.buildingMaterials[BuildingResource.branch] + 1;
     }
     change(c);
+    updateResource();
   }
 
   @override
@@ -152,4 +153,18 @@ class ChickenCoopBuilder extends StaticBuilder {
         branchNeed / 3;
   }
 
+  @override
+  void updateResource() {
+    LinkedHashMap buildings = Application.gameContext.buildings;
+
+    if (!buildings.containsKey(BuildingExample.chickenCoop)) {
+      branchNeed = Const.FIRST_CHICKEN_COOP_NEED;
+    } else {
+      branchNeed = Const.FIRST_CHICKEN_COOP_NEED *
+          math.pow(Const.CHICKEN_COOP_BUILD_SEED,
+              buildings[BuildingExample.chickenCoop]);
+    }
+
+    buildResource[BuildingResource.branch] = branchNeed;
+  }
 }

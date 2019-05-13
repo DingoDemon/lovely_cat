@@ -40,17 +40,25 @@ class BuildingsState extends State<BuildingsPage> {
                   bool couldBuild = FuncUtil()
                       .getBuilder(list[index].key)
                       .couldBuild(Application.gameContext);
-                  return MaterialButton(
-                    onPressed: couldBuild
-                        ? () {
-                            FuncUtil()
-                                .getBuilder(list[index].key)
-                                .build(Application.gameContext);
-                            setState(() {});
-                          }
-                        : null,
-                    child: Text(
-                        '${EnumCovert().getBuildingName(list[index].key)} (${list[index].value}) '),
+                  return Container(
+                    height: 44,
+                    width: 80,
+                    child: Center(
+                      child: MaterialButton(
+                        color: Colors.lightBlueAccent[400],
+                        elevation: 8,
+                        onPressed: couldBuild
+                            ? () {
+                                FuncUtil()
+                                    .getBuilder(list[index].key)
+                                    .build(Application.gameContext);
+                                setState(() {});
+                              }
+                            : null,
+                        child: Text(
+                            '${EnumCovert().getBuildingName(list[index].key)} (${list[index].value}) '),
+                      ),
+                    ),
                   );
                 },
                 itemCount: list.length,
