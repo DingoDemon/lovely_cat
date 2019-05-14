@@ -13,9 +13,9 @@ class CatsManagerPage extends StatefulWidget {
 class CatsManagerState extends State<CatsManagerPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Color(0xFFFFAB91),
-        body: Application.gameContext.cats.isEmpty
+    return Container(
+        color: Color(0xFFFFAB91),
+        child: Application.gameContext.cats.isEmpty
             ? Center(
                 child: Text(
                 "没有喵喵在此驻足",

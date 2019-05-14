@@ -26,9 +26,9 @@ class BuildingsState extends State<BuildingsPage> {
   Widget build(BuildContext context) {
     list = Application.gameContext.buildings.entries.toList();
 
-    return Scaffold(
-        backgroundColor: Color(0xFFFFF59D),
-        body: Application.gameContext.buildings.isEmpty
+    return Container(
+        color: Color(0xFFFFF59D),
+        child: Application.gameContext.buildings.isEmpty
             ? Center(
                 child: Text(
                   "这里一片荒凉",

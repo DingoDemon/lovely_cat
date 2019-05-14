@@ -12,9 +12,9 @@ class InformationPage extends StatefulWidget {
 class InformationState extends State<InformationPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Color(0xFF80DEEA),
-        body: Application.gameContext.events.isEmpty
+    return Container(
+        color: Colors.teal[100],
+        child: Application.gameContext.events.isEmpty
             ? Center(
                 child: Text("今日无事",
                     style: TextStyle(

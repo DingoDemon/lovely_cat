@@ -8,6 +8,7 @@ import 'package:gif_ani/gif_ani.dart';
 import 'package:lovely_cats/process/Engine.dart';
 import 'package:lovely_cats/route/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:math' as math;
 
 class WelcomePage extends StatefulWidget {
   @override
@@ -225,13 +226,10 @@ SlideTransition createTransition(Animation<double> animation, Widget child) {
 class ShakeCurve extends Curve {
   @override
   double transform(double t) {
-    if (t < 0.4) {
-      return 5 * t * t - 4 * t;
-    } else if (t >= 0.4 && t < 0.8) {
-      return -0.8;
+    if (t < 0.6) {
+      return 2.5 * math.pow((t - 0.6), 2) - 0.9;
     } else {
-      return 9 * t - 8;
+      return 11.875 * math.pow((t - 0.6), 2) - 0.9;
     }
   }
 }
-

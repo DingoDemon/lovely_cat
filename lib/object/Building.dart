@@ -23,6 +23,8 @@ abstract class AbstractBuilder {
   void change(Context c);
 
   void updateResource();
+
+  String getDescribe();
 }
 
 //对Context只处理一次，例如:人口建筑
@@ -105,6 +107,11 @@ class CatmintFieldBuilder extends OperativeBuilder {
     }
     buildResource[FoodResource.catmint] = catmintNecessary;
   }
+
+  @override
+  String getDescribe() {
+    return "秋天会收获更多的猫薄荷，但是在冬天，则没有猫薄荷产出。储粮过冬";
+  }
 }
 
 //鸡窝
@@ -166,5 +173,10 @@ class ChickenCoopBuilder extends StaticBuilder {
     }
 
     buildResource[BuildingResource.branch] = branchNeed;
+  }
+
+  @override
+  String getDescribe() {
+    return "猫猫喜欢睡鸡窝，好像这就是为他们而制作的";
   }
 }

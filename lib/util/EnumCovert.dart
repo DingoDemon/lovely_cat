@@ -1,4 +1,5 @@
 import 'package:common_utils/common_utils.dart';
+import 'package:flutter/material.dart';
 import 'package:lovely_cats/application.dart';
 import 'package:lovely_cats/object/Cats.dart';
 import 'package:lovely_cats/object/ResourceEnum.dart';
@@ -15,7 +16,7 @@ class EnumCovert {
   String getEnumName(Object o) {
     if (o is BuildingExample) {
       return getBuildingName(o);
-    } else if (o == BuildingResource) {
+    } else if (o is BuildingResource) {
       return getBuildResourceName(o);
     } else if (o is FoodResource) {
       return getFoodName(o);
@@ -42,6 +43,18 @@ class EnumCovert {
         return "猫薄荷";
       default:
         return "";
+    }
+  }
+
+  Color getEnumShowColor(Object o) {
+    if (o is FoodResource) {
+      return Colors.green[600];
+    } else if (o == BuildingResource) {
+      return Colors.cyan[600];
+    } else if (o is PointResource) {
+      return Colors.purple[300];
+    } else {
+      return Colors.blue;
     }
   }
 

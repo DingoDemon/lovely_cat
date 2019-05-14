@@ -13,9 +13,9 @@ class WorkbenchPage extends StatefulWidget {
 class WorkbenchState extends State<WorkbenchPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Color(0xFFBBDEFB),
-        body: Application.gameContext.age == Age.Chaos
+    return Container(
+        color: Colors.indigo[100],
+        child: Application.gameContext.age == Age.Chaos
             ? Center(
                 child: Text(
                   "喵喵的思想还在混沌中",

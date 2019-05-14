@@ -83,21 +83,44 @@ class WareHouse {
     return list;
   }
 
+  double getItemReserves(Object o) {
+    if (o is PointResource) {
+      if (!points.containsKey(o)) {
+        points[o] = 0;
+      }
+      return points[o];
+    } else if (o == BuildingResource) {
+      if (!buildingMaterials.containsKey(o)) {
+        buildingMaterials[o] = 0;
+      }
+      return buildingMaterials[o];
+    } else if (o is FoodResource) {
+      if (!foods.containsKey(o)) {
+        foods[o] = 0;
+      }
+      return foods[o];
+    } else {
+      return 0.0;
+    }
+  }
 
   void receiveCatmint(double d) {
     if (foods[FoodResource.catmint] + d < foodsLimit[FoodResource.catmint]) {
-      foods[FoodResource.catmint] += d;
+      foods[FoodResource.catmint] =
+          NumUtil.getNumByValueDouble(foods[FoodResource.catmint] + d, 2);
     } else {
-      return;
+      foods[FoodResource.catmint] = foodsLimit[FoodResource.catmint];
     }
   }
 
   void receiveBranch(double d) {
     if (buildingMaterials[BuildingResource.branch] + d <
         buildingMaterialsLimit[BuildingResource.branch]) {
-      buildingMaterials[BuildingResource.branch] += d;
+      buildingMaterials[BuildingResource.branch] = NumUtil.getNumByValueDouble(
+          buildingMaterials[BuildingResource.branch] + d, 2);
     } else {
-      return;
+      buildingMaterials[BuildingResource.branch] =
+          buildingMaterialsLimit[BuildingResource.branch];
     }
   }
 }
