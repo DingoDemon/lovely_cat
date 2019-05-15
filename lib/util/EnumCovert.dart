@@ -49,7 +49,7 @@ class EnumCovert {
   Color getEnumShowColor(Object o) {
     if (o is FoodResource) {
       return Colors.green[600];
-    } else if (o == BuildingResource) {
+    } else if (o is BuildingResource) {
       return Colors.cyan[600];
     } else if (o is PointResource) {
       return Colors.purple[300];
@@ -191,7 +191,7 @@ class EnumCovert {
   String getResourceReceiveInfo(Object o) {
     if (o is FoodResource) {
       return getFoodReceiveInfo(o);
-    } else if (o == BuildingResource) {
+    } else if (o is BuildingResource) {
       return getBuildingResourceReceiveInfo(o);
     } else if (o is PointResource) {
       return getPointResourceReceiveInfo(o);
@@ -238,11 +238,11 @@ class EnumCovert {
       case BuildingExample.box:
         return "";
       case BuildingExample.chickenCoop:
-        return "images/chicken_coop.png";
+        return "images/building_01.png";
       case BuildingExample.advancedCattery:
         return "";
       case BuildingExample.catmintField:
-        return "images/food_icon.png";
+        return "images/building_02.png";
       case BuildingExample.mineField:
         return "";
       case BuildingExample.university:

@@ -64,7 +64,8 @@ class CatmintFieldBuilder extends OperativeBuilder {
     if (catmintNecessary == -1) {
       throw new ArgumentError.notNull("未检查couldBuild,请检查UI层代码");
     } else {
-      c.wareHouse.foods[FoodResource.catmint] -= catmintNecessary;
+      c.wareHouse.foods[FoodResource.catmint] = Arith().subtraction(
+          c.wareHouse.foods[FoodResource.catmint], catmintNecessary);
       c.buildings[BuildingExample.catmintField] =
           c.buildings[BuildingExample.catmintField] + 1;
     }
@@ -81,7 +82,8 @@ class CatmintFieldBuilder extends OperativeBuilder {
     if (couldBuild(c)) {
       return "已经可以建造一片新的猫薄荷田了";
     } else {
-      double value = Arith().subtraction(catmintNecessary, c.wareHouse.foods[FoodResource.catmint]);
+      double value = Arith().subtraction(
+          catmintNecessary, c.wareHouse.foods[FoodResource.catmint]);
       return "还差$value猫薄荷，才能建造一片新的猫薄荷田";
     }
   }
@@ -104,7 +106,7 @@ class CatmintFieldBuilder extends OperativeBuilder {
     if (!buildings.containsKey(BuildingExample.catmintField)) {
       catmintNecessary = Const.FIRST_BUILD_CATMINT_FIELD_NEED;
     } else {
-      catmintNecessary = catmintNecessary * 2;
+      catmintNecessary = Arith().multiplication(catmintNecessary, 2);
     }
     buildResource[FoodResource.catmint] = catmintNecessary;
   }
@@ -137,9 +139,10 @@ class ChickenCoopBuilder extends StaticBuilder {
     if (branchNeed == -1) {
       throw new ArgumentError.notNull("未检查couldBuild,请检查UI层代码");
     } else {
-      c.wareHouse.buildingMaterials[BuildingResource.branch] -= branchNeed;
-      c.wareHouse.buildingMaterials[BuildingResource.branch] =
-          c.wareHouse.buildingMaterials[BuildingResource.branch] + 1;
+      c.wareHouse.buildingMaterials[BuildingResource.branch] = Arith()
+          .subtraction(c.wareHouse.buildingMaterials[BuildingResource.branch],
+              branchNeed);
+      c.wareHouse.buildingMaterials[BuildingResource.branch] += 1;
     }
     change(c);
     updateResource();

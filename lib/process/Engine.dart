@@ -2,6 +2,7 @@ import 'dart:collection';
 import 'dart:convert';
 
 import 'package:common_utils/common_utils.dart';
+import 'package:flutter/material.dart';
 import 'package:lovely_cats/application.dart';
 import 'package:lovely_cats/object/Building.dart';
 import 'package:lovely_cats/object/Cats.dart';
@@ -21,6 +22,7 @@ class Engine {
   factory Engine() {
     return _singleton;
   }
+
 
   Engine._internal();
 
@@ -58,8 +60,10 @@ class Engine {
     _catmintOutput();
     _catOutput();
     _addBuilding();
+
   }
 
+  ///新增建筑
   void _addBuilding() {
     for (BuildingExample example in BuildingExample.values) {
       switch (example) {
@@ -101,6 +105,7 @@ class Engine {
     }
   }
 
+  ///切换季节
   void _checkSeason() {
     int now = DateUtil.getNowDateMs();
     int start = Application.gameContext.gameStartTime;
@@ -112,6 +117,7 @@ class Engine {
     }
   }
 
+  ///猫薄荷田总体输出
   void _catmintOutput() {
     LinkedHashMap building = Application.gameContext.buildings;
     if (building.containsKey(BuildingExample.catmintField) &&
@@ -132,6 +138,7 @@ class Engine {
     }
   }
 
+  ///村里喵喵们每秒输出
   void _catOutput() {
     HashMap<CatJob, int> cats = Application.gameContext.catProfession;
     cats.forEach((job, int) {
@@ -154,19 +161,21 @@ class Engine {
     });
   }
 
-  //每10秒储存一次
+  ///每10秒储存一次
   void _saveContext() async {
     String json = jsonEncode(Application.gameContext);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString(Const.CONTEXT, json);
   }
 
+  ///手动操作，采一点猫薄荷
   double pickSomeCatmint() {
     double add = FuncUtil().getRandomDouble();
     Application.gameContext.wareHouse.receiveCatmint(add, true);
     return add;
   }
 
+  ///手动操作，将猫薄荷转化成树枝
   bool makeCatmintToBranch() {
     if (Application.gameContext.wareHouse.foods[FoodResource.catmint] < 20) {
       return false;

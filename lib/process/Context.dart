@@ -57,7 +57,7 @@ class WareHouse {
     List<FoodResource> food = FoodResource.values;
     for (FoodResource resource in food) {
       foods[resource] = 0;
-      foodsLimit[resource] = 500;
+      foodsLimit[resource] = 5000;
     }
     List<BuildingResource> build = BuildingResource.values;
     for (BuildingResource resource in build) {
@@ -72,10 +72,12 @@ class WareHouse {
     }
   }
 
+  ///更新上一秒中收获的资源
   void updateObjectReceive(Object o, double) {
     receiveInfo[o] = double;
   }
 
+  ///获取所有item
   List<Object> getItems() {
     List<Object> list = [];
     foods.forEach((key, value) {
@@ -90,6 +92,7 @@ class WareHouse {
     return list;
   }
 
+  ///获取仓库资源存量
   double getItemReserves(Object o) {
     if (o is PointResource) {
       if (!points.containsKey(o)) {
@@ -111,6 +114,7 @@ class WareHouse {
     }
   }
 
+  ///获取仓库资源存量上限
   double getItemReservesLimit(Object o) {
     if (o is PointResource) {
       return pointsLimit[o];
@@ -123,6 +127,7 @@ class WareHouse {
     }
   }
 
+  ///收取猫薄荷
   void receiveCatmint(double d, bool isHandwork) {
     if (foods[FoodResource.catmint] + d < foodsLimit[FoodResource.catmint]) {
       foods[FoodResource.catmint] = Arith().add(foods[FoodResource.catmint], d);
@@ -130,10 +135,11 @@ class WareHouse {
       foods[FoodResource.catmint] = foodsLimit[FoodResource.catmint];
     }
     if (!isHandwork) {
-      receiveInfo[FoodResource.catmint] = d;
+      receiveInfo[FoodResource.catmint] = NumUtil.getNumByValueDouble(d, 2);
     }
   }
 
+  ///收取树枝
   void receiveBranch(double d, bool isHandwork) {
     if (buildingMaterials[BuildingResource.branch] + d <
         buildingMaterialsLimit[BuildingResource.branch]) {
@@ -144,7 +150,7 @@ class WareHouse {
           buildingMaterialsLimit[BuildingResource.branch];
     }
     if (!isHandwork) {
-      receiveInfo[BuildingResource.branch] = d;
+      receiveInfo[BuildingResource.branch] = NumUtil.getNumByValueDouble(d, 2);
     }
   }
 }

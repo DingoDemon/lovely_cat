@@ -186,13 +186,20 @@ class GamePageStates extends State<GamePage> with TickerProviderStateMixin {
                                     .getResourceReceiveInfo(items[index]),
                                 style: TextStyle(
                                     color: EnumCovert()
-                                        .getEnumShowColor(items[index]))),
-                            Text(
-                                ' + ${Application.gameContext.wareHouse.receiveInfo[items[index]]} '
-                                '/s',
-                                style: TextStyle(
-                                    color: EnumCovert()
-                                        .getEnumShowColor(items[index])))
+                                        .getEnumShowColor(items[index]),
+                                    fontFamily: 'Miao',
+                                    fontSize: 16)),
+                            Application.gameContext.wareHouse.receiveInfo
+                                    .containsKey(items[index])
+                                ? Text(
+                                    ' + ${Application.gameContext.wareHouse.receiveInfo[items[index]]} '
+                                    '/s',
+                                    style: TextStyle(
+                                        color: EnumCovert()
+                                            .getEnumShowColor(items[index]),
+                                        fontFamily: 'Miao',
+                                        fontSize: 16))
+                                : Text("")
                           ],
                         );
                       },

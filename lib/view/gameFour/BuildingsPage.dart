@@ -35,7 +35,7 @@ class BuildingsState extends State<BuildingsPage> {
     list = Application.gameContext.buildings.entries.toList();
 
     return Container(
-        color: Color(0xFFFFF59D),
+        color: Colors.yellow[50],
         child: list.isEmpty
             ? Center(
                 child: Text(
@@ -49,18 +49,22 @@ class BuildingsState extends State<BuildingsPage> {
             : ListView.builder(
                 itemBuilder: (BuildContext context, int index) {
                   return MaterialButton(
+                    elevation: 5,
                     onPressed: () {
                       Navigator.push(
                           context,
                           HeroDialogRoute(
-                              builder: (BuildContext context) => Center(
+                              builder: (BuildContext context) => Container(
+                                    margin: EdgeInsets.only(top: 80),
+                                    alignment: Alignment.topCenter,
+                                    width: double.infinity,
                                     child: BuildingView(index),
                                   )));
                     },
                     child: Container(
+                        margin: EdgeInsets.only(top: 5),
                         height: 60,
                         width: double.infinity,
-                        margin: EdgeInsets.only(top: 5),
                         padding: EdgeInsets.all(5),
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -83,16 +87,18 @@ class BuildingsState extends State<BuildingsPage> {
                                             BorderRadius.circular(10)))
                                 : getBuildName(list[index], true),
                             Expanded(
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 15),
-                                child: Text(
-                                  '${EnumCovert().getBuildingName(list[index].key)} ',
-                                  style: TextStyle(color: Colors.grey[800]),
-                                ),
+                              child: Text(
+                                '${EnumCovert().getBuildingName(list[index].key)} ',
+                                style: TextStyle(
+                                    color: Colors.grey[800],
+                                    fontFamily: 'Miao'),
                               ),
                               flex: 5,
                             ),
-                            Text(' (${list[index].value})')
+                            Text(
+                              ' (${list[index].value})',
+                              style: TextStyle(fontFamily: 'Miao'),
+                            )
                           ],
                         )),
                   );
