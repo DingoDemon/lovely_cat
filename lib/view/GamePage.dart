@@ -93,7 +93,7 @@ class GamePageStates extends State<GamePage> with TickerProviderStateMixin {
 
             animatedPageDragger.dispose();
           }
-          currentPage = getCurrentPage(activeIndex,false);
+          currentPage = getCurrentPage(activeIndex, false);
         });
       }
     });
@@ -105,7 +105,7 @@ class GamePageStates extends State<GamePage> with TickerProviderStateMixin {
     Application.mTimerUtil.setOnTimerTickCallback((int tick) {
       Engine().primed();
       setState(() {
-        currentPage = getCurrentPage(activeIndex,false);
+        currentPage = getCurrentPage(activeIndex, false);
       });
     });
     Application.mTimerUtil.startTimer();
@@ -166,23 +166,27 @@ class GamePageStates extends State<GamePage> with TickerProviderStateMixin {
           heroTag: "Active",
         ),
         drawer: Drawer(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Image.asset('images/dafu_erfu.png'),
-              Container(
-                  height: 600,
-                  child: ListView.builder(
-                    addRepaintBoundaries: true,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Text(EnumCovert().getEnumName(items[index]),
-                          style: TextStyle(
-                              color:
-                                  EnumCovert().getEnumShowColor(items[index])));
-                    },
-                    itemCount: items.length,
-                  )),
-            ],
+          child: Container(
+            margin: EdgeInsets.all(20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Image.asset('images/dafu_erfu.png'),
+                Container(
+                    height: 600,
+                    child: ListView.builder(
+                      addRepaintBoundaries: true,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Text(
+                            EnumCovert().getResourceReceiveInfo(items[index]),
+                            style: TextStyle(
+                                color: EnumCovert()
+                                    .getEnumShowColor(items[index])));
+                      },
+                      itemCount: items.length,
+                    )),
+              ],
+            ),
           ),
         ),
       ),

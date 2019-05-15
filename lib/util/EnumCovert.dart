@@ -11,7 +11,7 @@ class EnumCovert {
     return _singleton;
   }
 
-  EnumCovert._internal() {}
+  EnumCovert._internal();
 
   String getEnumName(Object o) {
     if (o is BuildingExample) {
@@ -188,6 +188,18 @@ class EnumCovert {
     }
   }
 
+  String getResourceReceiveInfo(Object o) {
+    if (o is FoodResource) {
+      return getFoodReceiveInfo(o);
+    } else if (o == BuildingResource) {
+      return getBuildingResourceReceiveInfo(o);
+    } else if (o is PointResource) {
+      return getPointResourceReceiveInfo(o);
+    } else {
+      return "";
+    }
+  }
+
   String getFoodReceiveInfo(FoodResource f) {
     return '${EnumCovert().getFoodName(f)} '
         '${NumUtil.getNumByValueDouble(Application.gameContext.wareHouse.foods[f], 2)} '
@@ -200,5 +212,12 @@ class EnumCovert {
         '${NumUtil.getNumByValueDouble(Application.gameContext.wareHouse.buildingMaterials[b], 2)} '
         '/'
         ' ${NumUtil.getNumByValueDouble(Application.gameContext.wareHouse.buildingMaterialsLimit[b], 2)}';
+  }
+
+  String getPointResourceReceiveInfo(PointResource p) {
+    return '${EnumCovert().getEnumName(p)} '
+        '${NumUtil.getNumByValueDouble(Application.gameContext.wareHouse.points[p], 2)} '
+        '/'
+        ' ${NumUtil.getNumByValueDouble(Application.gameContext.wareHouse.pointsLimit[p], 2)}';
   }
 }

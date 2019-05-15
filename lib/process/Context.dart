@@ -9,6 +9,7 @@ import 'package:lovely_cats/object/Cats.dart';
 import 'package:lovely_cats/Const.dart';
 import 'package:lovely_cats/object/RandomEvent.dart';
 import 'package:lovely_cats/object/ResourceEnum.dart';
+import 'package:lovely_cats/util/Arith.dart';
 import 'package:lovely_cats/util/EnumCovert.dart';
 
 class Context {
@@ -46,6 +47,8 @@ class WareHouse {
   LinkedHashMap<PointResource, double> points = LinkedHashMap();
   LinkedHashMap<PointResource, double> pointsLimit = LinkedHashMap();
 
+  LinkedHashMap<Object, double> receiveInfo = LinkedHashMap();
+
   WareHouse() {
     init();
   }
@@ -53,7 +56,7 @@ class WareHouse {
   void init() {
     List<FoodResource> food = FoodResource.values;
     for (FoodResource resource in food) {
-      foods[resource] = 100;
+      foods[resource] = 0;
       foodsLimit[resource] = 500;
     }
     List<BuildingResource> build = BuildingResource.values;
@@ -67,6 +70,10 @@ class WareHouse {
       points[resource] = 0;
       pointsLimit[resource] = 100;
     }
+  }
+
+  void updateObjectReceive(Object o, double) {
+    receiveInfo[o] = double;
   }
 
   List<Object> getItems() {
@@ -89,7 +96,7 @@ class WareHouse {
         points[o] = 0;
       }
       return points[o];
-    } else if (o == BuildingResource) {
+    } else if (o is BuildingResource) {
       if (!buildingMaterials.containsKey(o)) {
         buildingMaterials[o] = 0;
       }
@@ -104,10 +111,21 @@ class WareHouse {
     }
   }
 
+  double getItemReservesLimit(Object o) {
+    if (o is PointResource) {
+      return pointsLimit[o];
+    } else if (o is BuildingResource) {
+      return buildingMaterialsLimit[o];
+    } else if (o is FoodResource) {
+      return foodsLimit[o];
+    } else {
+      return 0.0;
+    }
+  }
+
   void receiveCatmint(double d) {
     if (foods[FoodResource.catmint] + d < foodsLimit[FoodResource.catmint]) {
-      foods[FoodResource.catmint] =
-          NumUtil.getNumByValueDouble(foods[FoodResource.catmint] + d, 2);
+      foods[FoodResource.catmint] = Arith().add(foods[FoodResource.catmint], d);
     } else {
       foods[FoodResource.catmint] = foodsLimit[FoodResource.catmint];
     }
@@ -116,8 +134,8 @@ class WareHouse {
   void receiveBranch(double d) {
     if (buildingMaterials[BuildingResource.branch] + d <
         buildingMaterialsLimit[BuildingResource.branch]) {
-      buildingMaterials[BuildingResource.branch] = NumUtil.getNumByValueDouble(
-          buildingMaterials[BuildingResource.branch] + d, 2);
+      buildingMaterials[BuildingResource.branch] =
+          Arith().add(buildingMaterials[BuildingResource.branch], d);
     } else {
       buildingMaterials[BuildingResource.branch] =
           buildingMaterialsLimit[BuildingResource.branch];

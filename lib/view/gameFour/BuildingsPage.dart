@@ -56,7 +56,12 @@ class BuildingsState extends State<BuildingsPage> {
                         color: Colors.lightBlueAccent[400],
                         elevation: 8,
                         onPressed: () {
-                          _navigateToBuildCard(context, index);
+                          Navigator.push(
+                              context,
+                              HeroDialogRoute(
+                                  builder: (BuildContext context) => Center(
+                                        child: BuildingView(index),
+                                      )));
                         },
                         child: noHero
                             ? Text(
@@ -68,31 +73,6 @@ class BuildingsState extends State<BuildingsPage> {
                 },
                 itemCount: list.length,
               ));
-  }
-
-  void _navigateToBuildCard(BuildContext context, int index) {
-    Navigator.of(context).push(
-      PageRouteBuilder<BuildingView>(
-        pageBuilder: (
-          BuildContext context,
-          Animation<double> animation,
-          Animation<double> secondaryAnimation,
-        ) {
-          return BuildingView(index);
-        },
-        transitionsBuilder: (
-          BuildContext context,
-          Animation<double> animation,
-          Animation<double> secondaryAnimation,
-          Widget child,
-        ) {
-          return FadeTransition(
-            opacity: animation,
-            child: child,
-          );
-        },
-      ),
-    );
   }
 }
 

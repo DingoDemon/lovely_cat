@@ -8,6 +8,8 @@ import 'package:lovely_cats/object/ResourceEnum.dart';
 import 'package:lovely_cats/process/Context.dart';
 import 'package:lovely_cats/util/EnumCovert.dart';
 
+import 'Arith.dart';
+
 class FuncUtil {
   static final FuncUtil _singleton = new FuncUtil._internal();
 
@@ -25,8 +27,8 @@ class FuncUtil {
   double getRandomDouble() {
     Random random = new Random();
     double result = random.nextDouble();
-    result = result == 0 ? getRandomDouble() : result * 3;
-    return NumUtil.getNumByValueDouble(result, 2);
+    result = result == 0 ? getRandomDouble() : Arith().multiplication(result, 3);
+    return result;
   }
 
   BloodLines getCatBlood() {

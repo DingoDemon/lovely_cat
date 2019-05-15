@@ -1,4 +1,5 @@
 import 'package:lovely_cats/Const.dart';
+import 'package:lovely_cats/util/Arith.dart';
 import 'package:lovely_cats/util/EnumCovert.dart';
 import 'package:lovely_cats/object/ResourceEnum.dart';
 import 'package:lovely_cats/util/FuncUtil.dart';
@@ -69,23 +70,19 @@ class Cat implements CatInterface {
   void levelUp() {
     switch (type) {
       case CatType.Farmer:
-        this.agriculturalOutput = NumUtil.getNumByValueDouble(agriculturalOutput, 2);
+        this.agriculturalOutput = Arith().multiplication(agriculturalOutput, 2);
         break;
       case CatType.Craftsman:
-        industryOutput = industryOutput * industryOutput;
-        this.industryOutput = NumUtil.getNumByValueDouble(industryOutput, 2);
+        industryOutput = Arith().multiplication(industryOutput, 1.5);
         break;
       case CatType.Leader:
-        happinessOutput = happinessOutput * 1.1;
-        this.happinessOutput = NumUtil.getNumByValueDouble(happinessOutput, 2);
+        happinessOutput = Arith().multiplication(happinessOutput, 1.1);
         break;
       case CatType.Oracle:
-        religionOutput = religionOutput * religionOutput;
-        this.religionOutput = NumUtil.getNumByValueDouble(religionOutput, 2);
+        religionOutput = Arith().multiplication(religionOutput, 1.5);
         break;
       case CatType.Scholar:
-        scienceOutput = scienceOutput * scienceOutput;
-        this.scienceOutput = NumUtil.getNumByValueDouble(scienceOutput, 2);
+        scienceOutput = Arith().multiplication(scienceOutput, 1.5);
         break;
       default:
     }
@@ -103,5 +100,3 @@ enum BloodLines {
   LeopardCat //豹猫[24~25]
 }
 
-//enum FarmerName {
-//}

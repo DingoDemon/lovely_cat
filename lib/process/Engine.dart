@@ -8,6 +8,7 @@ import 'package:lovely_cats/object/Cats.dart';
 import 'package:lovely_cats/Const.dart';
 import 'package:lovely_cats/object/ResourceEnum.dart';
 import 'package:lovely_cats/process/Context.dart';
+import 'package:lovely_cats/util/Arith.dart';
 import 'package:lovely_cats/util/EnumCovert.dart';
 import 'package:lovely_cats/util/FuncUtil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -170,8 +171,9 @@ class Engine {
     if (Application.gameContext.wareHouse.foods[FoodResource.catmint] < 20) {
       return false;
     }
-    Application.gameContext.wareHouse.foods[FoodResource.catmint] =
-        Application.gameContext.wareHouse.foods[FoodResource.catmint] - 20;
+    Application.gameContext.wareHouse.foods[FoodResource.catmint] = Arith()
+        .subtraction(
+            Application.gameContext.wareHouse.foods[FoodResource.catmint], 20);
     Application.gameContext.wareHouse.receiveBranch(1.0);
     return true;
   }
