@@ -22,6 +22,8 @@ class CatsManagerState extends State<CatsManagerPage> {
                 style: TextStyle(
                     color: Colors.grey[850], fontSize: 24, fontFamily: 'Miao'),
               ))
-            : Column());
+            : Column(
+
+        ));
   }
 }

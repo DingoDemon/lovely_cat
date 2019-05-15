@@ -16,7 +16,7 @@ import 'package:lovely_cats/widget/Callback.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Engine {
-  double efficiencyCoefficient; //生产系数
+  double _efficiencyCoefficient; //生产系数
 
   static final Engine _singleton = new Engine._internal();
 
@@ -28,18 +28,18 @@ class Engine {
 
   int passTimes = 0;
 
-  List<Callback> callbacks = [];
+  List<Callback> _callbacks = [];
 
   void registerCallback(Callback callback) {
-    callbacks.add(callback);
+    _callbacks.add(callback);
   }
 
   void unregisterCallback(Callback callback) {
-    callbacks.remove(callback);
+    _callbacks.remove(callback);
   }
 
   void primed() {
-    //如果抛出异常，检查代码在初始化Application.gameApplication.gameContext之前就开始运行
+    ///如果抛出异常，检查代码在初始化Application.gameApplication.gameContext之前就开始运行
     assert(Application.gameContext != null);
 
     if (passTimes < Const.PASS_TIME_COUNT) {
@@ -48,31 +48,44 @@ class Engine {
       passTimes = 0;
     }
     _perPlanckTime();
-    callbacks.forEach((callback) {
+    _callbacks.forEach((callback) {
       callback.callBack();
     });
   }
 
-// 每秒进行一次
+  /// 每秒进行一次
   void _perPlanckTime() {
     //如果喵子领导是leader，增加效率
     if (Application.gameContext.leader != null &&
         Application.gameContext.leader.type == CatType.Leader) {
-      efficiencyCoefficient = Application.gameContext.leader.happinessOutput *
-          efficiencyCoefficient;
+      _efficiencyCoefficient = Application.gameContext.leader.happinessOutput *
+          _efficiencyCoefficient;
     }
 
     //人口是生产系数的重要影响部分
-    if (Application.gameContext.cats.length > 1) {
-      efficiencyCoefficient = efficiencyCoefficient *
-          FuncUtil().saturability(Application.gameContext.cats.length,
-              FuncUtil().happiness(Application.gameContext.expeditions));
+    if (Application.gameContext.cats.length > 0) {
+      Application.gameContext.saturability = FuncUtil().saturability(
+          Application.gameContext.cats.length,
+          FuncUtil().happiness(Application.gameContext.expeditions));
+
+      _efficiencyCoefficient = Arith().multiplication(
+          _efficiencyCoefficient, Application.gameContext.saturability);
     }
 
     _checkSeason();
     _catmintOutput();
     _catOutput();
     _addBuilding();
+    _checkEmptyForCat();
+  }
+
+  void _checkEmptyForCat() {
+    if (Application.gameContext.cats.length <
+            Application.gameContext.catsLimit &&
+        FuncUtil().getRandom(20) == 1) {
+      Cat cat = Cat(Application.gameContext.age);
+      Application.gameContext.cats.add(cat);
+    }
   }
 
   ///新增建筑
@@ -161,11 +174,11 @@ class Engine {
       switch (job) {
         case CatJob.Farmer:
           Application.gameContext.wareHouse
-              .receiveCatmint(efficiencyCoefficient * int * 5, false);
+              .receiveCatmint(_efficiencyCoefficient * int * 5, false);
           break;
         case CatJob.Craftsman:
           Application.gameContext.wareHouse
-              .receiveCatmint(efficiencyCoefficient * int * 3, false);
+              .receiveCatmint(_efficiencyCoefficient * int * 3, false);
           break;
         case CatJob.Hunter:
           break;

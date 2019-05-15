@@ -19,11 +19,12 @@ class Context {
   WareHouse wareHouse; //仓库
   LinkedHashMap<BuildingExample, int> buildings; //建筑
   List<Cat> cats;
-  int catsLimit;
-  HashMap<CatJob, int> catProfession;
+  int catsLimit; //人口上限
+  HashMap<CatJob, int> catProfession; //喵子分工
   LinkedHashMap<ExpeditionResource, double> expeditions;
   int gameStartTime;
   Queue<Event> events;
+  double saturability; //幸福度
 
   Context() {
     age = Age.Chaos;
