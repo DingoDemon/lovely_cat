@@ -54,6 +54,8 @@ flutter:
     - images/dafu_erfu1.png
     - images/dafu_erfu2.png
     - images/we.png
+    - images/food_icon.png
+    - images/chicken_coop.png
     - fonts/hanyi_lemiao.ttf
     - fonts/hanyi.ttf
 

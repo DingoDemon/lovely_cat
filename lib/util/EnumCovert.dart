@@ -220,4 +220,35 @@ class EnumCovert {
         '/'
         ' ${NumUtil.getNumByValueDouble(Application.gameContext.wareHouse.pointsLimit[p], 2)}';
   }
+
+  String getBuildIconPath(BuildingExample b) {
+    switch (b) {
+      case BuildingExample.researchInstitute:
+        return "";
+      case BuildingExample.tent:
+        return "";
+      case BuildingExample.loggingCamp:
+        return "";
+      case BuildingExample.logCabin:
+        return "";
+      case BuildingExample.library:
+        return "";
+      case BuildingExample.cattery:
+        return "";
+      case BuildingExample.box:
+        return "";
+      case BuildingExample.chickenCoop:
+        return "images/chicken_coop.png";
+      case BuildingExample.advancedCattery:
+        return "";
+      case BuildingExample.catmintField:
+        return "images/food_icon.png";
+      case BuildingExample.mineField:
+        return "";
+      case BuildingExample.university:
+        return "";
+      default:
+        return "";
+    }
+  }
 }

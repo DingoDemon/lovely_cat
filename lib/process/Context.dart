@@ -123,15 +123,18 @@ class WareHouse {
     }
   }
 
-  void receiveCatmint(double d) {
+  void receiveCatmint(double d, bool isHandwork) {
     if (foods[FoodResource.catmint] + d < foodsLimit[FoodResource.catmint]) {
       foods[FoodResource.catmint] = Arith().add(foods[FoodResource.catmint], d);
     } else {
       foods[FoodResource.catmint] = foodsLimit[FoodResource.catmint];
     }
+    if (!isHandwork) {
+      receiveInfo[FoodResource.catmint] = d;
+    }
   }
 
-  void receiveBranch(double d) {
+  void receiveBranch(double d, bool isHandwork) {
     if (buildingMaterials[BuildingResource.branch] + d <
         buildingMaterialsLimit[BuildingResource.branch]) {
       buildingMaterials[BuildingResource.branch] =
@@ -139,6 +142,9 @@ class WareHouse {
     } else {
       buildingMaterials[BuildingResource.branch] =
           buildingMaterialsLimit[BuildingResource.branch];
+    }
+    if (!isHandwork) {
+      receiveInfo[BuildingResource.branch] = d;
     }
   }
 }

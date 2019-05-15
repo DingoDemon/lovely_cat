@@ -177,11 +177,24 @@ class GamePageStates extends State<GamePage> with TickerProviderStateMixin {
                     child: ListView.builder(
                       addRepaintBoundaries: true,
                       itemBuilder: (BuildContext context, int index) {
-                        return Text(
-                            EnumCovert().getResourceReceiveInfo(items[index]),
-                            style: TextStyle(
-                                color: EnumCovert()
-                                    .getEnumShowColor(items[index])));
+                        return Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                                EnumCovert()
+                                    .getResourceReceiveInfo(items[index]),
+                                style: TextStyle(
+                                    color: EnumCovert()
+                                        .getEnumShowColor(items[index]))),
+                            Text(
+                                ' + ${Application.gameContext.wareHouse.receiveInfo[items[index]]} '
+                                '/s',
+                                style: TextStyle(
+                                    color: EnumCovert()
+                                        .getEnumShowColor(items[index])))
+                          ],
+                        );
                       },
                       itemCount: items.length,
                     )),

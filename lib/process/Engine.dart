@@ -128,7 +128,7 @@ class Engine {
         except = Application.gameContext.leader.agriculturalOutput * except;
       }
 
-      Application.gameContext.wareHouse.receiveCatmint(except);
+      Application.gameContext.wareHouse.receiveCatmint(except, false);
     }
   }
 
@@ -138,11 +138,11 @@ class Engine {
       switch (job) {
         case CatJob.Farmer:
           Application.gameContext.wareHouse
-              .receiveCatmint(efficiencyCoefficient * int * 5);
+              .receiveCatmint(efficiencyCoefficient * int * 5, false);
           break;
         case CatJob.Craftsman:
           Application.gameContext.wareHouse
-              .receiveCatmint(efficiencyCoefficient * int * 3);
+              .receiveCatmint(efficiencyCoefficient * int * 3, false);
           break;
         case CatJob.Hunter:
           break;
@@ -163,7 +163,7 @@ class Engine {
 
   double pickSomeCatmint() {
     double add = FuncUtil().getRandomDouble();
-    Application.gameContext.wareHouse.receiveCatmint(add);
+    Application.gameContext.wareHouse.receiveCatmint(add, true);
     return add;
   }
 
@@ -174,7 +174,7 @@ class Engine {
     Application.gameContext.wareHouse.foods[FoodResource.catmint] = Arith()
         .subtraction(
             Application.gameContext.wareHouse.foods[FoodResource.catmint], 20);
-    Application.gameContext.wareHouse.receiveBranch(1.0);
+    Application.gameContext.wareHouse.receiveBranch(1.0, true);
     return true;
   }
 }

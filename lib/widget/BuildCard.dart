@@ -43,24 +43,19 @@ class _BuildCardStates extends State<BuildCard> {
     List<MapEntry<Object, double>> list =
         builder.buildResource.entries.toList();
     return Material(
+        borderRadius: BorderRadius.circular(20),
+        elevation: 5,
         type: MaterialType.transparency,
         child: Container(
           color: Colors.white,
+          margin: EdgeInsets.all(20),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              Container(
-                  width: 180,
-                  height: 180,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: getImage(),
-                        fit: BoxFit.contain,
-                      ),
-                      borderRadius: BorderRadius.circular(10))),
               getBuildName(
-                  Application.gameContext.buildings.entries.toList()[index]),
+                  Application.gameContext.buildings.entries.toList()[index],
+                  false),
               Container(
                 child: Text(
                   builder.getDescribe(),
@@ -93,6 +88,3 @@ class _BuildCardStates extends State<BuildCard> {
   }
 }
 
-AssetImage getImage() {
-  return AssetImage('images/dafu_erfu${FuncUtil().getRandom(2)}.png');
-}
