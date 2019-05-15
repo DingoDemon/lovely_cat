@@ -59,11 +59,8 @@ class _BuildCardStates extends State<BuildCard> {
                         fit: BoxFit.contain,
                       ),
                       borderRadius: BorderRadius.circular(10))),
-              Hero(
-                  tag: '${Application.gameContext.buildings.entries
-                      .toList()[index].key}',
-                  child: getBuildName(Application.gameContext.buildings.entries
-                      .toList()[index])),
+              getBuildName(
+                  Application.gameContext.buildings.entries.toList()[index]),
               Container(
                 child: Text(
                   builder.getDescribe(),

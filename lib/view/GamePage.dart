@@ -41,7 +41,6 @@ class GamePageStates extends State<GamePage> with TickerProviderStateMixin {
 
   GamePageStates() {
     slideUpdateStream = new StreamController<SlideUpdate>();
-    currentPage = getCurrentPage(activeIndex);
     slideUpdateStream.stream.listen((SlideUpdate event) {
       if (mounted) {
         setState(() {
@@ -94,7 +93,7 @@ class GamePageStates extends State<GamePage> with TickerProviderStateMixin {
 
             animatedPageDragger.dispose();
           }
-          currentPage = getCurrentPage(activeIndex);
+          currentPage = getCurrentPage(activeIndex,false);
         });
       }
     });
@@ -106,7 +105,7 @@ class GamePageStates extends State<GamePage> with TickerProviderStateMixin {
     Application.mTimerUtil.setOnTimerTickCallback((int tick) {
       Engine().primed();
       setState(() {
-        currentPage = getCurrentPage(activeIndex);
+        currentPage = getCurrentPage(activeIndex,false);
       });
     });
     Application.mTimerUtil.startTimer();
@@ -144,7 +143,7 @@ class GamePageStates extends State<GamePage> with TickerProviderStateMixin {
             currentPage,
             PageReveal(
               revealPercent: slidePercent,
-              child: getCurrentPage(nextPageIndex),
+              child: getCurrentPage(nextPageIndex, true),
             ),
             PageDragger(
               canDragLeftToRight: activeIndex > 0,
@@ -176,20 +175,10 @@ class GamePageStates extends State<GamePage> with TickerProviderStateMixin {
                   child: ListView.builder(
                     addRepaintBoundaries: true,
                     itemBuilder: (BuildContext context, int index) {
-                      if (items[index] is FoodResource) {
-                        return Text(
-                          EnumCovert().getFoodReceiveInfo(items[index]),
-                          style: TextStyle(color: Colors.blue, fontSize: 16),
-                        );
-                      } else if (items[index] is BuildingResource) {
-                        return Text(
-                            EnumCovert()
-                                .getBuildingResourceReceiveInfo(items[index]),
-                            style: TextStyle(
-                                color: Colors.tealAccent[700], fontSize: 16));
-                      } else {
-                        return Text("!!!");
-                      }
+                      return Text(EnumCovert().getEnumName(items[index]),
+                          style: TextStyle(
+                              color:
+                                  EnumCovert().getEnumShowColor(items[index])));
                     },
                     itemCount: items.length,
                   )),
@@ -200,10 +189,10 @@ class GamePageStates extends State<GamePage> with TickerProviderStateMixin {
     );
   }
 
-  Widget getCurrentPage(int index) {
+  Widget getCurrentPage(int index, bool withoutHero) {
     switch (index) {
       case 0:
-        return BuildingsPage();
+        return BuildingsPage(withoutHero);
       case 1:
         return CatsManagerPage();
       case 2:

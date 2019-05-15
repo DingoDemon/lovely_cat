@@ -8,13 +8,21 @@ import 'package:lovely_cats/widget/BuildCard.dart';
 import '../GamePage.dart';
 
 class BuildingsPage extends StatefulWidget {
+  bool noHero;
+
   @override
   State<StatefulWidget> createState() {
-    return BuildingsState();
+    return BuildingsState(noHero);
   }
+
+  BuildingsPage(this.noHero);
 }
 
 class BuildingsState extends State<BuildingsPage> {
+  bool noHero;
+
+  BuildingsState(this.noHero);
+
   List<MapEntry<BuildingExample, int>> list = [];
 
   @override
@@ -28,7 +36,7 @@ class BuildingsState extends State<BuildingsPage> {
 
     return Container(
         color: Color(0xFFFFF59D),
-        child: Application.gameContext.buildings.isEmpty
+        child: list.isEmpty
             ? Center(
                 child: Text(
                   "这里一片荒凉",
@@ -48,14 +56,12 @@ class BuildingsState extends State<BuildingsPage> {
                         color: Colors.lightBlueAccent[400],
                         elevation: 8,
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              HeroDialogRoute(
-                                  builder: (BuildContext context) => Center(
-                                        child: BuildCard(index),
-                                      )));
+                          _navigateToBuildCard(context, index);
                         },
-                        child: getBuildName(list[index]),
+                        child: noHero
+                            ? Text(
+                                '${EnumCovert().getBuildingName(list[index].key)} (${list[index].value}) ')
+                            : getBuildName(list[index]),
                       ),
                     ),
                   );
@@ -63,8 +69,36 @@ class BuildingsState extends State<BuildingsPage> {
                 itemCount: list.length,
               ));
   }
+
+  void _navigateToBuildCard(BuildContext context, int index) {
+    Navigator.of(context).push(
+      PageRouteBuilder<BuildingView>(
+        pageBuilder: (
+          BuildContext context,
+          Animation<double> animation,
+          Animation<double> secondaryAnimation,
+        ) {
+          return BuildingView(index);
+        },
+        transitionsBuilder: (
+          BuildContext context,
+          Animation<double> animation,
+          Animation<double> secondaryAnimation,
+          Widget child,
+        ) {
+          return FadeTransition(
+            opacity: animation,
+            child: child,
+          );
+        },
+      ),
+    );
+  }
 }
 
-Text getBuildName(MapEntry<BuildingExample, int> item) {
-  return Text('${EnumCovert().getBuildingName(item.key)} (${item.value}) ');
+Hero getBuildName(MapEntry<BuildingExample, int> item) {
+  return Hero(
+    child: Text('${EnumCovert().getBuildingName(item.key)} (${item.value}) '),
+    tag: '${item.key}',
+  );
 }
