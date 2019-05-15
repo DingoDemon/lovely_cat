@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:lovely_cats/application.dart';
 import 'package:lovely_cats/object/Building.dart';
 import 'package:lovely_cats/object/ResourceEnum.dart';
+import 'package:lovely_cats/process/Engine.dart';
 import 'package:lovely_cats/util/EnumCovert.dart';
 import 'package:lovely_cats/util/FuncUtil.dart';
 import 'package:lovely_cats/view/gameFour/BuildingsPage.dart';
+
+import 'Callback.dart';
 
 class BuildingView extends AlertDialog {
   int index;
@@ -28,11 +31,23 @@ class BuildCard extends StatefulWidget {
   BuildCard(this.index);
 }
 
-class _BuildCardStates extends State<BuildCard> {
+class _BuildCardStates extends State<BuildCard> implements Callback {
   int index;
   AbstractBuilder builder;
 
   _BuildCardStates(this.index);
+
+  @override
+  void initState() {
+    Engine().registerCallback(this);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    Engine().unregisterCallback(this);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,5 +134,10 @@ class _BuildCardStates extends State<BuildCard> {
         ),
       ),
     );
+  }
+
+  @override
+  void callBack() {
+    setState(() {});
   }
 }

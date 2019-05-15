@@ -12,6 +12,7 @@ import 'package:lovely_cats/process/Context.dart';
 import 'package:lovely_cats/util/Arith.dart';
 import 'package:lovely_cats/util/EnumCovert.dart';
 import 'package:lovely_cats/util/FuncUtil.dart';
+import 'package:lovely_cats/widget/Callback.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Engine {
@@ -23,10 +24,19 @@ class Engine {
     return _singleton;
   }
 
-
   Engine._internal();
 
   int passTimes = 0;
+
+  List<Callback> callbacks = [];
+
+  void registerCallback(Callback callback) {
+    callbacks.add(callback);
+  }
+
+  void unregisterCallback(Callback callback) {
+    callbacks.remove(callback);
+  }
 
   void primed() {
     //如果抛出异常，检查代码在初始化Application.gameApplication.gameContext之前就开始运行
@@ -38,6 +48,9 @@ class Engine {
       passTimes = 0;
     }
     _perPlanckTime();
+    callbacks.forEach((callback) {
+      callback.callBack();
+    });
   }
 
 // 每秒进行一次
@@ -60,7 +73,6 @@ class Engine {
     _catmintOutput();
     _catOutput();
     _addBuilding();
-
   }
 
   ///新增建筑
@@ -127,6 +139,10 @@ class Engine {
 
       if (Application.gameContext.season == Season.Winter) {
         return;
+      }
+
+      if (Application.gameContext.season == Season.Fall) {
+        except = Arith().multiplication(except, 1.5);
       }
 
       if (Application.gameContext.leader != null &&

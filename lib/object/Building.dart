@@ -113,7 +113,7 @@ class CatmintFieldBuilder extends OperativeBuilder {
 
   @override
   String getDescribe() {
-    return "秋天会收获更多的猫薄荷，但是在冬天，则没有猫薄荷产出。储粮过冬";
+    return "如果没有足够的猫薄荷，喵喵便会离开这里。秋天会收获更多的猫薄荷，但是在冬天，则没有猫薄荷产出。储备好足够的猫薄荷准备过冬哦";
   }
 }
 
@@ -142,7 +142,9 @@ class ChickenCoopBuilder extends StaticBuilder {
       c.wareHouse.buildingMaterials[BuildingResource.branch] = Arith()
           .subtraction(c.wareHouse.buildingMaterials[BuildingResource.branch],
               branchNeed);
-      c.wareHouse.buildingMaterials[BuildingResource.branch] += 1;
+
+      c.buildings[BuildingExample.chickenCoop] =
+          c.buildings[BuildingExample.chickenCoop] + 1;
     }
     change(c);
     updateResource();
@@ -171,9 +173,7 @@ class ChickenCoopBuilder extends StaticBuilder {
     if (!buildings.containsKey(BuildingExample.chickenCoop)) {
       branchNeed = Const.FIRST_CHICKEN_COOP_NEED;
     } else {
-      branchNeed = Const.FIRST_CHICKEN_COOP_NEED *
-          math.pow(Const.CHICKEN_COOP_BUILD_SEED,
-              buildings[BuildingExample.chickenCoop]);
+      branchNeed = Arith().multiplication(branchNeed, 1.8);
     }
 
     buildResource[BuildingResource.branch] = branchNeed;
