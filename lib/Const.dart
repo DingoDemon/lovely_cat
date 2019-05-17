@@ -30,5 +30,7 @@ class Const {
 
   static const String FIRST_PLAY = "FirstPlay";
 
+  static const int TOTAL_GAME_PAGE = 4;
+
 
 }

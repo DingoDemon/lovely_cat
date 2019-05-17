@@ -42,6 +42,7 @@ class Engine {
     ///如果抛出异常，检查代码在初始化Application.gameApplication.gameContext之前就开始运行
     assert(Application.gameContext != null);
 
+
     if (passTimes < Const.PASS_TIME_COUNT) {
       passTimes++;
     } else {
@@ -151,6 +152,7 @@ class Engine {
           CatmintFieldBuilder.instance.output(Application.gameContext);
 
       if (Application.gameContext.season == Season.Winter) {
+        Application.gameContext.wareHouse.receiveInfo[FoodResource.catmint] = 0;
         return;
       }
 

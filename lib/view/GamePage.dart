@@ -1,21 +1,19 @@
 import 'dart:async';
-import 'dart:io';
-import 'package:common_utils/common_utils.dart';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:lovely_cats/Const.dart';
 import 'package:lovely_cats/application.dart';
-import 'package:lovely_cats/object/ResourceEnum.dart';
 import 'package:lovely_cats/process/Engine.dart';
 import 'package:lovely_cats/util/EnumCovert.dart';
 import 'package:lovely_cats/util/FuncUtil.dart';
 import 'package:lovely_cats/view/active/ActivePage.dart';
 import 'package:lovely_cats/view/gameFour/BuildingsPage.dart';
 import 'package:lovely_cats/view/gameFour/CatsManagerPage.dart';
+import 'package:lovely_cats/widget/Callback.dart';
 import 'package:lovely_cats/widget/GamePageDragger.dart';
 import 'package:lovely_cats/view/gameFour/InformationPage.dart';
-import 'package:lovely_cats/widget/PageReveal.dart';
 import 'package:lovely_cats/view/gameFour/WorkbenchPage.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 class GamePage extends StatefulWidget {
   String firstPlay;
@@ -28,92 +26,25 @@ class GamePage extends StatefulWidget {
   }
 }
 
-class GamePageStates extends State<GamePage> with TickerProviderStateMixin {
-  int activeIndex = 0;
-  StreamController<SlideUpdate> slideUpdateStream;
-  AnimatedPageDragger animatedPageDragger;
-  SlideDirection slideDirection = SlideDirection.none;
-  int nextPageIndex = 0;
-  int waitingNextPageIndex = -1;
-
-  double slidePercent = 0.0;
-  Widget currentPage;
-
-  GamePageStates() {
-    slideUpdateStream = new StreamController<SlideUpdate>();
-    slideUpdateStream.stream.listen((SlideUpdate event) {
-      if (mounted) {
-        setState(() {
-          if (event.updateType == UpdateType.dragging) {
-            slideDirection = event.direction;
-            slidePercent = event.slidePercent;
-
-            if (slideDirection == SlideDirection.leftToRight) {
-              nextPageIndex = activeIndex - 1;
-            } else if (slideDirection == SlideDirection.rightToLeft) {
-              nextPageIndex = activeIndex + 1;
-            } else {
-              nextPageIndex = activeIndex;
-            }
-          } else if (event.updateType == UpdateType.doneDragging) {
-            if (slidePercent > 0.5) {
-              animatedPageDragger = new AnimatedPageDragger(
-                slideDirection: slideDirection,
-                transitionGoal: TransitionGoal.open,
-                slidePercent: slidePercent,
-                slideUpdateStream: slideUpdateStream,
-                vsync: this,
-              );
-            } else {
-              animatedPageDragger = new AnimatedPageDragger(
-                slideDirection: slideDirection,
-                transitionGoal: TransitionGoal.close,
-                slidePercent: slidePercent,
-                slideUpdateStream: slideUpdateStream,
-                vsync: this,
-              );
-
-              waitingNextPageIndex = activeIndex;
-            }
-
-            animatedPageDragger.run();
-          } else if (event.updateType == UpdateType.animating) {
-            slideDirection = event.direction;
-            slidePercent = event.slidePercent;
-          } else if (event.updateType == UpdateType.doneAnimating) {
-            if (waitingNextPageIndex != -1) {
-              nextPageIndex = waitingNextPageIndex;
-              waitingNextPageIndex = -1;
-            } else {
-              activeIndex = nextPageIndex;
-            }
-
-            slideDirection = SlideDirection.none;
-            slidePercent = 0.0;
-
-            animatedPageDragger.dispose();
-          }
-          currentPage = getCurrentPage(activeIndex, false);
-        });
-      }
-    });
-  }
+class GamePageStates extends State<GamePage>
+    with TickerProviderStateMixin
+    implements Callback {
+  Widget pages;
 
   @override
   void initState() {
     super.initState();
     Application.mTimerUtil.setOnTimerTickCallback((int tick) {
       Engine().primed();
-      setState(() {
-        currentPage = getCurrentPage(activeIndex, false);
-      });
     });
+    pages = GamePageRow();
     Application.mTimerUtil.startTimer();
+    Engine().registerCallback(this);
   }
 
   @override
   void dispose() {
-    slideUpdateStream.close();
+    Engine().unregisterCallback(this);
     super.dispose();
   }
 
@@ -133,24 +64,13 @@ class GamePageStates extends State<GamePage> with TickerProviderStateMixin {
       },
       child: Scaffold(
         resizeToAvoidBottomPadding: false,
-        backgroundColor: Colors.amber,
+        backgroundColor: Colors.amber[50],
         appBar: AppBar(
             title: Text(FuncUtil().getGameTitle(Application.gameContext)),
             leading: items.length > 0 ? null : Text(''),
             centerTitle: true),
-        body: Stack(
-          children: <Widget>[
-            currentPage,
-            PageReveal(
-              revealPercent: slidePercent,
-              child: getCurrentPage(nextPageIndex, true),
-            ),
-            PageDragger(
-              canDragLeftToRight: activeIndex > 0,
-              canDragRightToLeft: activeIndex < 3,
-              slideUpdateStream: this.slideUpdateStream,
-            )
-          ],
+        body: Container(
+          child: pages,
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
@@ -179,7 +99,7 @@ class GamePageStates extends State<GamePage> with TickerProviderStateMixin {
                       itemBuilder: (BuildContext context, int index) {
                         return Row(
                           mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
                             Text(
                                 EnumCovert()
@@ -213,19 +133,11 @@ class GamePageStates extends State<GamePage> with TickerProviderStateMixin {
     );
   }
 
-  Widget getCurrentPage(int index, bool withoutHero) {
-    switch (index) {
-      case 0:
-        return BuildingsPage(withoutHero);
-      case 1:
-        return CatsManagerPage();
-      case 2:
-        return WorkbenchPage();
-      case 3:
-        return InformationPage();
-      default:
-        return null;
-    }
+  @override
+  void callBack() {
+    setState(() {
+      pages = GamePageRow();
+    });
   }
 }
 
@@ -250,10 +162,6 @@ Widget getShareImage(bool isFirstPage) {
             ),
             borderRadius: BorderRadius.circular(10)));
   }
-}
-
-abstract class GamePageRefresh {
-  void update();
 }
 
 class HeroDialogRoute<T> extends PageRoute<T> {
@@ -293,3 +201,131 @@ class HeroDialogRoute<T> extends PageRoute<T> {
   @override
   String get barrierLabel => null;
 }
+
+class GamePageRow extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return GamePageRowState();
+  }
+}
+
+class GamePageRowState extends State<GamePageRow>
+    with TickerProviderStateMixin {
+  double scrollPercent = 0.0;
+  Offset startDrag; //drag开始的offset
+  double startDragPercentScroll; //开始拖动时候的值
+  double finishDragScrollStart;
+  double finishDragScrollEnd;
+  AnimationController finishScrollController;
+  Direction direction = Direction.LEFT;
+
+  @override
+  void initState() {
+    super.initState();
+    finishScrollController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 200))
+      ..addListener(() {
+        setState(() {
+          scrollPercent = lerpDouble(finishDragScrollStart, finishDragScrollEnd,
+              finishScrollController.value);
+        });
+      });
+  }
+
+  @override
+  void dispose() {
+    finishScrollController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onHorizontalDragStart: _hStart,
+      onHorizontalDragUpdate: _hUpdate,
+      onHorizontalDragEnd: _hEnd,
+      behavior: HitTestBehavior.translucent,
+      child: Stack(children: getCards()),
+    );
+  }
+
+  getCard(int currentIndex, int cardsCount, double scrollPercent) {
+    final double singleCardScrollPercent = scrollPercent / (1 / cardsCount);
+    double fix = 0;
+
+    return FractionalTranslation(
+      translation: Offset(currentIndex - singleCardScrollPercent + fix, 0.0),
+      child: getPage(currentIndex),
+    );
+  }
+
+  Widget getPage(int index) {
+    switch (index) {
+      case 0:
+        return BuildingsPage();
+      case 1:
+        return CatsManagerPage();
+      case 2:
+        return WorkbenchPage();
+      case 3:
+        return InformationPage();
+      default:
+        return Text("");
+    }
+  }
+
+  List<Widget> getCards() {
+    return [
+      getCard(0, 4, scrollPercent),
+      getCard(1, 4, scrollPercent),
+      getCard(2, 4, scrollPercent),
+      getCard(3, 4, scrollPercent)
+    ];
+  }
+
+  _hStart(DragStartDetails startDetail) {
+    startDrag = startDetail.globalPosition;
+    startDragPercentScroll = scrollPercent;
+  }
+
+  _hUpdate(DragUpdateDetails updateDetail) {
+    final Offset curDrag = updateDetail.globalPosition;
+    final double dragTotal = curDrag.dx - startDrag.dx;
+    final double singleCardPercent = dragTotal / context.size.width;
+    if (dragTotal > 0) {
+      direction = Direction.LEFT;
+    } else {
+      direction = Direction.RIGHT;
+    }
+    setState(() {
+      scrollPercent = (startDragPercentScroll +
+              (-singleCardPercent / Const.TOTAL_GAME_PAGE))
+          .clamp(0.0, 1.0 - (1 / Const.TOTAL_GAME_PAGE));
+    });
+  }
+
+  _hEnd(DragEndDetails endDetail) {
+    finishDragScrollStart = scrollPercent;
+    if (direction == Direction.LEFT) {
+      finishDragScrollEnd = (scrollPercent * Const.TOTAL_GAME_PAGE).floor() /
+          Const.TOTAL_GAME_PAGE;
+    } else {
+      finishDragScrollEnd = (scrollPercent * Const.TOTAL_GAME_PAGE).ceil() /
+          Const.TOTAL_GAME_PAGE;
+    }
+    finishScrollController.forward(from: 0.0);
+    setState(() {
+      startDrag = null;
+      startDragPercentScroll = null;
+    });
+  }
+}
+
+Widget _tempWidget() {
+  return SizedBox(
+    width: 30,
+    height: 1,
+  );
+}
+
+enum Direction { LEFT, RIGHT }

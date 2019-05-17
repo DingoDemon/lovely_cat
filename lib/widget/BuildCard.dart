@@ -9,7 +9,8 @@ import 'package:lovely_cats/view/gameFour/BuildingsPage.dart';
 
 import 'Callback.dart';
 
-class BuildingView extends AlertDialog {
+// ignore: must_be_immutable
+class BuildingView extends StatelessWidget {
   int index;
 
   BuildingView(this.index);
@@ -62,7 +63,7 @@ class _BuildCardStates extends State<BuildCard> implements Callback {
       type: MaterialType.transparency,
       child: Container(
         color: Colors.white,
-        width: double.infinity,
+        width: 300,
         margin: EdgeInsets.all(20),
         child: Column(
           mainAxisSize: MainAxisSize.min,

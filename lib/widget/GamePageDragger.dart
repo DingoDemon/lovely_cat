@@ -3,6 +3,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
+import '../application.dart';
+
 class PageDragger extends StatefulWidget {
   final bool canDragLeftToRight;
   final bool canDragRightToLeft;
@@ -20,7 +22,7 @@ class PageDragger extends StatefulWidget {
 }
 
 class _PageDraggerState extends State<PageDragger> {
-  static const FULL_TRANSTITION_PX = 200.0;
+  double pageWidth = Application.size.width - 10;
 
   Offset dragStart;
   SlideDirection slideDirection;
@@ -40,7 +42,7 @@ class _PageDraggerState extends State<PageDragger> {
       }
 
       if (slideDirection != SlideDirection.none) {
-        slidePercent = (dx / FULL_TRANSTITION_PX).abs().clamp(0.0, 1.0);
+        slidePercent = (dx / pageWidth).abs().clamp(0.0, 1.0);
       } else {
         slidePercent = 0.0;
       }
@@ -75,12 +77,14 @@ class _PageDraggerState extends State<PageDragger> {
   }
 }
 
+///滑动方向
 enum SlideDirection {
   leftToRight,
   rightToLeft,
   none,
 }
 
+///滑动状态
 class SlideUpdate {
   final updateType;
   final direction;
@@ -89,6 +93,7 @@ class SlideUpdate {
   SlideUpdate(this.updateType, this.direction, this.slidePercent);
 }
 
+///手势type
 enum UpdateType {
   dragging,
   doneDragging,

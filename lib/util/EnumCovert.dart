@@ -201,22 +201,19 @@ class EnumCovert {
   }
 
   String getFoodReceiveInfo(FoodResource f) {
-    return '${EnumCovert().getFoodName(f)} '
-        '${NumUtil.getNumByValueDouble(Application.gameContext.wareHouse.foods[f], 2)} '
+    return '${NumUtil.getNumByValueDouble(Application.gameContext.wareHouse.foods[f], 2)} '
         '/ '
         '${NumUtil.getNumByValueDouble(Application.gameContext.wareHouse.foodsLimit[f], 2)}';
   }
 
   String getBuildingResourceReceiveInfo(BuildingResource b) {
-    return '${EnumCovert().getBuildResourceName(b)} '
-        '${NumUtil.getNumByValueDouble(Application.gameContext.wareHouse.buildingMaterials[b], 2)} '
+    return '${NumUtil.getNumByValueDouble(Application.gameContext.wareHouse.buildingMaterials[b], 2)} '
         '/'
         ' ${NumUtil.getNumByValueDouble(Application.gameContext.wareHouse.buildingMaterialsLimit[b], 2)}';
   }
 
   String getPointResourceReceiveInfo(PointResource p) {
-    return '${EnumCovert().getEnumName(p)} '
-        '${NumUtil.getNumByValueDouble(Application.gameContext.wareHouse.points[p], 2)} '
+    return '${NumUtil.getNumByValueDouble(Application.gameContext.wareHouse.points[p], 2)} '
         '/'
         ' ${NumUtil.getNumByValueDouble(Application.gameContext.wareHouse.pointsLimit[p], 2)}';
   }

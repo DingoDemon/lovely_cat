@@ -8,22 +8,32 @@ class CatsManagerPage extends StatefulWidget {
   State<StatefulWidget> createState() {
     return CatsManagerState();
   }
+
+  CatsManagerPage();
 }
 
 class CatsManagerState extends State<CatsManagerPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: Color(0xFFFFAB91),
-        child: Application.gameContext.cats.isEmpty
-            ? Center(
-                child: Text(
-                "没有喵喵在此驻足",
-                style: TextStyle(
-                    color: Colors.grey[850], fontSize: 24, fontFamily: 'Miao'),
-              ))
-            : Column(
-
-        ));
+      margin: EdgeInsets.only(top: 20, bottom: 20),
+      child: Card(
+          elevation: 20,
+          color: Colors.yellow[50],
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(30.0))),
+          child: Container(
+              color: Color(0xFFFFAB91),
+              child: Application.gameContext.cats.isEmpty
+                  ? Center(
+                      child: Text(
+                      "没有喵喵在此驻足",
+                      style: TextStyle(
+                          color: Colors.grey[850],
+                          fontSize: 24,
+                          fontFamily: 'Miao'),
+                    ))
+                  : Column())),
+    );
   }
 }
