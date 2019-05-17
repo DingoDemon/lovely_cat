@@ -15,23 +15,23 @@ class WorkbenchPage extends StatefulWidget {
 class WorkbenchState extends State<WorkbenchPage> {
   @override
   Widget build(BuildContext context) {
-    return Card(
-        elevation: 20,
-        color: Colors.yellow[50],
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(30.0))),
-        child: Container(
-            color: Colors.indigo[100],
-            child: Application.gameContext.age == Age.Chaos
-                ? Center(
-                    child: Text(
-                      "喵喵的思想还在混沌中",
-                      style: TextStyle(
-                          color: Colors.grey[850],
-                          fontSize: 24,
-                          fontFamily: 'Miao'),
-                    ),
-                  )
-                : Column()));
+    return Container(
+        margin: EdgeInsets.only(top: 20, bottom: 20),
+        child: Card(
+            color: Colors.indigo[50],
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(30.0))),
+            child: Container(
+                child: Application.gameContext.age == Age.Chaos
+                    ? Center(
+                        child: Text(
+                          "喵喵的思想还在混沌中",
+                          style: TextStyle(
+                              color: Colors.grey[850],
+                              fontSize: 24,
+                              fontFamily: 'Miao'),
+                        ),
+                      )
+                    : Column())));
   }
 }

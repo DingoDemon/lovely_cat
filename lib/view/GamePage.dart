@@ -64,7 +64,7 @@ class GamePageStates extends State<GamePage>
       },
       child: Scaffold(
         resizeToAvoidBottomPadding: false,
-        backgroundColor: Colors.amber[50],
+        backgroundColor: Colors.white,
         appBar: AppBar(
             title: Text(FuncUtil().getGameTitle(Application.gameContext)),
             leading: items.length > 0 ? null : Text(''),
@@ -97,29 +97,43 @@ class GamePageStates extends State<GamePage>
                     child: ListView.builder(
                       addRepaintBoundaries: true,
                       itemBuilder: (BuildContext context, int index) {
-                        return Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        return Column(
                           children: <Widget>[
-                            Text(
-                                EnumCovert()
-                                    .getResourceReceiveInfo(items[index]),
-                                style: TextStyle(
-                                    color: EnumCovert()
-                                        .getEnumShowColor(items[index]),
-                                    fontFamily: 'Miao',
-                                    fontSize: 16)),
-                            Application.gameContext.wareHouse.receiveInfo
-                                    .containsKey(items[index])
-                                ? Text(
-                                    ' + ${Application.gameContext.wareHouse.receiveInfo[items[index]]} '
-                                    '/s',
+                            Container(
+                              child: Text(
+                                  EnumCovert().getEnumName(items[index]),
+                                  style: TextStyle(
+                                      color: EnumCovert()
+                                          .getEnumShowColor(items[index]),
+                                      fontFamily: 'Miao',
+                                      fontSize: 16)),
+                              alignment: Alignment.centerLeft,
+                            ),
+                            Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                    EnumCovert()
+                                        .getResourceReceiveInfo(items[index]),
                                     style: TextStyle(
                                         color: EnumCovert()
                                             .getEnumShowColor(items[index]),
-                                        fontFamily: 'Miao',
-                                        fontSize: 16))
-                                : Text("")
+                                        fontFamily: 'Simple',
+                                        fontSize: 16)),
+                                Application.gameContext.wareHouse.receiveInfo
+                                        .containsKey(items[index])
+                                    ? Text(
+                                        ' + ${Application.gameContext.wareHouse.receiveInfo[items[index]]} '
+                                        '/s',
+                                        style: TextStyle(
+                                            color: EnumCovert()
+                                                .getEnumShowColor(items[index]),
+                                            fontFamily: 'Simple',
+                                            fontSize: 16))
+                                    : Text("")
+                              ],
+                            )
                           ],
                         );
                       },
@@ -245,16 +259,17 @@ class GamePageRowState extends State<GamePageRow>
       onHorizontalDragUpdate: _hUpdate,
       onHorizontalDragEnd: _hEnd,
       behavior: HitTestBehavior.translucent,
-      child: Stack(children: getCards()),
+      child: Stack(
+        children: getCards(),
+        fit: StackFit.expand,
+      ),
     );
   }
 
   getCard(int currentIndex, int cardsCount, double scrollPercent) {
     final double singleCardScrollPercent = scrollPercent / (1 / cardsCount);
-    double fix = 0;
-
     return FractionalTranslation(
-      translation: Offset(currentIndex - singleCardScrollPercent + fix, 0.0),
+      translation: Offset(currentIndex - singleCardScrollPercent, 0.0),
       child: getPage(currentIndex),
     );
   }

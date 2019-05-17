@@ -41,9 +41,8 @@ class BuildingsState extends State<BuildingsPage> with WidgetsBindingObserver {
     list = Application.gameContext.buildings.entries.toList();
 
     return Container(
-      margin: EdgeInsets.only(top: 20,bottom: 20),
+      margin: EdgeInsets.only(top: 20, bottom: 20),
       child: Card(
-        elevation: 20,
         color: Colors.brown[50],
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(30.0))),

@@ -18,12 +18,11 @@ class CatsManagerState extends State<CatsManagerPage> {
     return Container(
       margin: EdgeInsets.only(top: 20, bottom: 20),
       child: Card(
-          elevation: 20,
           color: Colors.yellow[50],
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(30.0))),
           child: Container(
-              color: Color(0xFFFFAB91),
+              padding: EdgeInsets.all(8),
               child: Application.gameContext.cats.isEmpty
                   ? Center(
                       child: Text(
