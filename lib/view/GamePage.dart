@@ -70,7 +70,10 @@ class GamePageStates extends State<GamePage>
             leading: items.length > 0 ? null : Text(''),
             centerTitle: true),
         body: Container(
-          child: pages,
+          child: Padding(
+            padding: const EdgeInsets.all(30.0),
+            child: pages,
+          ),
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
