@@ -11,7 +11,7 @@ class CatsManager {
 
   CatsManager.internal();
 
-  HashMap<CatType, int> hashMap = new HashMap();
+  HashMap<CatJob, int> hashMap = new HashMap();
 
 
 }

@@ -12,7 +12,7 @@ class Cat implements CatInterface {
   String name;
   int exp;
   Age age;
-  CatType type;
+  CatJob type;
   BloodLines bloodLines;
   String dec;
 
@@ -37,23 +37,23 @@ class Cat implements CatInterface {
     }
     switch (i) {
       case 0:
-        cat.type = CatType.Farmer;
+        cat.type = CatJob.Farmer;
         cat.agriculturalOutput = Const.CAT_DEFAULT_SKILL;
         break;
       case 1:
-        cat.type = CatType.Leader;
+        cat.type = CatJob.Leader;
         cat.happinessOutput = Const.CAT_DEFAULT_SKILL;
         break;
       case 2:
-        cat.type = CatType.Craftsman;
+        cat.type = CatJob.Craftsman;
         cat.industryOutput = Const.CAT_DEFAULT_SKILL;
         break;
       case 3:
-        cat.type = CatType.Scholar;
+        cat.type = CatJob.Scholar;
         cat.scienceOutput = Const.CAT_DEFAULT_SKILL;
         break;
       case 4:
-        cat.type = CatType.Oracle;
+        cat.type = CatJob.Oracle;
         cat.religionOutput = Const.CAT_DEFAULT_SKILL;
         break;
       default:
@@ -69,19 +69,19 @@ class Cat implements CatInterface {
 
   void levelUp() {
     switch (type) {
-      case CatType.Farmer:
+      case CatJob.Farmer:
         this.agriculturalOutput = Arith().multiplication(agriculturalOutput, 2);
         break;
-      case CatType.Craftsman:
+      case CatJob.Craftsman:
         industryOutput = Arith().multiplication(industryOutput, 1.5);
         break;
-      case CatType.Leader:
+      case CatJob.Leader:
         happinessOutput = Arith().multiplication(happinessOutput, 1.1);
         break;
-      case CatType.Oracle:
+      case CatJob.Oracle:
         religionOutput = Arith().multiplication(religionOutput, 1.5);
         break;
-      case CatType.Scholar:
+      case CatJob.Scholar:
         scienceOutput = Arith().multiplication(scienceOutput, 1.5);
         break;
       default:
@@ -99,4 +99,3 @@ enum BloodLines {
   MaineCat, //缅因猫[21~23]
   LeopardCat //豹猫[24~25]
 }
-

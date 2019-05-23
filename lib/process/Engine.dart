@@ -39,9 +39,8 @@ class Engine {
   }
 
   void primed() {
-    ///如果抛出异常，检查代码在初始化Application.gameApplication.gameContext之前就开始运行
+    ///检查代码在初始化Application.gameApplication.gameContext之前就开始运行
     assert(Application.gameContext != null);
-
 
     if (passTimes < Const.PASS_TIME_COUNT) {
       passTimes++;
@@ -58,7 +57,7 @@ class Engine {
   void _perPlanckTime() {
     //如果喵子领导是leader，增加效率
     if (Application.gameContext.leader != null &&
-        Application.gameContext.leader.type == CatType.Leader) {
+        Application.gameContext.leader.type == CatJob.Leader) {
       _efficiencyCoefficient = Application.gameContext.leader.happinessOutput *
           _efficiencyCoefficient;
     }
@@ -75,7 +74,6 @@ class Engine {
 
     _checkSeason();
     _catmintOutput();
-    _catOutput();
     _addBuilding();
     _checkEmptyForCat();
   }
@@ -115,17 +113,21 @@ class Engine {
           break;
         case BuildingExample.library:
           break;
-        case BuildingExample.logCabin:
+        case BuildingExample.college:
           break;
         case BuildingExample.loggingCamp:
           break;
         case BuildingExample.researchInstitute:
           break;
-        case BuildingExample.tent:
+        case BuildingExample.refinery:
           break;
         case BuildingExample.university:
           break;
         case BuildingExample.mineField:
+          break;
+        case BuildingExample.warehouse:
+          break;
+        case BuildingExample.coalMine:
           break;
       }
     }
@@ -145,52 +147,39 @@ class Engine {
 
   ///猫薄荷田总体输出
   void _catmintOutput() {
+    if (Application.gameContext.season == Season.Winter) {
+      Application.gameContext.wareHouse.receiveInfo[FoodResource.catmint] = 0;
+      return;
+    }
+
     LinkedHashMap building = Application.gameContext.buildings;
+
+    double except = 0;
+    //薄荷田
     if (building.containsKey(BuildingExample.catmintField) &&
         building[BuildingExample.catmintField] > 0) {
-      double except =
-          CatmintFieldBuilder.instance.output(Application.gameContext);
+      except = CatmintFieldBuilder.instance.output(Application.gameContext);
 
-      if (Application.gameContext.season == Season.Winter) {
-        Application.gameContext.wareHouse.receiveInfo[FoodResource.catmint] = 0;
-        return;
+      if (Application.gameContext.catProfession.containsKey(CatJob.Farmer) &&
+          Application.gameContext.catProfession[CatJob.Farmer] > 0) {
+        except += Arith().multiplication(
+            4, Application.gameContext.catProfession[CatJob.Farmer] as double);
+
+        if (Application.gameContext.season == Season.Fall) {
+          except = Arith().multiplication(except, 1.5);
+        }
+
+        if (Application.gameContext.leader != null &&
+            Application.gameContext.leader.type == CatJob.Farmer) {
+          except = Application.gameContext.leader.agriculturalOutput * except;
+        }
+
+        Application.gameContext.wareHouse.receiveCatmint(except, false);
       }
-
-      if (Application.gameContext.season == Season.Fall) {
-        except = Arith().multiplication(except, 1.5);
-      }
-
-      if (Application.gameContext.leader != null &&
-          Application.gameContext.leader.type == CatType.Farmer) {
-        except = Application.gameContext.leader.agriculturalOutput * except;
-      }
-
-      Application.gameContext.wareHouse.receiveCatmint(except, false);
     }
   }
 
-  ///村里喵喵们每秒输出
-  void _catOutput() {
-    HashMap<CatJob, int> cats = Application.gameContext.catProfession;
-    cats.forEach((job, int) {
-      switch (job) {
-        case CatJob.Farmer:
-          Application.gameContext.wareHouse
-              .receiveCatmint(_efficiencyCoefficient * int * 5, false);
-          break;
-        case CatJob.Craftsman:
-          Application.gameContext.wareHouse
-              .receiveCatmint(_efficiencyCoefficient * int * 3, false);
-          break;
-        case CatJob.Hunter:
-          break;
-        case CatJob.Oracle:
-          break;
-        case CatJob.Scholar:
-          break;
-      }
-    });
-  }
+  void _branchOutput() {}
 
   ///每10秒储存一次
   void _saveContext() async {

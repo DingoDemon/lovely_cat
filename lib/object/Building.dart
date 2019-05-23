@@ -92,7 +92,7 @@ class CatmintFieldBuilder extends OperativeBuilder {
   @override
   double output(Context c) {
     //PlanckTime内产出
-    return c.buildings[BuildingExample.catmintField] * 1.2;
+    return c.buildings[BuildingExample.catmintField] * 0.95;
   }
 
   @override

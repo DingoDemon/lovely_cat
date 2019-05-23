@@ -95,7 +95,7 @@ class _ChaosDialogState extends State<ChaosDialog> {
   Widget getChildren(ChaosStep s) {
     if (s == ChaosStep.one) {
       return Container(
-        margin: EdgeInsets.only(top: 40, left: 15, right: 15),
+        margin: EdgeInsets.only(top: 20, left: 15, right: 15),
         child: RaisedButton(
           child: Text("采集猫薄荷",
               style: TextStyle(
@@ -125,7 +125,7 @@ class _ChaosDialogState extends State<ChaosDialog> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Container(
-            margin: EdgeInsets.only(top: 40, left: 15, right: 15),
+            margin: EdgeInsets.only(top: 20, left: 15, right: 15),
             child: RaisedButton(
               child: Text("采集猫薄荷",
                   style: TextStyle(
@@ -151,7 +151,7 @@ class _ChaosDialogState extends State<ChaosDialog> {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 40, left: 15, right: 15),
+            margin: EdgeInsets.only(top: 20, left: 15, right: 15),
             child: RaisedButton(
               child: Text("将20个猫薄荷碾成树枝",
                   style: TextStyle(

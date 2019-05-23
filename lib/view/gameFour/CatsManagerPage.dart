@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lovely_cats/application.dart';
+import 'package:lovely_cats/object/ResourceEnum.dart';
 import 'package:lovely_cats/util/FuncUtil.dart';
 import 'package:lovely_cats/view/GamePage.dart';
 
@@ -32,7 +33,24 @@ class CatsManagerState extends State<CatsManagerPage> {
                           fontSize: 24,
                           fontFamily: 'Miao'),
                     ))
-                  : Column())),
+                  : Container(
+                      child: getWidget(),
+                    ))),
     );
+  }
+
+  Widget getWidget() {
+    int count = Application.gameContext.cats.length;
+    if (Application.gameContext.age == Age.Chaos) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Text("农夫喵"),
+
+        ],
+      );
+    } else {
+      return Text("");
+    }
   }
 }

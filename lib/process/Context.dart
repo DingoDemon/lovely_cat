@@ -154,4 +154,8 @@ class WareHouse {
       receiveInfo[BuildingResource.branch] = NumUtil.getNumByValueDouble(d, 2);
     }
   }
+
+  void receiveEvent(Event e){
+
+  }
 }

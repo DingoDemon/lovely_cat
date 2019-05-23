@@ -81,7 +81,7 @@ class FuncUtil {
     switch (example) {
       case BuildingExample.catmintField:
         return CatmintFieldBuilder();
-      case BuildingExample.tent:
+      case BuildingExample.refinery:
         return null;
       case BuildingExample.researchInstitute:
         return null;
@@ -93,13 +93,13 @@ class FuncUtil {
         return null;
       case BuildingExample.library:
         return null;
-      case BuildingExample.logCabin:
+      case BuildingExample.college:
         return null;
       case BuildingExample.loggingCamp:
         return null;
       case BuildingExample.researchInstitute:
         return null;
-      case BuildingExample.tent:
+      case BuildingExample.refinery:
         return null;
       case BuildingExample.university:
         return null;

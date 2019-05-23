@@ -8,7 +8,8 @@ enum BuildingResource {
   stone,
   iron,
   steel,
-  cement //水泥
+  cement, //水泥
+  gold
 }
 
 enum PointResource {
@@ -20,16 +21,18 @@ enum PointResource {
 enum BuildingExample {
   catmintField, //猫粮牧场
   chickenCoop, //鸡窝
-  box, //纸盒子
-  tent, //帐篷
-  logCabin, //小木屋
+  box, //纸盒子（快乐）
+  refinery, //提炼厂
+  coalMine, //煤矿
+  college, //学院
   cattery, //猫窝
   advancedCattery, //高级猫窝
   library, //图书馆
   university, //大学
   researchInstitute, //研究院
   loggingCamp, //伐木场
-  mineField //矿场
+  mineField, //矿场
+  warehouse //仓库
 }
 
 //探险资源
@@ -44,15 +47,16 @@ enum ExpeditionResource {
 
 }
 
-enum CatType {
-  Farmer, //农民，提升农田产量(0)
-  Leader, //领导，提升领导才能(1)
-  Craftsman, //工匠，提升建筑产出(2)
-  Scholar, //学者，提升科技点(3)
-  Oracle //先知，提升宗教点(4)
+enum CatJob {
+  Leader, //领导，快乐产出
+  Farmer, //农民
+  Craftsman, //手工艺人
+  Scholar, //学者
+  Hunter, //猎人
+  faller, //伐木工
+  Oracle, //先知
+  Miner //矿工
 }
-
-enum CatJob { Farmer, Craftsman, Scholar, Hunter, Oracle }
 
 //神祇
 class GodResource {}

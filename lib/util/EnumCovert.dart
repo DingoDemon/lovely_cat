@@ -100,37 +100,45 @@ class EnumCovert {
     }
   }
 
-  String getAmbition(CatType type) {
+  String getAmbition(CatJob type) {
     switch (type) {
-      case CatType.Farmer:
+      case CatJob.Farmer:
         return "它的工作就是找到好吃的并吃掉";
-      case CatType.Craftsman:
+      case CatJob.Craftsman:
         return "它说，铸铁需要七七四十八道工序";
-      case CatType.Leader:
+      case CatJob.Leader:
         return "它的偶像是辛巴";
-      case CatType.Oracle:
+      case CatJob.Oracle:
         return "它遇事不决的时候，就会请教喵喵神";
-      case CatType.Scholar:
+      case CatJob.Scholar:
         return "它对世间万物具有强烈的好奇心";
-      default:
-        return "";
+      case CatJob.Hunter:
+        return "狩猎哪里是为了生存，更重要的是抓住猎物的满足感";
+      case CatJob.faller:
+        return "嘿哟嘿哟嘿哟喵～!";
+      case CatJob.Miner:
+        return '咦呀!!咦呀!!又一块';
     }
   }
 
-  String getAmbitionName(CatType type) {
+  String getAmbitionName(CatJob type) {
     switch (type) {
-      case CatType.Farmer:
+      case CatJob.Farmer:
         return "农学喵";
-      case CatType.Craftsman:
+      case CatJob.Craftsman:
         return "工匠喵";
-      case CatType.Leader:
+      case CatJob.Leader:
         return "领导喵";
-      case CatType.Oracle:
+      case CatJob.Oracle:
         return "祭祀喵";
-      case CatType.Scholar:
+      case CatJob.Scholar:
         return "学者喵";
-      default:
-        return "";
+      case CatJob.faller:
+        return '砍树喵';
+      case CatJob.Hunter:
+        return '猎喵';
+      case CatJob.Miner:
+        return '挖矿喵';
     }
   }
 
@@ -222,11 +230,11 @@ class EnumCovert {
     switch (b) {
       case BuildingExample.researchInstitute:
         return "";
-      case BuildingExample.tent:
+      case BuildingExample.refinery:
         return "";
       case BuildingExample.loggingCamp:
         return "";
-      case BuildingExample.logCabin:
+      case BuildingExample.college:
         return "";
       case BuildingExample.library:
         return "";
