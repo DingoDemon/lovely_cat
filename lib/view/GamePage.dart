@@ -11,7 +11,6 @@ import 'package:lovely_cats/view/active/ActivePage.dart';
 import 'package:lovely_cats/view/gameFour/BuildingsPage.dart';
 import 'package:lovely_cats/view/gameFour/CatsManagerPage.dart';
 import 'package:lovely_cats/widget/Callback.dart';
-import 'package:lovely_cats/widget/GamePageDragger.dart';
 import 'package:lovely_cats/view/gameFour/InformationPage.dart';
 import 'package:lovely_cats/view/gameFour/WorkbenchPage.dart';
 
@@ -50,7 +49,7 @@ class GamePageStates extends State<GamePage>
 
   @override
   Widget build(BuildContext context) {
-    List<Object> items = Application.gameContext.wareHouse.getItems();
+    List<Object> items = Application.gameContext.wareHouse.getShowItems();
     return WillPopScope(
       onWillPop: () {
         Fluttertoast.showToast(

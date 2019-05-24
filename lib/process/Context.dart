@@ -52,6 +52,8 @@ class WareHouse {
 
   LinkedHashMap<Object, double> receiveInfo = LinkedHashMap();
 
+  HashSet<Object> showItem = HashSet();
+
   WareHouse() {
     init();
   }
@@ -84,13 +86,13 @@ class WareHouse {
 
   void consumeResource(Object o, double require) {
     if (o is FoodResource) {
-      foods[o] -= require;
+      foods[o] = Arith().subtraction(foods[o], require);
     }
     if (o is BuildingResource) {
-      buildingMaterials[o] -= require;
+      buildingMaterials[o] = Arith().subtraction(buildingMaterials[o], require);
     }
     if (o is PointResource) {
-      points[o] -= require;
+      points[o] = Arith().subtraction(points[o], require);
     }
   }
 
@@ -125,18 +127,23 @@ class WareHouse {
   }
 
   ///获取所有item
-  List<Object> getItems() {
-    List<Object> list = [];
+  List<Object> getShowItems() {
     foods.forEach((key, value) {
-      if (value != null && value > 0) list.add(key);
+      if (value != null && value > 0) {
+        showItem.add(key);
+      }
     });
     buildingMaterials.forEach((key, value) {
-      if (value != null && value > 0) list.add(key);
+      if (value != null && value > 0) {
+        showItem.add(key);
+      }
     });
     points.forEach((key, value) {
-      if (value != null && value > 0) list.add(key);
+      if (value != null && value > 0) {
+        showItem.add(key);
+      }
     });
-    return list;
+    return showItem.toList();
   }
 
   ///获取仓库资源存量

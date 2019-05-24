@@ -9,7 +9,6 @@ import 'dart:math' as math;
 import '../application.dart';
 
 abstract class AbstractBuilder {
-  Map<Object, double> originBuildResource = Map();
   HashSet<Interceptor> interceptors = HashSet();
 
   bool couldShow(Context c);
@@ -102,7 +101,7 @@ class CatmintFieldBuilder extends OperativeBuilder {
     if (interceptors.length == 0) {
       return {FoodResource.catmint: origin};
     } else {
-      Map procesed;
+      Map<Object, double> procesed;
       for (Interceptor interceptor in interceptors) {
         procesed = interceptor.changeOutPut({FoodResource.catmint: origin});
       }
@@ -114,7 +113,7 @@ class CatmintFieldBuilder extends OperativeBuilder {
   Map<Object, double> buildNeedResource(Context c) {
     Map<Object, double> origin = {
       FoodResource.catmint: Arith().multiplication(
-          10,
+          10.0,
           math.pow(1.67,
               Application.gameContext.buildings[BuildingExample.catmintField]))
     };
@@ -169,7 +168,7 @@ class ChickenCoopBuilder extends StaticBuilder {
 
   @override
   bool couldShow(Context c) {
-    return c.wareHouse.buildingMaterials[BuildingResource.branch] > 2;
+    return c.wareHouse.buildingMaterials[BuildingResource.branch] >= 2;
   }
 
   @override
@@ -181,9 +180,9 @@ class ChickenCoopBuilder extends StaticBuilder {
   Map<Object, double> buildNeedResource(Context c) {
     Map<Object, double> origin = {
       BuildingResource.branch: Arith().multiplication(
-          10,
-          math.pow(2,
-              Application.gameContext.buildings[BuildingExample.catmintField]))
+          10.0,
+          math.pow(2.0,
+              Application.gameContext.buildings[BuildingExample.chickenCoop]))
     };
     if (interceptors.length == 0) {
       return origin;
