@@ -9,7 +9,7 @@ import 'dart:math' as math;
 import '../application.dart';
 
 abstract class AbstractBuilder {
-  HashMap<Object, double> originBuildResource = new HashMap();
+  Map<Object, double> originBuildResource = Map();
   HashSet<Interceptor> interceptors = HashSet();
 
   bool couldShow(Context c);
@@ -19,7 +19,7 @@ abstract class AbstractBuilder {
         .resourcesEnough(buildNeedResource(c));
   }
 
-  HashMap<Object, double> buildNeedResource(Context c);
+  Map<Object, double> buildNeedResource(Context c);
 
   void build(Context c);
 
@@ -54,6 +54,7 @@ abstract class OperativeBuilder extends AbstractBuilder {
   }
 }
 
+///猫薄荷田
 class CatmintFieldBuilder extends OperativeBuilder {
   BuildingExample example;
 
@@ -80,13 +81,13 @@ class CatmintFieldBuilder extends OperativeBuilder {
   void build(Context c) {
     if (couldBuild(c)) {
       Application.gameContext.wareHouse.consumeResources(buildNeedResource(c));
+      Application.gameContext.buildings[BuildingExample.catmintField] += 1;
     }
-    Application.gameContext.buildings[BuildingExample.catmintField]++;
   }
 
   @override
   bool couldShow(Context c) {
-    return c.wareHouse.foods[FoodResource.catmint] > 200;
+    return c.wareHouse.foods[FoodResource.catmint] > 5;
   }
 
   @override
@@ -97,7 +98,7 @@ class CatmintFieldBuilder extends OperativeBuilder {
   @override
   Map<Object, double> output(Context c) {
     double origin = Arith().multiplication(
-        c.buildings[BuildingExample.catmintField] as double, 0.95);
+        c.buildings[BuildingExample.catmintField].toDouble(), 0.95);
     if (interceptors.length == 0) {
       return {FoodResource.catmint: origin};
     } else {
@@ -110,8 +111,8 @@ class CatmintFieldBuilder extends OperativeBuilder {
   }
 
   @override
-  HashMap<Object, double> buildNeedResource(Context c) {
-    Map origin = {
+  Map<Object, double> buildNeedResource(Context c) {
+    Map<Object, double> origin = {
       FoodResource.catmint: Arith().multiplication(
           10,
           math.pow(1.67,
@@ -120,7 +121,7 @@ class CatmintFieldBuilder extends OperativeBuilder {
     if (interceptors.length == 0) {
       return origin;
     } else {
-      Map processed;
+      Map<Object, double> processed;
       for (Interceptor interceptor in interceptors) {
         processed = interceptor.changeBuildResourceRequire(origin);
       }
@@ -129,7 +130,7 @@ class CatmintFieldBuilder extends OperativeBuilder {
   }
 }
 
-//鸡窝
+///鸡窝
 class ChickenCoopBuilder extends StaticBuilder {
   BuildingExample example;
 
@@ -156,9 +157,9 @@ class ChickenCoopBuilder extends StaticBuilder {
   void build(Context c) {
     if (couldBuild(c)) {
       Application.gameContext.wareHouse.consumeResources(buildNeedResource(c));
+      Application.gameContext.buildings[BuildingExample.chickenCoop]++;
+      change(c);
     }
-    Application.gameContext.buildings[BuildingExample.chickenCoop]++;
-    change(c);
   }
 
   @override
@@ -177,8 +178,8 @@ class ChickenCoopBuilder extends StaticBuilder {
   }
 
   @override
-  HashMap<Object, double> buildNeedResource(Context c) {
-    Map origin = {
+  Map<Object, double> buildNeedResource(Context c) {
+    Map<Object, double> origin = {
       BuildingResource.branch: Arith().multiplication(
           10,
           math.pow(2,
@@ -187,7 +188,7 @@ class ChickenCoopBuilder extends StaticBuilder {
     if (interceptors.length == 0) {
       return origin;
     } else {
-      Map processed;
+      Map<Object, double> processed;
       for (Interceptor interceptor in interceptors) {
         processed = interceptor.changeBuildResourceRequire(origin);
       }

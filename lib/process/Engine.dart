@@ -168,7 +168,7 @@ abstract class PartOutputMachine {
   Map<Object, double> mixTotalOutput(
       Map<Object, double> build, Map<Object, double> cats);
 
-  double efficiencyCoefficient; //生产系数
+  double efficiencyCoefficient = 1; //生产系数
 
   void process() {
     //如果喵子领导是演员，增加整体效率

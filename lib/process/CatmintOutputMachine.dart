@@ -36,7 +36,7 @@ class CatmintOutputMachine extends PartOutputMachine {
     if (Application.gameContext.catProfession.containsKey(CatJob.Farmer) &&
         Application.gameContext.catProfession[CatJob.Farmer] > 0) {
       except += Arith().multiplication(
-          7.5, Application.gameContext.catProfession[CatJob.Farmer] as double);
+          7.5, Application.gameContext.catProfession[CatJob.Farmer].toDouble());
     }
     if (Application.gameContext.leader != null &&
         Application.gameContext.leader.type == CatJob.Farmer) {
@@ -50,8 +50,7 @@ class CatmintOutputMachine extends PartOutputMachine {
   @override
   Map<Object, double> mixTotalOutput(
       Map<Object, double> build, Map<Object, double> cats) {
-    double total =
-        Arith().add(build[FoodResource.catmint], cats[FoodResource.catmint]);
+    double total = Arith().add(build[FoodResource.catmint], cats[FoodResource.catmint]);
     total = Arith().multiplication(total, efficiencyCoefficient);
     Application.gameContext.wareHouse.receiveInfo[FoodResource.catmint] = total;
     return {FoodResource.catmint: total};

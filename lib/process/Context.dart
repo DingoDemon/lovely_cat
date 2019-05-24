@@ -21,7 +21,7 @@ class Context {
   List<Cat> cats;
   int catsLimit; //人口上限
   HashMap<CatJob, int> catProfession; //喵子分工
-  LinkedHashMap<ExpeditionResource, double> expeditions;
+  LinkedHashMap<ExpeditionResource, double> expeditions; //冒险资源
   int gameStartTime;
   Queue<Event> events;
   double saturability; //幸福度
@@ -76,7 +76,7 @@ class WareHouse {
   }
 
   ///消耗资源
-  void consumeResources(HashMap<Object, double> require) {
+  void consumeResources(Map<Object, double> require) {
     require.forEach((object, double) {
       consumeResource(object, double);
     });
@@ -95,13 +95,15 @@ class WareHouse {
   }
 
   ///检查资源是否充分
-  bool resourcesEnough(HashMap<Object, double> require) {
-    require.forEach((object, double) {
-      if (!resourceEnough(object, double)) {
-        return false;
+  bool resourcesEnough(Map<Object, double> require) {
+    bool result = true;
+    for (MapEntry<Object, double> entry in require.entries) {
+      if (!resourceEnough(entry.key, entry.value)) {
+        result = false;
+        break;
       }
-    });
-    return true;
+    }
+    return result;
   }
 
   bool resourceEnough(Object o, double value) {
