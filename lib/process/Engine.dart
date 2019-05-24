@@ -1,5 +1,6 @@
 import 'dart:collection';
 import 'dart:convert';
+import 'dart:math' as math;
 
 import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
@@ -15,9 +16,9 @@ import 'package:lovely_cats/util/FuncUtil.dart';
 import 'package:lovely_cats/widget/Callback.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Engine {
-  double _efficiencyCoefficient; //生产系数
+import 'CatmintOutputMachine.dart';
 
+class Engine {
   static final Engine _singleton = new Engine._internal();
 
   factory Engine() {
@@ -55,27 +56,14 @@ class Engine {
 
   /// 每秒进行一次
   void _perPlanckTime() {
-    //如果喵子领导是leader，增加效率
-    if (Application.gameContext.leader != null &&
-        Application.gameContext.leader.type == CatJob.Leader) {
-      _efficiencyCoefficient = Application.gameContext.leader.happinessOutput *
-          _efficiencyCoefficient;
-    }
-
-    //人口是生产系数的重要影响部分
-    if (Application.gameContext.cats.length > 0) {
-      Application.gameContext.saturability = FuncUtil().saturability(
-          Application.gameContext.cats.length,
-          FuncUtil().happiness(Application.gameContext.expeditions));
-
-      _efficiencyCoefficient = Arith().multiplication(
-          _efficiencyCoefficient, Application.gameContext.saturability);
-    }
-
     _checkSeason();
-    _catmintOutput();
-    _addBuilding();
+    _addShouldShowBuilding();
     _checkEmptyForCat();
+    _machineOutput();
+  }
+
+  void _machineOutput() {
+    CatmintOutputMachine().process();
   }
 
   void _checkEmptyForCat() {
@@ -88,7 +76,7 @@ class Engine {
   }
 
   ///新增建筑
-  void _addBuilding() {
+  void _addShouldShowBuilding() {
     for (BuildingExample example in BuildingExample.values) {
       switch (example) {
         case BuildingExample.catmintField:
@@ -145,42 +133,6 @@ class Engine {
     }
   }
 
-  ///猫薄荷田总体输出
-  void _catmintOutput() {
-    if (Application.gameContext.season == Season.Winter) {
-      Application.gameContext.wareHouse.receiveInfo[FoodResource.catmint] = 0;
-      return;
-    }
-
-    LinkedHashMap building = Application.gameContext.buildings;
-
-    double except = 0;
-    //薄荷田
-    if (building.containsKey(BuildingExample.catmintField) &&
-        building[BuildingExample.catmintField] > 0) {
-      except = CatmintFieldBuilder.instance.output(Application.gameContext);
-
-      if (Application.gameContext.catProfession.containsKey(CatJob.Farmer) &&
-          Application.gameContext.catProfession[CatJob.Farmer] > 0) {
-        except += Arith().multiplication(
-            4, Application.gameContext.catProfession[CatJob.Farmer] as double);
-
-        if (Application.gameContext.season == Season.Fall) {
-          except = Arith().multiplication(except, 1.5);
-        }
-
-        if (Application.gameContext.leader != null &&
-            Application.gameContext.leader.type == CatJob.Farmer) {
-          except = Application.gameContext.leader.agriculturalOutput * except;
-        }
-
-        Application.gameContext.wareHouse.receiveCatmint(except, false);
-      }
-    }
-  }
-
-  void _branchOutput() {}
-
   ///每10秒储存一次
   void _saveContext() async {
     String json = jsonEncode(Application.gameContext);
@@ -205,5 +157,43 @@ class Engine {
             Application.gameContext.wareHouse.foods[FoodResource.catmint], 20);
     Application.gameContext.wareHouse.receiveBranch(1.0, true);
     return true;
+  }
+}
+
+abstract class PartOutputMachine {
+  Map<Object, double> computeBuildOutput();
+
+  Map<Object, double> computeCatOutput();
+
+  Map<Object, double> mixTotalOutput(
+      Map<Object, double> build, Map<Object, double> cats);
+
+  double efficiencyCoefficient; //生产系数
+
+  void process() {
+    //如果喵子领导是演员，增加整体效率
+    if (Application.gameContext.leader != null &&
+        Application.gameContext.leader.type == CatJob.Actor) {
+      double leaderCoefficient =
+          math.pow(1.1, Application.gameContext.leader.level);
+      efficiencyCoefficient =
+          Arith().multiplication(efficiencyCoefficient, leaderCoefficient);
+    }
+
+    //人口是生产系数的重要影响部分
+    if (Application.gameContext.cats.length > 0) {
+      Application.gameContext.saturability = FuncUtil().saturability(
+          Application.gameContext.cats.length,
+          FuncUtil().happiness(Application.gameContext.expeditions));
+
+      efficiencyCoefficient = Arith().multiplication(
+          efficiencyCoefficient, Application.gameContext.saturability);
+    }
+
+    Map<Object, double> buildOutput = computeBuildOutput();
+    Map<Object, double> catOutput = computeCatOutput();
+    mixTotalOutput(buildOutput, catOutput).forEach((object, double) {
+      Application.gameContext.wareHouse.receiveObject(object, double);
+    });
   }
 }

@@ -25,6 +25,7 @@ class Context {
   int gameStartTime;
   Queue<Event> events;
   double saturability; //幸福度
+  List<Handicrafts> things;
 
   Context() {
     age = Age.Chaos;
@@ -36,6 +37,7 @@ class Context {
     catProfession = new HashMap();
     gameStartTime = DateTime.now().millisecondsSinceEpoch;
     events = new Queue();
+    things = List();
   }
 }
 
@@ -73,7 +75,49 @@ class WareHouse {
     }
   }
 
-  ///更新上一秒中收获的资源
+  ///消耗资源
+  void consumeResources(HashMap<Object, double> require) {
+    require.forEach((object, double) {
+      consumeResource(object, double);
+    });
+  }
+
+  void consumeResource(Object o, double require) {
+    if (o is FoodResource) {
+      foods[o] -= require;
+    }
+    if (o is BuildingResource) {
+      buildingMaterials[o] -= require;
+    }
+    if (o is PointResource) {
+      points[o] -= require;
+    }
+  }
+
+  ///检查资源是否充分
+  bool resourcesEnough(HashMap<Object, double> require) {
+    require.forEach((object, double) {
+      if (!resourceEnough(object, double)) {
+        return false;
+      }
+    });
+    return true;
+  }
+
+  bool resourceEnough(Object o, double value) {
+    if (o is FoodResource) {
+      return foods[o] >= value;
+    }
+    if (o is BuildingResource) {
+      return buildingMaterials[o] >= value;
+    }
+    if (o is PointResource) {
+      return points[o] >= value;
+    }
+    return true;
+  }
+
+  ///更新上一秒中[收获的资源]数值
   void updateObjectReceive(Object o, double) {
     receiveInfo[o] = double;
   }
@@ -155,7 +199,37 @@ class WareHouse {
     }
   }
 
-  void receiveEvent(Event e){
-
+  void receiveObject(Object o, double v) {
+    if (o is FoodResource) {
+      switch (o) {
+        case FoodResource.catmint:
+          receiveCatmint(v, false);
+          break;
+      }
+    } else if (o is BuildingResource) {
+      switch (o) {
+        case BuildingResource.branch:
+          receiveBranch(v, false);
+          break;
+        case BuildingResource.beam:
+          // TODO: Handle this case.
+          break;
+        case BuildingResource.stone:
+          // TODO: Handle this case.
+          break;
+        case BuildingResource.iron:
+          // TODO: Handle this case.
+          break;
+        case BuildingResource.steel:
+          // TODO: Handle this case.
+          break;
+        case BuildingResource.cement:
+          // TODO: Handle this case.
+          break;
+        case BuildingResource.gold:
+          // TODO: Handle this case.
+          break;
+      }
+    }
   }
 }

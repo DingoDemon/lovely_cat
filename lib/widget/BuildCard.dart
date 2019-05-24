@@ -57,7 +57,7 @@ class _BuildCardStates extends State<BuildCard> implements Callback {
 
     ///所需资源
     List<MapEntry<Object, double>> list =
-        builder.buildResource.entries.toList();
+        builder.originBuildResource.entries.toList();
     return Material(
       elevation: 5,
       type: MaterialType.transparency,
@@ -92,7 +92,7 @@ class _BuildCardStates extends State<BuildCard> implements Callback {
                     child: Text(
                       '${EnumCovert().getEnumName(list[index].key)} :'
                       ' ${Application.gameContext.wareHouse.getItemReserves(list[index].key)} / '
-                      '${builder.buildResource[list[index].key]}',
+                      '${builder.originBuildResource[list[index].key]}',
                       style: TextStyle(
                           color: EnumCovert().getEnumShowColor(list[index].key),
                           fontSize: 14,

@@ -46,7 +46,6 @@ class CatsManagerState extends State<CatsManagerPage> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Text("农夫喵"),
-
         ],
       );
     } else {

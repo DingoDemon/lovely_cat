@@ -107,7 +107,7 @@ class _ChaosDialogState extends State<ChaosDialog> {
             double value = Engine().pickSomeCatmint();
             Fluttertoast.showToast(
                 msg:
-                    "从林子里采集到里$value猫薄荷,${CatmintFieldBuilder.instance.getNecessaryTip(Application.gameContext)}",
+                    "从林子里采集到里$value猫薄荷",
                 toastLength: Toast.LENGTH_SHORT,
                 gravity: ToastGravity.BOTTOM,
                 timeInSecForIos: 1,
@@ -137,7 +137,7 @@ class _ChaosDialogState extends State<ChaosDialog> {
                 double value = Engine().pickSomeCatmint();
                 Fluttertoast.showToast(
                     msg:
-                        "从林子里采集到里$value猫薄荷,${CatmintFieldBuilder.instance.getNecessaryTip(Application.gameContext)}",
+                        "从林子里采集到里$value猫薄荷",
                     toastLength: Toast.LENGTH_SHORT,
                     gravity: ToastGravity.BOTTOM,
                     timeInSecForIos: 1,

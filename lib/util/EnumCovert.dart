@@ -106,7 +106,7 @@ class EnumCovert {
         return "它的工作就是找到好吃的并吃掉";
       case CatJob.Craftsman:
         return "它说，铸铁需要七七四十八道工序";
-      case CatJob.Leader:
+      case CatJob.Actor:
         return "它的偶像是辛巴";
       case CatJob.Oracle:
         return "它遇事不决的时候，就会请教喵喵神";
@@ -114,7 +114,7 @@ class EnumCovert {
         return "它对世间万物具有强烈的好奇心";
       case CatJob.Hunter:
         return "狩猎哪里是为了生存，更重要的是抓住猎物的满足感";
-      case CatJob.faller:
+      case CatJob.Faller:
         return "嘿哟嘿哟嘿哟喵～!";
       case CatJob.Miner:
         return '咦呀!!咦呀!!又一块';
@@ -127,13 +127,13 @@ class EnumCovert {
         return "农学喵";
       case CatJob.Craftsman:
         return "工匠喵";
-      case CatJob.Leader:
+      case CatJob.Actor:
         return "领导喵";
       case CatJob.Oracle:
         return "祭祀喵";
       case CatJob.Scholar:
         return "学者喵";
-      case CatJob.faller:
+      case CatJob.Faller:
         return '砍树喵';
       case CatJob.Hunter:
         return '猎喵';
@@ -178,6 +178,13 @@ class EnumCovert {
         return "冷飕飕的冬天";
       default:
         return "";
+    }
+  }
+
+  String getHandicraftsName(Handicrafts h) {
+    switch (h) {
+      case Handicrafts.zax:
+        return "石斧";
     }
   }
 

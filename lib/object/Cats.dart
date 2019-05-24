@@ -15,13 +15,7 @@ class Cat implements CatInterface {
   CatJob type;
   BloodLines bloodLines;
   String dec;
-
-  //各项系数
-  double agriculturalOutput = 1;
-  double happinessOutput = 1;
-  double industryOutput = 1;
-  double scienceOutput = 1;
-  double religionOutput = 1;
+  int level;
 
   factory Cat(Age age) {
     int i;
@@ -38,25 +32,19 @@ class Cat implements CatInterface {
     switch (i) {
       case 0:
         cat.type = CatJob.Farmer;
-        cat.agriculturalOutput = Const.CAT_DEFAULT_SKILL;
         break;
       case 1:
-        cat.type = CatJob.Leader;
-        cat.happinessOutput = Const.CAT_DEFAULT_SKILL;
+        cat.type = CatJob.Faller;
         break;
       case 2:
         cat.type = CatJob.Craftsman;
-        cat.industryOutput = Const.CAT_DEFAULT_SKILL;
         break;
       case 3:
         cat.type = CatJob.Scholar;
-        cat.scienceOutput = Const.CAT_DEFAULT_SKILL;
         break;
       case 4:
         cat.type = CatJob.Oracle;
-        cat.religionOutput = Const.CAT_DEFAULT_SKILL;
         break;
-      default:
     }
 
     cat.name = faker.person.name();
@@ -68,24 +56,7 @@ class Cat implements CatInterface {
   }
 
   void levelUp() {
-    switch (type) {
-      case CatJob.Farmer:
-        this.agriculturalOutput = Arith().multiplication(agriculturalOutput, 2);
-        break;
-      case CatJob.Craftsman:
-        industryOutput = Arith().multiplication(industryOutput, 1.5);
-        break;
-      case CatJob.Leader:
-        happinessOutput = Arith().multiplication(happinessOutput, 1.1);
-        break;
-      case CatJob.Oracle:
-        religionOutput = Arith().multiplication(religionOutput, 1.5);
-        break;
-      case CatJob.Scholar:
-        scienceOutput = Arith().multiplication(scienceOutput, 1.5);
-        break;
-      default:
-    }
+    level++;
   }
 }
 

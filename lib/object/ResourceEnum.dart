@@ -48,14 +48,22 @@ enum ExpeditionResource {
 }
 
 enum CatJob {
-  Leader, //领导，快乐产出
   Farmer, //农民
+  Faller, //伐木工
+
+  Miner, //矿工
+  Hunter, //猎人
+
   Craftsman, //手工艺人
   Scholar, //学者
-  Hunter, //猎人
-  faller, //伐木工
+
   Oracle, //先知
-  Miner //矿工
+  Actor, //演员，快乐产出
+
+}
+
+enum Handicrafts {
+  zax, //石斧
 }
 
 //神祇
