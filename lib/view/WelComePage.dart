@@ -7,6 +7,7 @@ import 'package:lovely_cats/process/Context.dart';
 import 'package:gif_ani/gif_ani.dart';
 import 'package:lovely_cats/process/Engine.dart';
 import 'package:lovely_cats/route/routes.dart';
+import 'package:lovely_cats/util/FuncUtil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:math' as math;
 
@@ -69,8 +70,10 @@ class WelComeStates extends State<WelcomePage> with TickerProviderStateMixin {
 
     scaleAnimation.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
-        Context game = new Context();
-        Application.gameContext = game;
+        if (Application.gameContext == null) {
+          Context game = new Context();
+          Application.gameContext = game;
+        }
         Navigator.pop(context);
         Application.router.navigateTo(
           context,
@@ -127,7 +130,64 @@ class WelComeStates extends State<WelcomePage> with TickerProviderStateMixin {
       );
     } else {
       if (hasFile) {
-        return Text("");
+        gifAnimationController.forward();
+        return Scaffold(
+            backgroundColor: Colors.white,
+            appBar: AppBar(
+              title: Text("喵唔，你回来啦"),
+            ),
+            body: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(top: 40),
+                  padding: EdgeInsets.all(30),
+                  child: FadeTransition(
+                    opacity: alphaAnimation,
+                    child: GifAnimation(
+                      image: AssetImage("images/doubt.gif"),
+                      controller: gifController,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                    child: Text(
+                      '${FuncUtil().getGameTitle(Application.gameContext)},${Application.gameContext.cats.length} 只小猫',
+                      style: TextStyle(fontFamily: 'Miao', fontSize: 24),
+                    ),
+                  ),
+                  flex: 1,
+                ),
+                Expanded(
+                  child: Center(
+                    child: new Container(
+                      margin: EdgeInsets.only(bottom: 30),
+                      height:
+                          scaleAnimation.value < 0 ? 0 : scaleAnimation.value,
+                      width:
+                          scaleAnimation.value < 0 ? 0 : scaleAnimation.value,
+                      child: RaisedButton(
+                        child: Text(buttonText,
+                            style: TextStyle(
+                                fontFamily: 'Miao',
+                                fontSize: buttonTextScaleAnimation.value)),
+                        color: Theme.of(context).accentColor,
+                        elevation: 4.0,
+                        textColor: Colors.white,
+                        splashColor: Colors.blueGrey,
+                        onPressed: () {
+                          buttonController.forward();
+                        },
+                        shape: CircleBorder(),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ));
       } else {
         gifAnimationController.forward();
         return Scaffold(
@@ -203,6 +263,7 @@ class WelComeStates extends State<WelcomePage> with TickerProviderStateMixin {
     } else {
       try {
         Context context = jsonDecode(json) as Context;
+        Application.gameContext = context;
         changePage(context != null);
       } on Exception {
         return null;

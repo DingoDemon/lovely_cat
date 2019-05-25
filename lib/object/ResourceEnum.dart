@@ -1,3 +1,4 @@
+
 //食物资源
 enum FoodResource { catmint }
 

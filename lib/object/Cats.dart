@@ -17,6 +17,25 @@ class Cat implements CatInterface {
   String dec;
   int level;
 
+  Map<String, dynamic> toJson() => {
+    'age': age,
+    'name': name,
+    'exp': exp,
+    'type': type,
+    'BloodLines': BloodLines,
+    'level': level,
+    'dec': dec,
+  };
+
+  Cat.fromJSON(Map json)
+      : age = json['age'],
+        name = json['name'],
+        exp = json['exp'],
+        type = json['type'],
+        bloodLines = json['bloodLines'],
+        dec = json['dec'],
+        level = json['level'];
+
   factory Cat(Age age) {
     int i;
 
@@ -51,7 +70,7 @@ class Cat implements CatInterface {
     cat.exp = 0;
     cat.bloodLines = FuncUtil().getCatBlood();
     cat.dec =
-        '${cat.name} 是一只 ${EnumCovert().getBloodName(cat.bloodLines)} , ${EnumCovert().getAmbition(cat.type)}';
+    '${cat.name} 是一只 ${EnumCovert().getBloodName(cat.bloodLines)} , ${EnumCovert().getAmbition(cat.type)}';
     return cat;
   }
 

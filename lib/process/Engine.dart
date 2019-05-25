@@ -13,6 +13,7 @@ import 'package:lovely_cats/process/Context.dart';
 import 'package:lovely_cats/util/Arith.dart';
 import 'package:lovely_cats/util/EnumCovert.dart';
 import 'package:lovely_cats/util/FuncUtil.dart';
+import 'package:lovely_cats/util/shared_preferences.dart';
 import 'package:lovely_cats/widget/Callback.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -46,6 +47,7 @@ class Engine {
     if (passTimes < Const.PASS_TIME_COUNT) {
       passTimes++;
     } else {
+      _saveContext();
       passTimes = 0;
     }
     _perPlanckTime();
@@ -69,9 +71,12 @@ class Engine {
   void _checkEmptyForCat() {
     if (Application.gameContext.cats.length <
             Application.gameContext.catsLimit &&
-        FuncUtil().getRandom(20) == 1) {
+        FuncUtil().getRandom(5 * Application.gameContext.catsLimit) == 1) {
       Cat cat = Cat(Application.gameContext.age);
       Application.gameContext.cats.add(cat);
+      for (Callback callback in _callbacks) {
+        callback.receiveACat(cat);
+      }
     }
   }
 
@@ -135,9 +140,9 @@ class Engine {
 
   ///每10秒储存一次
   void _saveContext() async {
-    String json = jsonEncode(Application.gameContext);
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString(Const.CONTEXT, json);
+    String json = jsonEncode(Application.gameContext.toJson());
+    SpUtil sp = await SpUtil.getInstance();
+    sp.putString(Const.CONTEXT, json);
   }
 
   ///手动操作，采一点猫薄荷

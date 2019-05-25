@@ -23,7 +23,7 @@ class InformationState extends State<InformationPage> {
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(30.0))),
             child: Container(
-                child: Application.gameContext.events.isEmpty
+                child: true
                     ? Center(
                         child: Text("今日无事",
                             style: TextStyle(

@@ -1,29 +1,20 @@
 import 'dart:collection';
-import 'dart:convert';
-import 'dart:math' as math;
 import 'package:common_utils/common_utils.dart';
-import 'package:decimal/decimal.dart';
-import 'package:lovely_cats/application.dart';
-import 'package:lovely_cats/object/Building.dart';
 import 'package:lovely_cats/object/Cats.dart';
-import 'package:lovely_cats/Const.dart';
-import 'package:lovely_cats/object/RandomEvent.dart';
 import 'package:lovely_cats/object/ResourceEnum.dart';
 import 'package:lovely_cats/util/Arith.dart';
-import 'package:lovely_cats/util/EnumCovert.dart';
 
 class Context {
   Age age;
   Season season;
   Cat leader;
   WareHouse wareHouse; //仓库
-  LinkedHashMap<BuildingExample, int> buildings; //建筑
+  HashMap<BuildingExample, int> buildings; //建筑
   List<Cat> cats;
   int catsLimit; //人口上限
   HashMap<CatJob, int> catProfession; //喵子分工
   LinkedHashMap<ExpeditionResource, double> expeditions; //冒险资源
   int gameStartTime;
-  Queue<Event> events;
   double saturability; //幸福度
   List<Handicrafts> things;
 
@@ -31,14 +22,42 @@ class Context {
     age = Age.Chaos;
     season = Season.Winter;
     wareHouse = new WareHouse();
-    buildings = new LinkedHashMap();
+    buildings = new HashMap();
     cats = new List();
     catsLimit = 0;
     catProfession = new HashMap();
     gameStartTime = DateTime.now().millisecondsSinceEpoch;
-    events = new Queue();
     things = List();
   }
+
+  Map<String, dynamic> toJson() => {
+        'age': age,
+        'season': season,
+        'leader': leader,
+        'wareHouse': wareHouse,
+        'buildings': buildings,
+        'cats': cats,
+        'catsLimit': catsLimit,
+        'catProfession': catProfession,
+        'expeditions': expeditions,
+        'gameStartTime': gameStartTime,
+        'saturability': saturability,
+        'things': things,
+      };
+
+  Context.fromJSON(Map json)
+      : age = json['age'],
+        season = json['season'],
+        leader = json['leader'],
+        wareHouse = json['wareHouse'],
+        buildings = json['buildings'],
+        cats = json['cats'],
+        catsLimit = json['catsLimit'],
+        catProfession = json['catProfession'],
+        expeditions = json['expeditions'],
+        gameStartTime = json['gameStartTime'],
+        saturability = json['saturability'],
+        things = json['things'];
 }
 
 class WareHouse {
@@ -57,6 +76,27 @@ class WareHouse {
   WareHouse() {
     init();
   }
+
+  Map<String, dynamic> toJson() => {
+        'foods': foods,
+        'foodsLimit': foodsLimit,
+        'buildingMaterials': buildingMaterials,
+        'buildingMaterialsLimit': buildingMaterialsLimit,
+        'points': points,
+        'pointsLimit': pointsLimit,
+        'receiveInfo': receiveInfo,
+        'showItem': showItem,
+      };
+
+  WareHouse.fromJSON(Map json)
+      : showItem = json['showItem'],
+        receiveInfo = json['season'],
+        pointsLimit = json['pointsLimit'],
+        points = json['points'],
+        buildingMaterialsLimit = json['buildingMaterialsLimit'],
+        buildingMaterials = json['buildingMaterials'],
+        foodsLimit = json['foodsLimit'],
+        foods = json['foods'];
 
   void init() {
     List<FoodResource> food = FoodResource.values;

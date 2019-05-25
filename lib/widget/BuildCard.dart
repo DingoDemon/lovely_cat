@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lovely_cats/application.dart';
 import 'package:lovely_cats/object/Building.dart';
+import 'package:lovely_cats/object/Cats.dart';
 import 'package:lovely_cats/object/ResourceEnum.dart';
 import 'package:lovely_cats/process/Engine.dart';
 import 'package:lovely_cats/util/EnumCovert.dart';
@@ -141,4 +142,11 @@ class _BuildCardStates extends State<BuildCard> implements Callback {
   void callBack() {
     setState(() {});
   }
+
+  @override
+  void receiveACat(Cat c) {
+  }
+
+
+
 }

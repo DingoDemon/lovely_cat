@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lovely_cats/Const.dart';
 import 'package:lovely_cats/application.dart';
+import 'package:lovely_cats/object/Cats.dart';
 import 'package:lovely_cats/process/Engine.dart';
 import 'package:lovely_cats/util/EnumCovert.dart';
 import 'package:lovely_cats/util/FuncUtil.dart';
@@ -154,6 +155,14 @@ class GamePageStates extends State<GamePage>
     setState(() {
       pages = GamePageRow();
     });
+  }
+
+  @override
+  void receiveACat(Cat c) {
+    Scaffold.of(context).showSnackBar(SnackBar(
+      content: Text(c.dec),
+      duration: Duration(seconds: 2),
+    ));
   }
 }
 
