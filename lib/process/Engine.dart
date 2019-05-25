@@ -47,6 +47,8 @@ class Engine {
     if (passTimes < Const.PASS_TIME_COUNT) {
       passTimes++;
     } else {
+      Cat cat = Cat(Application.gameContext.age);
+      Application.gameContext.cats.add(cat);
       _saveContext();
       passTimes = 0;
     }

@@ -25,7 +25,6 @@ dependencies:
   shared_preferences: ^0.5.2
   faker: ^1.0.1
   common_utils: 1.1.1
-  gif_ani: ^0.0.2
   fluro: ^1.4.0
   fluttertoast: ^3.0.4
   flutter_speed_dial: ^1.1.2

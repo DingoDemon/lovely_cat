@@ -15,7 +15,7 @@ class CatmintOutputMachine extends PartOutputMachine {
     if (Application.gameContext.season == Season.Winter) {
       return output;
     } else {
-      HashMap building = Application.gameContext.buildings;
+      Map building = Application.gameContext.buildings;
       double except = 0;
       //薄荷田
       if (building.containsKey(BuildingExample.catmintField) &&

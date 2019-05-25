@@ -18,14 +18,19 @@ class Cat implements CatInterface {
   int level;
 
   Map<String, dynamic> toJson() => {
-    'age': age,
-    'name': name,
-    'exp': exp,
-    'type': type,
-    'BloodLines': BloodLines,
-    'level': level,
-    'dec': dec,
-  };
+        'age': age,
+        'name': name,
+        'exp': exp,
+        'type': type,
+        'BloodLines': BloodLines,
+        'level': level,
+        'dec': dec,
+      };
+
+  @override
+  String toString() {
+    return 'Cat{name: $name, exp: $exp, age: $age, type: $type, bloodLines: $bloodLines, dec: $dec, level: $level}';
+  }
 
   Cat.fromJSON(Map json)
       : age = json['age'],
@@ -36,10 +41,8 @@ class Cat implements CatInterface {
         dec = json['dec'],
         level = json['level'];
 
-  factory Cat(Age age) {
+  Cat(Age age) {
     int i;
-
-    Cat cat = new Cat(age);
     Faker faker = new Faker();
     if (age == Age.Chaos) {
       i = FuncUtil().getRandom(1);
@@ -48,30 +51,30 @@ class Cat implements CatInterface {
     } else if (age == Age.Feudal) {
       i = FuncUtil().getRandom(4);
     }
+    this.age = age;
     switch (i) {
       case 0:
-        cat.type = CatJob.Farmer;
+        type = CatJob.Farmer;
         break;
       case 1:
-        cat.type = CatJob.Faller;
+        type = CatJob.Faller;
         break;
       case 2:
-        cat.type = CatJob.Craftsman;
+        type = CatJob.Craftsman;
         break;
       case 3:
-        cat.type = CatJob.Scholar;
+        type = CatJob.Scholar;
         break;
       case 4:
-        cat.type = CatJob.Oracle;
+        type = CatJob.Oracle;
         break;
     }
 
-    cat.name = faker.person.name();
-    cat.exp = 0;
-    cat.bloodLines = FuncUtil().getCatBlood();
-    cat.dec =
-    '${cat.name} 是一只 ${EnumCovert().getBloodName(cat.bloodLines)} , ${EnumCovert().getAmbition(cat.type)}';
-    return cat;
+    name = faker.person.name();
+    exp = 0;
+    bloodLines = FuncUtil().getCatBlood();
+    dec =
+        '${name} 是一只 ${EnumCovert().getBloodName(bloodLines)} , ${EnumCovert().getAmbition(type)}';
   }
 
   void levelUp() {

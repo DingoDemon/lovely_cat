@@ -1,19 +1,23 @@
 import 'dart:collection';
+import 'dart:convert';
 import 'package:common_utils/common_utils.dart';
 import 'package:lovely_cats/object/Cats.dart';
 import 'package:lovely_cats/object/ResourceEnum.dart';
+import 'package:lovely_cats/object/ResourceEnum.dart';
 import 'package:lovely_cats/util/Arith.dart';
+import 'package:lovely_cats/util/EnumCovert.dart';
+import 'package:lovely_cats/util/FuncUtil.dart';
 
 class Context {
   Age age;
   Season season;
   Cat leader;
   WareHouse wareHouse; //仓库
-  HashMap<BuildingExample, int> buildings; //建筑
+  Map<BuildingExample, int> buildings; //建筑
   List<Cat> cats;
   int catsLimit; //人口上限
-  HashMap<CatJob, int> catProfession; //喵子分工
-  LinkedHashMap<ExpeditionResource, double> expeditions; //冒险资源
+  Map<CatJob, int> catProfession; //喵子分工
+  Map<ExpeditionResource, double> expeditions; //冒险资源
   int gameStartTime;
   double saturability; //幸福度
   List<Handicrafts> things;
@@ -22,81 +26,105 @@ class Context {
     age = Age.Chaos;
     season = Season.Winter;
     wareHouse = new WareHouse();
-    buildings = new HashMap();
+    buildings = new Map();
     cats = new List();
     catsLimit = 0;
-    catProfession = new HashMap();
+    catProfession = new Map();
     gameStartTime = DateTime.now().millisecondsSinceEpoch;
     things = List();
+    saturability = 0;
   }
 
   Map<String, dynamic> toJson() => {
-        'age': age,
-        'season': season,
-        'leader': leader,
-        'wareHouse': wareHouse,
-        'buildings': buildings,
-        'cats': cats,
+        'age': age.toString(),
+        'season': season.toString(),
+        'leader': leader.toString(),
+        'wareHouse': wareHouse.toJson(),
+        'buildings': new JsonEncoder().convert(covertToStringMapInt(buildings)),
+        'cats': cats.toString(),
         'catsLimit': catsLimit,
-        'catProfession': catProfession,
+        'catProfession':
+            new JsonEncoder().convert(covertToStringMapInt(catProfession)),
         'expeditions': expeditions,
         'gameStartTime': gameStartTime,
         'saturability': saturability,
-        'things': things,
+        'things': things.toString(),
       };
 
   Context.fromJSON(Map json)
-      : age = json['age'],
-        season = json['season'],
-        leader = json['leader'],
-        wareHouse = json['wareHouse'],
-        buildings = json['buildings'],
-        cats = json['cats'],
+      : age = getAgeFromJson(json['age']),
+        season = getSeasonFromJson(json['season']),
+        leader = json['leader'] == "null"
+            ? null
+            : Cat.fromJSON(new JsonDecoder().convert(json['leader'])),
+        wareHouse = WareHouse.fromJSON(json['wareHouse']),
+        buildings = covertToBuildingExampleMap(covertToObjectMapInt(
+            new JsonDecoder().convert(json['buildings'])
+                as Map<String, dynamic>)),
+        cats = json['cats'] == '[]'
+            ? []
+            : json['cats'].map((value) => new Cat.fromJSON(jsonDecode(value))).toList(),
         catsLimit = json['catsLimit'],
-        catProfession = json['catProfession'],
-        expeditions = json['expeditions'],
+        catProfession = covertToCatJobMap(covertToObjectMapInt(new JsonDecoder()
+            .convert(json['catProfession']) as Map<String, dynamic>)),
+        expeditions = covertToExpeditionResourceMap(covertToObjectMap(
+            new JsonDecoder().convert(json['expeditions'])
+                as Map<String, dynamic>)),
         gameStartTime = json['gameStartTime'],
         saturability = json['saturability'],
         things = json['things'];
 }
 
 class WareHouse {
-  LinkedHashMap<FoodResource, double> foods = LinkedHashMap();
-  LinkedHashMap<FoodResource, double> foodsLimit = LinkedHashMap();
-  LinkedHashMap<BuildingResource, double> buildingMaterials = LinkedHashMap();
-  LinkedHashMap<BuildingResource, double> buildingMaterialsLimit =
-      LinkedHashMap();
-  LinkedHashMap<PointResource, double> points = LinkedHashMap();
-  LinkedHashMap<PointResource, double> pointsLimit = LinkedHashMap();
+  Map<FoodResource, double> foods = Map();
+  Map<FoodResource, double> foodsLimit = Map();
+  Map<BuildingResource, double> buildingMaterials = Map();
+  Map<BuildingResource, double> buildingMaterialsLimit = Map();
+  Map<PointResource, double> points = Map();
+  Map<PointResource, double> pointsLimit = Map();
 
-  LinkedHashMap<Object, double> receiveInfo = LinkedHashMap();
+  Map<Object, double> receiveInfo = Map();
 
-  HashSet<Object> showItem = HashSet();
+  Map<Object, double> showItem = Map();
 
   WareHouse() {
     init();
   }
 
   Map<String, dynamic> toJson() => {
-        'foods': foods,
-        'foodsLimit': foodsLimit,
-        'buildingMaterials': buildingMaterials,
-        'buildingMaterialsLimit': buildingMaterialsLimit,
-        'points': points,
-        'pointsLimit': pointsLimit,
-        'receiveInfo': receiveInfo,
-        'showItem': showItem,
+        'foods': new JsonEncoder().convert(covertToStringMap(foods)),
+        'foodsLimit': new JsonEncoder().convert(covertToStringMap(foodsLimit)),
+        'buildingMaterials':
+            new JsonEncoder().convert(covertToStringMap(buildingMaterials)),
+        'buildingMaterialsLimit': new JsonEncoder()
+            .convert(covertToStringMap(buildingMaterialsLimit)),
+        'points': new JsonEncoder().convert(covertToStringMap(points)),
+        'pointsLimit':
+            new JsonEncoder().convert(covertToStringMap(pointsLimit)),
+        'receiveInfo':
+            new JsonEncoder().convert(covertToStringMap(receiveInfo)),
+        'showItem': new JsonEncoder().convert(covertToStringMap(showItem)),
       };
 
   WareHouse.fromJSON(Map json)
-      : showItem = json['showItem'],
-        receiveInfo = json['season'],
-        pointsLimit = json['pointsLimit'],
-        points = json['points'],
-        buildingMaterialsLimit = json['buildingMaterialsLimit'],
-        buildingMaterials = json['buildingMaterials'],
-        foodsLimit = json['foodsLimit'],
-        foods = json['foods'];
+      : receiveInfo = covertToObjectMap(new JsonDecoder()
+            .convert(json['receiveInfo']) as Map<String, dynamic>),
+        pointsLimit = covertToPointMap(covertToObjectMap(new JsonDecoder()
+            .convert(json['pointsLimit']) as Map<String, dynamic>)),
+        points = covertToPointMap(covertToObjectMap(
+            new JsonDecoder().convert(json['points']) as Map<String, dynamic>)),
+        buildingMaterialsLimit = covertToBuildingResourceMap(covertToObjectMap(
+            new JsonDecoder().convert(json['buildingMaterialsLimit'])
+                as Map<String, dynamic>)),
+        buildingMaterials = covertToBuildingResourceMap(covertToObjectMap(
+            new JsonDecoder().convert(json['buildingMaterials'])
+                as Map<String, dynamic>)),
+        foodsLimit = covertToFoodResourceMap(covertToObjectMap(new JsonDecoder()
+            .convert(json['foodsLimit']) as Map<String, dynamic>)),
+        foods = covertToFoodResourceMap(covertToObjectMap(
+            new JsonDecoder().convert(json['foods']) as Map<String, dynamic>)),
+        showItem = covertToObjectMap(new JsonDecoder().convert(json['showItem'])
+            as Map<String, dynamic>);
 
   void init() {
     List<FoodResource> food = FoodResource.values;
@@ -169,21 +197,25 @@ class WareHouse {
   ///获取所有item
   List<Object> getShowItems() {
     foods.forEach((key, value) {
-      if (value != null && value > 0) {
-        showItem.add(key);
+      if (value != null && value > 0 && !showItem.containsKey(key)) {
+        showItem[key] = -1;
       }
     });
     buildingMaterials.forEach((key, value) {
       if (value != null && value > 0) {
-        showItem.add(key);
+        showItem[key] = -1;
       }
     });
     points.forEach((key, value) {
       if (value != null && value > 0) {
-        showItem.add(key);
+        showItem[key] = -1;
       }
     });
-    return showItem.toList();
+    List<Object> result = [];
+    showItem.forEach((o, v) {
+      result.add(o);
+    });
+    return result;
   }
 
   ///获取仓库资源存量
@@ -281,4 +313,102 @@ class WareHouse {
       }
     }
   }
+}
+
+Map<Object, double> covertToObjectMap(Map<String, dynamic> origin) {
+  Map<Object, double> result = Map();
+  origin.forEach((s, v) {
+    double d = v;
+    result[getFromString(s)] = d;
+  });
+
+  return result;
+}
+
+Map<Object, int> covertToObjectMapInt(Map<String, dynamic> origin) {
+  Map<Object, int> result = Map();
+  origin.forEach((s, v) {
+    int i = v;
+    result[getFromString(s)] = i;
+  });
+
+  return result;
+}
+
+Map<String, double> covertToStringMap(Map<Object, double> origin) {
+  Map<String, double> result = Map();
+  origin.forEach((o, v) {
+    result[o.toString()] = v;
+  });
+
+  return result;
+}
+
+Map<String, int> covertToStringMapInt(Map<Object, int> origin) {
+  Map<String, int> result = Map();
+  origin.forEach((o, v) {
+    result[o.toString()] = v;
+  });
+
+  return result;
+}
+
+Map<PointResource, double> covertToPointMap(Map<Object, double> origin) {
+  Map<PointResource, double> result = Map();
+  origin.forEach((o, v) {
+    result[o as PointResource] = v;
+  });
+
+  return result;
+}
+
+Map<BuildingResource, double> covertToBuildingResourceMap(
+    Map<Object, double> origin) {
+  Map<BuildingResource, double> result = Map();
+  origin.forEach((o, v) {
+    result[o as BuildingResource] = v;
+  });
+
+  return result;
+}
+
+Map<FoodResource, double> covertToFoodResourceMap(Map<Object, double> origin) {
+  Map<FoodResource, double> result = Map();
+  origin.forEach((o, v) {
+    result[o as FoodResource] = v;
+  });
+  return result;
+}
+
+Map<BuildingExample, int> covertToBuildingExampleMap(Map<Object, int> origin) {
+  Map<BuildingExample, int> result = Map();
+  origin.forEach((o, v) {
+    result[o as BuildingExample] = v;
+  });
+  return result;
+}
+
+Map<CatJob, int> covertToCatJobMap(Map<Object, int> origin) {
+  Map<CatJob, int> result = Map();
+  origin.forEach((o, v) {
+    result[o as CatJob] = v;
+  });
+  return result;
+}
+
+Map<ExpeditionResource, double> covertToExpeditionResourceMap(
+    Map<Object, double> origin) {
+  Map<ExpeditionResource, double> result = Map();
+  origin.forEach((o, v) {
+    result[o as ExpeditionResource] = v;
+  });
+  return result;
+}
+
+List<String> covertListToStringList(List<Object> origin) {
+  List<String> result = [];
+  origin.forEach((o) {
+    result.add(o.toString());
+  });
+  return result;
 }

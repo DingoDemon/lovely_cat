@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:lovely_cats/application.dart';
 import 'package:lovely_cats/Const.dart';
 import 'package:lovely_cats/process/Context.dart';
-import 'package:gif_ani/gif_ani.dart';
 import 'package:lovely_cats/process/Engine.dart';
 import 'package:lovely_cats/route/routes.dart';
 import 'package:lovely_cats/util/FuncUtil.dart';
@@ -19,7 +18,6 @@ class WelcomePage extends StatefulWidget {
 }
 
 class WelComeStates extends State<WelcomePage> with TickerProviderStateMixin {
-  GifController gifController;
   AnimationController gifAnimationController;
   AnimationController buttonController;
 
@@ -38,8 +36,6 @@ class WelComeStates extends State<WelcomePage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    gifController = GifController(
-        vsync: this, frameCount: 12, duration: Duration(milliseconds: 930));
     gifAnimationController = new AnimationController(
         vsync: this, duration: Duration(milliseconds: 2500));
     buttonController = AnimationController(
@@ -48,7 +44,6 @@ class WelComeStates extends State<WelcomePage> with TickerProviderStateMixin {
       begin: 0.0,
       end: 1.0,
     ).animate(gifAnimationController);
-    startWelcomeGif();
     Future.delayed(Duration(seconds: 2), () {
       getContext();
     });
@@ -101,7 +96,6 @@ class WelComeStates extends State<WelcomePage> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    gifController.dispose();
     gifAnimationController.dispose();
     buttonController.dispose();
     super.dispose();
@@ -122,9 +116,8 @@ class WelComeStates extends State<WelcomePage> with TickerProviderStateMixin {
       return Container(
         decoration: BoxDecoration(color: Colors.white),
         child: Center(
-          child: GifAnimation(
+          child: Image(
             image: AssetImage("images/welcome.gif"),
-            controller: gifController,
           ),
         ),
       );
@@ -145,9 +138,8 @@ class WelComeStates extends State<WelcomePage> with TickerProviderStateMixin {
                   padding: EdgeInsets.all(30),
                   child: FadeTransition(
                     opacity: alphaAnimation,
-                    child: GifAnimation(
+                    child: Image(
                       image: AssetImage("images/doubt.gif"),
-                      controller: gifController,
                     ),
                   ),
                 ),
@@ -204,9 +196,8 @@ class WelComeStates extends State<WelcomePage> with TickerProviderStateMixin {
                   padding: EdgeInsets.all(30),
                   child: FadeTransition(
                     opacity: alphaAnimation,
-                    child: GifAnimation(
+                    child: Image(
                       image: AssetImage("images/doubt.gif"),
-                      controller: gifController,
                     ),
                   ),
                 ),
@@ -251,10 +242,6 @@ class WelComeStates extends State<WelcomePage> with TickerProviderStateMixin {
     }
   }
 
-  void startWelcomeGif() {
-    gifController.repeat(period: Duration(milliseconds: 930));
-  }
-
   void getContext() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String json = prefs.get(Const.CONTEXT);
@@ -262,7 +249,7 @@ class WelComeStates extends State<WelcomePage> with TickerProviderStateMixin {
       changePage(false);
     } else {
       try {
-        Context context = jsonDecode(json) as Context;
+        Context context = Context.fromJSON(jsonDecode(json));
         Application.gameContext = context;
         changePage(context != null);
       } on Exception {

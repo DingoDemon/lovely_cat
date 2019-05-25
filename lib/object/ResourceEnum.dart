@@ -1,6 +1,13 @@
-
 //食物资源
 enum FoodResource { catmint }
+
+FoodResource getFoodResourceFromJson(String s) {
+  for (FoodResource element in FoodResource.values) {
+    if (element.toString() == s || 'FoodResource.${element.toString()}' == s)
+      return element;
+  }
+  return null;
+}
 
 //建筑资源
 enum BuildingResource {
@@ -13,10 +20,26 @@ enum BuildingResource {
   gold
 }
 
+BuildingResource getBuildingResourceFromJson(String s) {
+  for (BuildingResource element in BuildingResource.values) {
+    if (element.toString() == s ||
+        'BuildingResource.${element.toString()}' == s) return element;
+  }
+  return null;
+}
+
 enum PointResource {
   huntPoint,
   sciencePoint,
   religionPoint,
+}
+
+PointResource getPointResourceFromJson(String s) {
+  for (PointResource element in PointResource.values) {
+    if (element.toString() == s || 'PointResource.${element.toString()}' == s)
+      return element;
+  }
+  return null;
 }
 
 enum BuildingExample {
@@ -36,6 +59,14 @@ enum BuildingExample {
   warehouse //仓库
 }
 
+BuildingExample getBuildingExampleFromJson(String s) {
+  for (BuildingExample element in BuildingExample.values) {
+    if (element.toString() == s || 'BuildingExample.${element.toString()}' == s)
+      return element;
+  }
+  return null;
+}
+
 //探险资源
 enum ExpeditionResource {
   glowworm, //萤火虫
@@ -46,6 +77,14 @@ enum ExpeditionResource {
   mouse, //老鼠
   ivory, //象牙
 
+}
+
+ExpeditionResource getExpeditionResourceFromJson(String s) {
+  for (ExpeditionResource element in ExpeditionResource.values) {
+    if (element.toString() == s ||
+        'ExpeditionResource.${element.toString()}' == s) return element;
+  }
+  return null;
 }
 
 enum CatJob {
@@ -63,6 +102,14 @@ enum CatJob {
 
 }
 
+CatJob getCatJobFromJson(String s) {
+  for (CatJob element in CatJob.values) {
+    if (element.toString() == s || 'CatJob.${element.toString()}' == s)
+      return element;
+  }
+  return null;
+}
+
 enum Handicrafts {
   zax, //石斧
 }
@@ -75,6 +122,42 @@ class CatResource {}
 
 enum Age { Chaos, Stone, Bronze, Iron, Feudal, Industry, Modern, Space }
 
+Age getAgeFromJson(String s) {
+  for (Age element in Age.values) {
+    if (element.toString() == s || 'Age.${element.toString()}' == s)
+      return element;
+  }
+  return null;
+}
+
 enum God { Dingo, Yoyo, Neo }
 
 enum Season { Spring, Summer, Fall, Winter }
+
+Season getSeasonFromJson(String s) {
+  for (Season element in Season.values) {
+    if (element.toString() == s || 'Season.${element.toString()}' == s)
+      return element;
+  }
+  return null;
+}
+
+Object getFromString(String s) {
+  if (getFoodResourceFromJson(s) != null) {
+    return getFoodResourceFromJson(s);
+  } else if (getBuildingResourceFromJson(s) != null) {
+    return getBuildingResourceFromJson(s);
+  } else if (getPointResourceFromJson(s) != null) {
+    return getPointResourceFromJson(s);
+  } else if (getBuildingExampleFromJson(s) != null) {
+    return getBuildingExampleFromJson(s);
+  } else if (getExpeditionResourceFromJson(s) != null) {
+    return getExpeditionResourceFromJson(s);
+  } else if (getCatJobFromJson(s) != null) {
+    return getCatJobFromJson(s);
+  } else if (getAgeFromJson(s) != null) {
+    return getAgeFromJson(s);
+  } else if (getSeasonFromJson(s) != null) {
+    return getSeasonFromJson(s);
+  }
+}
