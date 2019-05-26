@@ -62,6 +62,7 @@ class Engine {
     _addShouldShowBuilding();
     _checkEmptyForCat();
     _machineOutput();
+    Application.gameContext.gameEndTime += 1000;
   }
 
   void _machineOutput() {
@@ -128,7 +129,7 @@ class Engine {
 
   ///切换季节
   void _checkSeason() {
-    int now = DateUtil.getNowDateMs();
+    int now = Application.gameContext.gameEndTime;
     int start = Application.gameContext.gameStartTime;
     int passed = (now - start) ~/ 1000;
     int lastDay = passed % 400;

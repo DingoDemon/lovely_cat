@@ -69,7 +69,7 @@ class FuncUtil {
   }
 
   String getGameTitle(Context c) {
-    int now = DateUtil.getNowDateMs();
+    int now = c.gameEndTime;
     int start = c.gameStartTime;
     int passed = (now - start) ~/ 1000;
     int year = passed ~/ 400;

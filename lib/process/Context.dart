@@ -21,6 +21,7 @@ class Context {
   int gameStartTime;
   double saturability; //幸福度
   List<Handicrafts> things;
+  int gameEndTime;
 
   Context() {
     age = Age.Chaos;
@@ -34,6 +35,7 @@ class Context {
     things = List();
     saturability = 0;
     expeditions = Map();
+    gameEndTime = DateTime.now().millisecondsSinceEpoch;
   }
 
   Map<String, dynamic> toJson() => {
@@ -50,6 +52,7 @@ class Context {
         'gameStartTime': gameStartTime,
         'saturability': saturability,
         'things': jsonEncode(covertListToStringList(things)),
+        'gameEndTime': gameEndTime
       };
 
   Context.fromJSON(Map json)
@@ -73,6 +76,7 @@ class Context {
             : covertToExpeditionResourceMap(covertToObjectMap(new JsonDecoder()
                 .convert(json['expeditions']) as Map<String, dynamic>)),
         gameStartTime = json['gameStartTime'],
+        gameEndTime = json['gameEndTime'],
         saturability = json['saturability'],
         things = json['things'] == '[]'
             ? []
