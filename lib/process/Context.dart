@@ -33,6 +33,7 @@ class Context {
     gameStartTime = DateTime.now().millisecondsSinceEpoch;
     things = List();
     saturability = 0;
+    expeditions = Map();
   }
 
   Map<String, dynamic> toJson() => {
@@ -41,14 +42,14 @@ class Context {
         'leader': leader.toString(),
         'wareHouse': wareHouse.toJson(),
         'buildings': new JsonEncoder().convert(covertToStringMapInt(buildings)),
-        'cats': cats.toString(),
+        'cats': jsonEncode(covertListToStringList(cats)),
         'catsLimit': catsLimit,
         'catProfession':
             new JsonEncoder().convert(covertToStringMapInt(catProfession)),
         'expeditions': expeditions,
         'gameStartTime': gameStartTime,
         'saturability': saturability,
-        'things': things.toString(),
+        'things': jsonEncode(covertListToStringList(things)),
       };
 
   Context.fromJSON(Map json)
@@ -63,16 +64,19 @@ class Context {
                 as Map<String, dynamic>)),
         cats = json['cats'] == '[]'
             ? []
-            : json['cats'].map((value) => new Cat.fromJSON(jsonDecode(value))).toList(),
+            : covertListToCatList((jsonDecode(json['cats']) as List)),
         catsLimit = json['catsLimit'],
         catProfession = covertToCatJobMap(covertToObjectMapInt(new JsonDecoder()
             .convert(json['catProfession']) as Map<String, dynamic>)),
-        expeditions = covertToExpeditionResourceMap(covertToObjectMap(
-            new JsonDecoder().convert(json['expeditions'])
-                as Map<String, dynamic>)),
+        expeditions = (json['expeditions'] as Map).isEmpty
+            ? {}
+            : covertToExpeditionResourceMap(covertToObjectMap(new JsonDecoder()
+                .convert(json['expeditions']) as Map<String, dynamic>)),
         gameStartTime = json['gameStartTime'],
         saturability = json['saturability'],
-        things = json['things'];
+        things = json['things'] == '[]'
+            ? []
+            : covertListToHandicraftsList((jsonDecode(json['things']) as List));
 }
 
 class WareHouse {
@@ -409,6 +413,22 @@ List<String> covertListToStringList(List<Object> origin) {
   List<String> result = [];
   origin.forEach((o) {
     result.add(o.toString());
+  });
+  return result;
+}
+
+List<Cat> covertListToCatList(List<dynamic> origin) {
+  List<Cat> result = [];
+  origin.forEach((o) {
+    result.add(Cat.fromJSON(jsonDecode((o as String))));
+  });
+  return result;
+}
+
+List<Handicrafts> covertListToHandicraftsList(List<dynamic> origin) {
+  List<Handicrafts> result = [];
+  origin.forEach((o) {
+    result.add(getHandicraftsFromJson(o));
   });
   return result;
 }

@@ -103,6 +103,7 @@ class WelComeStates extends State<WelcomePage> with TickerProviderStateMixin {
 
   void changePage(bool b) {
     setState(() {
+      buttonText = "  继续喵！\n ヾ(^▽^*)))'";
       this.step = Step.Two;
       this.hasFile = b;
     });

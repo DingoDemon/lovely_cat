@@ -47,8 +47,6 @@ class Engine {
     if (passTimes < Const.PASS_TIME_COUNT) {
       passTimes++;
     } else {
-      Cat cat = Cat(Application.gameContext.age);
-      Application.gameContext.cats.add(cat);
       _saveContext();
       passTimes = 0;
     }
@@ -74,7 +72,7 @@ class Engine {
     if (Application.gameContext.cats.length <
             Application.gameContext.catsLimit &&
         FuncUtil().getRandom(5 * Application.gameContext.catsLimit) == 1) {
-      Cat cat = Cat(Application.gameContext.age);
+      Cat cat = createOneCat(Application.gameContext.age);
       Application.gameContext.cats.add(cat);
       for (Callback callback in _callbacks) {
         callback.receiveACat(cat);

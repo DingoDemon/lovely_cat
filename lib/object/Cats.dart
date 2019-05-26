@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:lovely_cats/Const.dart';
 import 'package:lovely_cats/util/Arith.dart';
 import 'package:lovely_cats/util/EnumCovert.dart';
@@ -18,63 +20,32 @@ class Cat implements CatInterface {
   int level;
 
   Map<String, dynamic> toJson() => {
-        'age': age,
+        'age': age.toString(),
         'name': name,
         'exp': exp,
-        'type': type,
-        'BloodLines': BloodLines,
+        'type': type.toString(),
+        'BloodLines': bloodLines.toString(),
         'level': level,
         'dec': dec,
       };
 
   @override
   String toString() {
-    return 'Cat{name: $name, exp: $exp, age: $age, type: $type, bloodLines: $bloodLines, dec: $dec, level: $level}';
+    return jsonEncode(this.toJson());
   }
 
-  Cat.fromJSON(Map json)
-      : age = json['age'],
-        name = json['name'],
-        exp = json['exp'],
-        type = json['type'],
-        bloodLines = json['bloodLines'],
-        dec = json['dec'],
-        level = json['level'];
+  Cat(this.name, this.exp, this.age, this.type, this.bloodLines, this.dec,
+      this.level);
 
-  Cat(Age age) {
-    int i;
-    Faker faker = new Faker();
-    if (age == Age.Chaos) {
-      i = FuncUtil().getRandom(1);
-    } else if (age == Age.Stone || age == Age.Bronze || age == Age.Iron) {
-      i = FuncUtil().getRandom(3);
-    } else if (age == Age.Feudal) {
-      i = FuncUtil().getRandom(4);
-    }
-    this.age = age;
-    switch (i) {
-      case 0:
-        type = CatJob.Farmer;
-        break;
-      case 1:
-        type = CatJob.Faller;
-        break;
-      case 2:
-        type = CatJob.Craftsman;
-        break;
-      case 3:
-        type = CatJob.Scholar;
-        break;
-      case 4:
-        type = CatJob.Oracle;
-        break;
-    }
-
-    name = faker.person.name();
-    exp = 0;
-    bloodLines = FuncUtil().getCatBlood();
-    dec =
-        '${name} 是一只 ${EnumCovert().getBloodName(bloodLines)} , ${EnumCovert().getAmbition(type)}';
+  factory Cat.fromJSON(Map<String, dynamic> json) {
+    return new Cat(
+        json['name'],
+        json['exp'],
+        getAgeFromJson(json['age']),
+        getCatJobFromJson(json['type']),
+        getBloodLinesFromJson(json['bloodLines']),
+        json['dec'],
+        json['level']);
   }
 
   void levelUp() {
@@ -91,4 +62,48 @@ enum BloodLines {
   HairlessCat, //无毛猫[18~20]
   MaineCat, //缅因猫[21~23]
   LeopardCat //豹猫[24~25]
+}
+
+BloodLines getBloodLinesFromJson(String s) {
+  for (BloodLines element in BloodLines.values) {
+    if (element.toString() == s || 'Season.${element.toString()}' == s)
+      return element;
+  }
+  return null;
+}
+
+Cat createOneCat(Age age) {
+  Faker faker = new Faker();
+  Cat cat = Cat(faker.person.name(), 0, age, null, null, null, 0);
+  int i;
+  if (age == Age.Chaos) {
+    i = FuncUtil().getRandom(1);
+  } else if (age == Age.Stone || age == Age.Bronze || age == Age.Iron) {
+    i = FuncUtil().getRandom(3);
+  } else if (age == Age.Feudal) {
+    i = FuncUtil().getRandom(4);
+  }
+  cat.age = age;
+  switch (i) {
+    case 0:
+      cat.type = CatJob.Farmer;
+      break;
+    case 1:
+      cat.type = CatJob.Faller;
+      break;
+    case 2:
+      cat.type = CatJob.Craftsman;
+      break;
+    case 3:
+      cat.type = CatJob.Scholar;
+      break;
+    case 4:
+      cat.type = CatJob.Oracle;
+      break;
+  }
+  cat.name = faker.person.name();
+  cat.bloodLines = FuncUtil().getCatBlood();
+  cat.dec =
+      '${cat.name} 是一只 ${EnumCovert().getBloodName(cat.bloodLines)} , ${EnumCovert().getAmbition(cat.type)}';
+  return cat;
 }

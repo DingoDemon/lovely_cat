@@ -114,6 +114,14 @@ enum Handicrafts {
   zax, //石斧
 }
 
+Handicrafts getHandicraftsFromJson(String s) {
+  for (Handicrafts element in Handicrafts.values) {
+    if (element.toString() == s || 'Handicrafts.${element.toString()}' == s)
+      return element;
+  }
+  return null;
+}
+
 //神祇
 class GodResource {}
 
