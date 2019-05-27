@@ -119,7 +119,7 @@ class FuncUtil {
       case BuildingExample.college:
         return null;
       case BuildingExample.loggingCamp:
-        return null;
+        return LoggingCampBuilder();
       case BuildingExample.researchInstitute:
         return null;
       case BuildingExample.refinery:

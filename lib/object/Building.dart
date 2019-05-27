@@ -194,7 +194,7 @@ class ChickenCoopBuilder extends StaticBuilder {
   }
 }
 
-class LoggingCamp extends StaticBuilder {
+class LoggingCampBuilder extends StaticBuilder {
   @override
   void build(Context c) {
     if (couldBuild(c)) {

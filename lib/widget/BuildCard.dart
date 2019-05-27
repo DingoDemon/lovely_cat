@@ -145,4 +145,8 @@ class _BuildCardStates extends State<BuildCard> implements Callback {
 
   @override
   void receiveACat(Cat c) {}
+
+  @override
+  void catLeave(Cat c) {
+  }
 }

@@ -31,6 +31,8 @@ class EnumCovert {
         return "猫薄荷田";
       case BuildingExample.chickenCoop:
         return "鸡窝";
+      case BuildingExample.loggingCamp:
+        return "伐木喵厂";
 
       default:
         return "";

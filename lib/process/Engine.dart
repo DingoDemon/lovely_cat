@@ -75,7 +75,11 @@ class Engine {
     BranchOutputMachine().process();
   }
 
-  void _catLeaderGrowUp() {}
+  void _catLeaderGrowUp() {
+    if (Application.gameContext.leader != null) {
+      Application.gameContext.leader.expAdd();
+    }
+  }
 
   ///猫猫吃猫粮
   void _catConsume() {
@@ -83,15 +87,19 @@ class Engine {
       return;
     }
     double need = Arith()
-        .multiplication(Application.gameContext.cats.length.toDouble(), 6);
+        .multiplication(Application.gameContext.cats.length.toDouble(), 4.5);
     if (Application.gameContext.wareHouse
         .resourcesEnough({FoodResource.catmint: need})) {
       Application.gameContext.wareHouse
           .consumeResource(FoodResource.catmint, need);
     } else {
       Random random = new Random();
-      Application.gameContext.cats
-          .remove(random.nextInt(Application.gameContext.cats.length));
+      Cat removed = Application.gameContext.cats
+          .removeAt(random.nextInt(Application.gameContext.cats.length));
+      Application.gameContext.catProfession[removed.arrange] -= 1;
+      for (Callback callback in _callbacks) {
+        callback.catLeave(removed);
+      }
     }
   }
 

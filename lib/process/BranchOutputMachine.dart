@@ -26,7 +26,8 @@ class BranchOutputMachine extends PartOutputMachine {
       except = Arith().multiplication(except, leaderCoefficient);
     }
     if (Application.gameContext.buildings
-        .containsKey(BuildingExample.loggingCamp)) {
+            .containsKey(BuildingExample.loggingCamp) &&
+        Application.gameContext.buildings[BuildingExample.loggingCamp] > 0) {
       except = Arith().multiplication(except,
           1.1 * Application.gameContext.buildings[BuildingExample.loggingCamp]);
     }

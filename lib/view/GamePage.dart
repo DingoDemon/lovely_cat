@@ -166,6 +166,14 @@ class GamePageStates extends State<GamePage>
       duration: Duration(seconds: 5),
     ));
   }
+
+  @override
+  void catLeave(Cat c) {
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+      content: Text('因为没有足够的猫薄荷${c.name} 离开了这里'),
+      duration: Duration(seconds: 5),
+    ));
+  }
 }
 
 Widget getShareImage(bool isFirstPage) {
@@ -348,6 +356,5 @@ class GamePageRowState extends State<GamePageRow>
     });
   }
 }
-
 
 enum Direction { LEFT, RIGHT }

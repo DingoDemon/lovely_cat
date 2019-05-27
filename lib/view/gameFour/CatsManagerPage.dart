@@ -46,6 +46,7 @@ class CatsManagerState extends State<CatsManagerPage> {
     int count = Application.gameContext.cats.length;
     int lazy = Application.gameContext.catProfession[CatJob.Sleeper];
     List<Cat> list = Application.gameContext.cats;
+    String leaderName = Application.gameContext.leader==null?"!!!":Application.gameContext.leader.name;
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
@@ -129,9 +130,10 @@ class CatsManagerState extends State<CatsManagerPage> {
                       }
                       setState(() {});
                     },
-                    icon: Icon(Application.gameContext.leader == list[index]
-                        ? Icons.favorite
-                        : Icons.favorite_border),
+                    icon: Icon(
+                        leaderName == list[index].name
+                            ? Icons.favorite
+                            : Icons.favorite_border),
                   ),
                 ],
               ),

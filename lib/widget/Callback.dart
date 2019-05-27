@@ -5,5 +5,5 @@ abstract class Callback {
 
   void receiveACat(Cat c) {}
 
-
+  void catLeave(Cat c);
 }

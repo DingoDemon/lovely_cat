@@ -12,7 +12,7 @@ abstract class CatInterface {}
 
 class Cat implements CatInterface {
   String name;
-  int exp;
+  int _exp;
   Age age;
   CatJob originType;
   BloodLines bloodLines;
@@ -24,7 +24,7 @@ class Cat implements CatInterface {
   Map<String, dynamic> toJson() => {
         'age': age.toString(),
         'name': name,
-        'exp': exp,
+        'exp': _exp,
         'originType': originType.toString(),
         'BloodLines': bloodLines.toString(),
         'level': level,
@@ -38,7 +38,7 @@ class Cat implements CatInterface {
     return jsonEncode(this.toJson());
   }
 
-  Cat(this.name, this.exp, this.age, this.originType, this.bloodLines, this.dec,
+  Cat(this.name, this._exp, this.age, this.originType, this.bloodLines, this.dec,
       this.level, this.sex, this.arrange);
 
   factory Cat.fromJSON(Map<String, dynamic> json) {
@@ -54,7 +54,17 @@ class Cat implements CatInterface {
         getCatJobFromJson(json['arrange']));
   }
 
-  void levelUp() {
+  void expAdd(){
+    _exp++;
+    if(_exp == Const.CAT_LEVEL_ONE||
+        _exp == Const.CAT_LEVEL_TWO||_exp == Const.CAT_LEVEL_THREE||
+        _exp == Const.CAT_LEVEL_FOUR||_exp == Const.CAT_LEVEL_FIVE){
+      _levelUp();
+    }
+
+  }
+
+  void _levelUp() {
     level++;
   }
 }
