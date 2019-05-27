@@ -83,6 +83,8 @@ class Engine {
 
   ///新增建筑
   void _addShouldShowBuilding() {
+    print(
+        ('dingo${Application.gameContext.buildings}'));
     for (BuildingExample example in BuildingExample.values) {
       switch (example) {
         case BuildingExample.catmintField:
@@ -179,7 +181,7 @@ abstract class PartOutputMachine {
   void process() {
     //如果喵子领导是演员，增加整体效率
     if (Application.gameContext.leader != null &&
-        Application.gameContext.leader.type == CatJob.Actor) {
+        Application.gameContext.leader.originType == CatJob.Actor) {
       double leaderCoefficient =
           math.pow(1.1, Application.gameContext.leader.level);
       efficiencyCoefficient =

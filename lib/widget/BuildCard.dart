@@ -11,7 +11,7 @@ import 'package:lovely_cats/view/gameFour/BuildingsPage.dart';
 import 'Callback.dart';
 
 // ignore: must_be_immutable
-class BuildingView extends StatelessWidget {
+class BuildingView extends Dialog {
   int index;
 
   BuildingView(this.index);
@@ -48,6 +48,7 @@ class _BuildCardStates extends State<BuildCard> implements Callback {
   @override
   void dispose() {
     Engine().unregisterCallback(this);
+
     super.dispose();
   }
 
@@ -71,8 +72,7 @@ class _BuildCardStates extends State<BuildCard> implements Callback {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             getBuildName(
-                Application.gameContext.buildings.entries.toList()[index],
-                false),
+                Application.gameContext.buildings.entries.toList()[index]),
             Container(
               child: Text(
                 builder.getDescribe(),
@@ -144,9 +144,5 @@ class _BuildCardStates extends State<BuildCard> implements Callback {
   }
 
   @override
-  void receiveACat(Cat c) {
-  }
-
-
-
+  void receiveACat(Cat c) {}
 }

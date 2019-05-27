@@ -27,7 +27,8 @@ class FuncUtil {
   double getRandomDouble() {
     Random random = new Random();
     double result = random.nextDouble();
-    result = result == 0 ? getRandomDouble() : Arith().multiplication(result, 3);
+    result =
+        result == 0 ? getRandomDouble() : Arith().multiplication(result, 3);
     return result;
   }
 
@@ -51,6 +52,10 @@ class FuncUtil {
     } else {
       return BloodLines.HairlessCat;
     }
+  }
+
+  List<CatJob> getCatJobs() {
+
   }
 
   ///计算幸福度

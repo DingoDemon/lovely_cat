@@ -41,15 +41,37 @@ class CatsManagerState extends State<CatsManagerPage> {
 
   Widget getWidget() {
     int count = Application.gameContext.cats.length;
-    if (Application.gameContext.age == Age.Chaos) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Text("农夫喵"),
-        ],
-      );
-    } else {
-      return Text("");
-    }
+    int lazy = Application.gameContext.cats.length -
+        Application.gameContext.catProfession.length;
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Center(
+          child: Text("这里一共有$count只喵喵",
+              style: TextStyle(
+                  color: Colors.purple[200], fontSize: 20, fontFamily: 'Miao')),
+        ),
+        Text("$lazy只喵喵在睡懒觉，快把${lazy > 1 ? '它们' : '它'}叫醒",
+            style: TextStyle(
+                color: Colors.purple[200], fontSize: 14, fontFamily: 'Miao')),
+        ListView.builder(itemBuilder: (BuildContext context, int index) {
+          return Container(
+            margin: EdgeInsets.only(top: 5, left: 5, right: 5),
+            height: 60,
+            width: double.infinity,
+            padding: EdgeInsets.all(5),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: Colors.grey, width: 1.0),
+            ),
+            child: Row(
+              children: <Widget>[
+
+              ],
+            ),
+          );
+        })
+      ],
+    );
   }
 }

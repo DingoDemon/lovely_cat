@@ -30,6 +30,7 @@ class GamePageStates extends State<GamePage>
     with TickerProviderStateMixin
     implements Callback {
   Widget pages;
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -63,6 +64,7 @@ class GamePageStates extends State<GamePage>
             fontSize: 16.0);
       },
       child: Scaffold(
+        key: _scaffoldKey,
         resizeToAvoidBottomPadding: false,
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -159,9 +161,9 @@ class GamePageStates extends State<GamePage>
 
   @override
   void receiveACat(Cat c) {
-    Scaffold.of(context).showSnackBar(SnackBar(
-      content: Text(c.dec),
-      duration: Duration(seconds: 2),
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+      content: Text('来了一只小喵喵:${c.dec}'),
+      duration: Duration(seconds: 5),
     ));
   }
 }
@@ -347,11 +349,5 @@ class GamePageRowState extends State<GamePageRow>
   }
 }
 
-Widget _tempWidget() {
-  return SizedBox(
-    width: 30,
-    height: 1,
-  );
-}
 
 enum Direction { LEFT, RIGHT }

@@ -33,7 +33,7 @@ class Context {
     catProfession = new Map();
     gameStartTime = DateTime.now().millisecondsSinceEpoch;
     things = List();
-    saturability = 0;
+    saturability = 1;
     expeditions = Map();
     gameEndTime = DateTime.now().millisecondsSinceEpoch;
   }

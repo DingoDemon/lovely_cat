@@ -39,7 +39,7 @@ class CatmintOutputMachine extends PartOutputMachine {
           7.5, Application.gameContext.catProfession[CatJob.Farmer].toDouble());
     }
     if (Application.gameContext.leader != null &&
-        Application.gameContext.leader.type == CatJob.Farmer) {
+        Application.gameContext.leader.originType == CatJob.Farmer) {
       double leaderCoefficient =
           math.pow(1.15, Application.gameContext.leader.level);
       except = Arith().multiplication(except, leaderCoefficient);

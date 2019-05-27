@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:lovely_cats/application.dart';
+import 'package:lovely_cats/object/Cats.dart';
 import 'package:lovely_cats/object/ResourceEnum.dart';
 import 'package:lovely_cats/util/EnumCovert.dart';
 import 'package:lovely_cats/util/FuncUtil.dart';
 import 'package:lovely_cats/widget/BuildCard.dart';
+import 'package:lovely_cats/widget/Callback.dart';
 
 import '../GamePage.dart';
 
@@ -16,13 +18,20 @@ class BuildingsPage extends StatefulWidget {
   BuildingsPage();
 }
 
-class BuildingsState extends State<BuildingsPage> with WidgetsBindingObserver {
-  List<MapEntry<BuildingExample, int>> list = [];
+class BuildingsState extends State<BuildingsPage>
+    with WidgetsBindingObserver
+    implements DialogDismissCallBack {
+  List list = Application.gameContext.buildings.entries.toList();
+  List<double> opacities = [];
+  int currentIndex = -1;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    list.forEach((entry) {
+      opacities.add(1);
+    });
   }
 
   @override
@@ -33,13 +42,12 @@ class BuildingsState extends State<BuildingsPage> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    print('dingo: ${state}');
+    print('dingo: $state');
   }
 
   @override
   Widget build(BuildContext context) {
     list = Application.gameContext.buildings.entries.toList();
-
     return Container(
       margin: EdgeInsets.only(top: 20, bottom: 20),
       child: Card(
@@ -67,6 +75,8 @@ class BuildingsState extends State<BuildingsPage> with WidgetsBindingObserver {
                         return MaterialButton(
                           elevation: 20,
                           onPressed: () {
+                            currentIndex = index;
+                            setState(() {});
                             Navigator.push(
                                 context,
                                 HeroDialogRoute(
@@ -78,7 +88,7 @@ class BuildingsState extends State<BuildingsPage> with WidgetsBindingObserver {
                                                 borderRadius: BorderRadius.all(
                                                     Radius.circular(14.0)))),
                                       ),
-                                ));
+                                )..callBack = this);
                           },
                           child: Container(
                               margin:
@@ -93,7 +103,11 @@ class BuildingsState extends State<BuildingsPage> with WidgetsBindingObserver {
                               ),
                               child: Row(
                                 children: <Widget>[
-                                  getBuildName(list[index], true),
+                                  Container(
+                                    child: getBuildName(list[index]),
+                                    width: 44,
+                                    height: 44,
+                                  ),
                                   Expanded(
                                     child: Padding(
                                       padding: EdgeInsets.only(left: 10),
@@ -126,37 +140,46 @@ class BuildingsState extends State<BuildingsPage> with WidgetsBindingObserver {
     );
   }
 
-  BuildingsState();
+  @override
+  void states(AnimationStatus status) {
+//    switch (status) {
+//      case AnimationStatus.dismissed:
+//        break;
+//      case AnimationStatus.forward:
+//        opacities[currentIndex] = 0;
+//        break;
+//      case AnimationStatus.reverse:
+//        opacities[currentIndex] = 1;
+//        setState(() {});
+//        break;
+//      case AnimationStatus.completed:
+//        break;
+//    }
+  }
+
 }
 
-Hero getBuildName(MapEntry<BuildingExample, int> item, bool isFirstPage) {
+Hero getBuildName(MapEntry<BuildingExample, int> item) {
   return Hero(
-      tag: '${item.key}',
-      child: isFirstPage
-          ? Container(
-              width: 44,
-              height: 44,
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(EnumCovert().getBuildIconPath(item.key)),
-                    fit: BoxFit.contain,
-                  ),
-                  borderRadius: BorderRadius.circular(10)))
-          : Container(
-              width: 180,
-              height: 180,
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(EnumCovert().getBuildIconPath(item.key)),
-                    fit: BoxFit.contain,
-                  ),
-                  borderRadius: BorderRadius.circular(10))));
+    tag: '${item.key}',
+    child: Container(
+        width: 188,
+        height: 188,
+        decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(EnumCovert().getBuildIconPath(item.key)),
+              fit: BoxFit.contain,
+            ),
+            borderRadius: BorderRadius.circular(10))),
+  );
 }
 
 class HeroDialogRoute<T> extends PageRoute<T> {
   HeroDialogRoute({this.builder}) : super();
 
   final WidgetBuilder builder;
+
+  DialogDismissCallBack callBack;
 
   @override
   bool get opaque => false;
@@ -181,6 +204,9 @@ class HeroDialogRoute<T> extends PageRoute<T> {
           new CurvedAnimation(parent: animation, curve: Curves.easeOutCirc),
       child: child,
     );
+    animation.addStatusListener((state) {
+      callBack.states(state);
+    });
     return transition;
   }
 
@@ -192,4 +218,8 @@ class HeroDialogRoute<T> extends PageRoute<T> {
 
   @override
   String get barrierLabel => null;
+}
+
+abstract class DialogDismissCallBack {
+  void states(AnimationStatus status);
 }

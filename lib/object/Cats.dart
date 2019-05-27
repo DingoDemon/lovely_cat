@@ -14,19 +14,23 @@ class Cat implements CatInterface {
   String name;
   int exp;
   Age age;
-  CatJob type;
+  CatJob originType;
   BloodLines bloodLines;
   String dec;
   int level;
+  int sex = 0; //0母猫，1公猫
+  CatJob arrange;
 
   Map<String, dynamic> toJson() => {
         'age': age.toString(),
         'name': name,
         'exp': exp,
-        'type': type.toString(),
+        'originType': originType.toString(),
         'BloodLines': bloodLines.toString(),
         'level': level,
         'dec': dec,
+        'sex': sex,
+        'arrange': arrange.toString()
       };
 
   @override
@@ -34,18 +38,20 @@ class Cat implements CatInterface {
     return jsonEncode(this.toJson());
   }
 
-  Cat(this.name, this.exp, this.age, this.type, this.bloodLines, this.dec,
-      this.level);
+  Cat(this.name, this.exp, this.age, this.originType, this.bloodLines, this.dec,
+      this.level, this.sex, this.arrange);
 
   factory Cat.fromJSON(Map<String, dynamic> json) {
     return new Cat(
         json['name'],
         json['exp'],
         getAgeFromJson(json['age']),
-        getCatJobFromJson(json['type']),
+        getCatJobFromJson(json['originType']),
         getBloodLinesFromJson(json['bloodLines']),
         json['dec'],
-        json['level']);
+        json['level'],
+        json['sex'],
+        json[getCatJobFromJson(json['arrange'])]);
   }
 
   void levelUp() {
@@ -74,7 +80,8 @@ BloodLines getBloodLinesFromJson(String s) {
 
 Cat createOneCat(Age age) {
   Faker faker = new Faker();
-  Cat cat = Cat(faker.person.name(), 0, age, null, null, null, 0);
+  Cat cat = Cat(faker.person.name(), 0, age, null, null, null, 0,
+      FuncUtil().getRandom(1), null);
   int i;
   if (age == Age.Chaos) {
     i = FuncUtil().getRandom(1);
@@ -86,24 +93,24 @@ Cat createOneCat(Age age) {
   cat.age = age;
   switch (i) {
     case 0:
-      cat.type = CatJob.Farmer;
+      cat.originType = CatJob.Farmer;
       break;
     case 1:
-      cat.type = CatJob.Faller;
+      cat.originType = CatJob.Faller;
       break;
     case 2:
-      cat.type = CatJob.Craftsman;
+      cat.originType = CatJob.Craftsman;
       break;
     case 3:
-      cat.type = CatJob.Scholar;
+      cat.originType = CatJob.Scholar;
       break;
     case 4:
-      cat.type = CatJob.Oracle;
+      cat.originType = CatJob.Oracle;
       break;
   }
   cat.name = faker.person.name();
   cat.bloodLines = FuncUtil().getCatBlood();
   cat.dec =
-      '${cat.name} 是一只 ${EnumCovert().getBloodName(cat.bloodLines)} , ${EnumCovert().getAmbition(cat.type)}';
+      '${cat.name} ${cat.sex == 1 ? "弟弟" : "妹妹"} 是一只 ${EnumCovert().getBloodName(cat.bloodLines)} , ${EnumCovert().getAmbition(cat.originType)}';
   return cat;
 }
