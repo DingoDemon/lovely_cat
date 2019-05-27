@@ -53,7 +53,6 @@ class CatmintOutputMachine extends PartOutputMachine {
     double total =
         Arith().add(build[FoodResource.catmint], cats[FoodResource.catmint]);
     total = Arith().multiplication(total, efficiencyCoefficient);
-    Application.gameContext.wareHouse.receiveInfo[FoodResource.catmint] = total;
     return {FoodResource.catmint: total};
   }
 }

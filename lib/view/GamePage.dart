@@ -102,6 +102,9 @@ class GamePageStates extends State<GamePage>
                     child: ListView.builder(
                       addRepaintBoundaries: true,
                       itemBuilder: (BuildContext context, int index) {
+                        bool plus = Application.gameContext.wareHouse
+                                .receiveInfo[items[index]] >
+                            0;
                         return Column(
                           children: <Widget>[
                             Container(
@@ -129,7 +132,7 @@ class GamePageStates extends State<GamePage>
                                 Application.gameContext.wareHouse.receiveInfo
                                         .containsKey(items[index])
                                     ? Text(
-                                        ' + ${Application.gameContext.wareHouse.receiveInfo[items[index]]} '
+                                        ' ${plus ? '+' :''} ${Application.gameContext.wareHouse.receiveInfo[items[index]]} '
                                         '/s',
                                         style: TextStyle(
                                             color: EnumCovert()

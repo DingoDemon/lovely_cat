@@ -1,6 +1,7 @@
 import 'dart:collection';
 import 'dart:convert';
 import 'package:common_utils/common_utils.dart';
+import 'package:lovely_cats/application.dart';
 import 'package:lovely_cats/object/Cats.dart';
 import 'package:lovely_cats/object/ResourceEnum.dart';
 import 'package:lovely_cats/object/ResourceEnum.dart';
@@ -41,7 +42,7 @@ class Context {
 
   int get catsLimit => buildings[BuildingExample.chickenCoop] == null
       ? 0
-      : buildings[BuildingExample.chickenCoop] ;
+      : buildings[BuildingExample.chickenCoop];
 
   void initCatProfession() {
     for (CatJob catJob in CatJob.values) {
@@ -280,7 +281,10 @@ class WareHouse {
       foods[FoodResource.catmint] = foodsLimit[FoodResource.catmint];
     }
     if (!isHandwork) {
-      receiveInfo[FoodResource.catmint] = NumUtil.getNumByValueDouble(d, 2);
+      double receive =
+          Arith().subtraction(d, 4.5 * Application.gameContext.cats.length);
+      receiveInfo[FoodResource.catmint] =
+          NumUtil.getNumByValueDouble(receive, 2);
     }
   }
 
