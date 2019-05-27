@@ -2,6 +2,7 @@ import 'dart:collection';
 import 'dart:math';
 
 import 'package:common_utils/common_utils.dart';
+import 'package:lovely_cats/application.dart';
 import 'package:lovely_cats/object/Building.dart';
 import 'package:lovely_cats/object/Cats.dart';
 import 'package:lovely_cats/object/ResourceEnum.dart';
@@ -55,7 +56,24 @@ class FuncUtil {
   }
 
   List<CatJob> getCatJobs() {
-
+    switch (Application.gameContext.age) {
+      case Age.Chaos:
+        return [CatJob.Farmer, CatJob.Faller];
+      case Age.Stone:
+        return [CatJob.Farmer, CatJob.Faller, CatJob.Miner, CatJob.Hunter];
+      case Age.Bronze:
+        return [];
+      case Age.Iron:
+        return [];
+      case Age.Feudal:
+        return [];
+      case Age.Industry:
+        return [];
+      case Age.Modern:
+        return [];
+      case Age.Space:
+        return [];
+    }
   }
 
   ///计算幸福度

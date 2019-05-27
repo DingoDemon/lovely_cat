@@ -36,6 +36,13 @@ class Context {
     saturability = 1;
     expeditions = Map();
     gameEndTime = DateTime.now().millisecondsSinceEpoch;
+    initCatProfession();
+  }
+
+  void initCatProfession() {
+    for (CatJob catJob in CatJob.values) {
+      catProfession[catJob] = 0;
+    }
   }
 
   Map<String, dynamic> toJson() => {

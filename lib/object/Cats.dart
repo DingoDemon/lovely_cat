@@ -81,14 +81,16 @@ BloodLines getBloodLinesFromJson(String s) {
 Cat createOneCat(Age age) {
   Faker faker = new Faker();
   Cat cat = Cat(faker.person.name(), 0, age, null, null, null, 0,
-      FuncUtil().getRandom(1), null);
+      FuncUtil().getRandom(1), CatJob.Sleeper);
   int i;
   if (age == Age.Chaos) {
     i = FuncUtil().getRandom(1);
-  } else if (age == Age.Stone || age == Age.Bronze || age == Age.Iron) {
+  } else if (age == Age.Stone) {
     i = FuncUtil().getRandom(3);
+  } else if (age == Age.Bronze || age == Age.Iron) {
+    i = FuncUtil().getRandom(5);
   } else if (age == Age.Feudal) {
-    i = FuncUtil().getRandom(4);
+    i = FuncUtil().getRandom(7);
   }
   cat.age = age;
   switch (i) {
@@ -99,13 +101,22 @@ Cat createOneCat(Age age) {
       cat.originType = CatJob.Faller;
       break;
     case 2:
-      cat.originType = CatJob.Craftsman;
+      cat.originType = CatJob.Miner;
       break;
     case 3:
-      cat.originType = CatJob.Scholar;
+      cat.originType = CatJob.Hunter;
       break;
     case 4:
+      cat.originType = CatJob.Craftsman;
+      break;
+    case 5:
+      cat.originType = CatJob.Scholar;
+      break;
+    case 6:
       cat.originType = CatJob.Oracle;
+      break;
+    case 7:
+      cat.originType = CatJob.Actor;
       break;
   }
   cat.name = faker.person.name();

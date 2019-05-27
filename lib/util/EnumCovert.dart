@@ -118,6 +118,8 @@ class EnumCovert {
         return "嘿哟嘿哟嘿哟喵～!";
       case CatJob.Miner:
         return '咦呀!!咦呀!!又一块';
+      case CatJob.Sleeper:
+        return '';
     }
   }
 
@@ -139,6 +141,8 @@ class EnumCovert {
         return '猎喵';
       case CatJob.Miner:
         return '挖矿喵';
+      case CatJob.Sleeper:
+        return '';
     }
   }
 

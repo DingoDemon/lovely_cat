@@ -88,17 +88,18 @@ ExpeditionResource getExpeditionResourceFromJson(String s) {
 }
 
 enum CatJob {
-  Farmer, //农民
-  Faller, //伐木工
+  Sleeper, //睡懒觉 -1
+  Farmer, //农民 0
+  Faller, //伐木工 1
 
-  Miner, //矿工
-  Hunter, //猎人
+  Miner, //矿工  2
+  Hunter, //猎人 3
 
-  Craftsman, //手工艺人
-  Scholar, //学者
+  Craftsman, //手工艺人 4
+  Scholar, //学者 5
 
-  Oracle, //先知
-  Actor, //演员，快乐产出
+  Oracle, //先知 6
+  Actor, //演员，快乐产出7
 
 }
 

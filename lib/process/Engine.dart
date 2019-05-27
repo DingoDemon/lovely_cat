@@ -75,6 +75,11 @@ class Engine {
         FuncUtil().getRandom(5 * Application.gameContext.catsLimit) == 1) {
       Cat cat = createOneCat(Application.gameContext.age);
       Application.gameContext.cats.add(cat);
+      if (Application.gameContext.catProfession.isNotEmpty) {
+        Application.gameContext.catProfession[CatJob.Sleeper] += 1;
+      } else {
+        Application.gameContext.catProfession[CatJob.Sleeper] = 1;
+      }
       for (Callback callback in _callbacks) {
         callback.receiveACat(cat);
       }
@@ -83,8 +88,7 @@ class Engine {
 
   ///新增建筑
   void _addShouldShowBuilding() {
-    print(
-        ('dingo${Application.gameContext.buildings}'));
+    print(('dingo${Application.gameContext.buildings}'));
     for (BuildingExample example in BuildingExample.values) {
       switch (example) {
         case BuildingExample.catmintField:
