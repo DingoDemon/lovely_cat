@@ -78,13 +78,7 @@ class CatsManagerState extends State<CatsManagerPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Text(list[index].name),
-                        Text(EnumCovert().getBloodName(list[index].bloodLines))
-                      ],
-                    ),
+                    child: Text(list[index].name),
                     flex: 1,
                   ),
                   Expanded(
