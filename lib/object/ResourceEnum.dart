@@ -3,7 +3,7 @@ enum FoodResource { catmint }
 
 FoodResource getFoodResourceFromJson(String s) {
   for (FoodResource element in FoodResource.values) {
-    if (element.toString() == s || 'FoodResource.${element.toString()}' == s)
+    if (element.toString() == s)
       return element;
   }
   return null;
@@ -22,8 +22,7 @@ enum BuildingResource {
 
 BuildingResource getBuildingResourceFromJson(String s) {
   for (BuildingResource element in BuildingResource.values) {
-    if (element.toString() == s ||
-        'BuildingResource.${element.toString()}' == s) return element;
+    if (element.toString() == s ) return element;
   }
   return null;
 }
@@ -36,7 +35,7 @@ enum PointResource {
 
 PointResource getPointResourceFromJson(String s) {
   for (PointResource element in PointResource.values) {
-    if (element.toString() == s || 'PointResource.${element.toString()}' == s)
+    if (element.toString() == s )
       return element;
   }
   return null;
@@ -61,7 +60,7 @@ enum BuildingExample {
 
 BuildingExample getBuildingExampleFromJson(String s) {
   for (BuildingExample element in BuildingExample.values) {
-    if (element.toString() == s || 'BuildingExample.${element.toString()}' == s)
+    if (element.toString() == s )
       return element;
   }
   return null;
@@ -81,8 +80,7 @@ enum ExpeditionResource {
 
 ExpeditionResource getExpeditionResourceFromJson(String s) {
   for (ExpeditionResource element in ExpeditionResource.values) {
-    if (element.toString() == s ||
-        'ExpeditionResource.${element.toString()}' == s) return element;
+    if (element.toString() == s) return element;
   }
   return null;
 }
@@ -105,8 +103,7 @@ enum CatJob {
 
 CatJob getCatJobFromJson(String s) {
   for (CatJob element in CatJob.values) {
-    if (element.toString() == s || 'CatJob.${element.toString()}' == s)
-      return element;
+    if (element.toString() == s) return element;
   }
   return null;
 }
@@ -117,8 +114,7 @@ enum Handicrafts {
 
 Handicrafts getHandicraftsFromJson(String s) {
   for (Handicrafts element in Handicrafts.values) {
-    if (element.toString() == s || 'Handicrafts.${element.toString()}' == s)
-      return element;
+    if (element.toString() == s) return element;
   }
   return null;
 }
@@ -133,8 +129,7 @@ enum Age { Chaos, Stone, Bronze, Iron, Feudal, Industry, Modern, Space }
 
 Age getAgeFromJson(String s) {
   for (Age element in Age.values) {
-    if (element.toString() == s || 'Age.${element.toString()}' == s)
-      return element;
+    if (element.toString() == s) return element;
   }
   return null;
 }
@@ -145,7 +140,7 @@ enum Season { Spring, Summer, Fall, Winter }
 
 Season getSeasonFromJson(String s) {
   for (Season element in Season.values) {
-    if (element.toString() == s || 'Season.${element.toString()}' == s)
+    if (element.toString() == s)
       return element;
   }
   return null;

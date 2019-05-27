@@ -58,21 +58,21 @@ class FuncUtil {
   List<CatJob> getCatJobs() {
     switch (Application.gameContext.age) {
       case Age.Chaos:
-        return [CatJob.Farmer, CatJob.Faller];
+        return [CatJob.Sleeper,CatJob.Farmer, CatJob.Faller];
       case Age.Stone:
-        return [CatJob.Farmer, CatJob.Faller, CatJob.Miner, CatJob.Hunter];
+        return [CatJob.Sleeper,CatJob.Farmer, CatJob.Faller, CatJob.Miner, CatJob.Hunter];
       case Age.Bronze:
-        return [];
+        return [CatJob.Sleeper];
       case Age.Iron:
-        return [];
+        return [CatJob.Sleeper];
       case Age.Feudal:
-        return [];
+        return [CatJob.Sleeper];
       case Age.Industry:
-        return [];
+        return [CatJob.Sleeper];
       case Age.Modern:
-        return [];
+        return [CatJob.Sleeper];
       case Age.Space:
-        return [];
+        return [CatJob.Sleeper];
     }
   }
 

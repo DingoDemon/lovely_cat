@@ -180,7 +180,7 @@ class ChickenCoopBuilder extends StaticBuilder {
   Map<Object, double> buildNeedResource(Context c) {
     Map<Object, double> origin = {
       BuildingResource.branch: Arith().multiplication(
-          10.0,
+          3.0,
           math.pow(2.0,
               Application.gameContext.buildings[BuildingExample.chickenCoop]))
     };

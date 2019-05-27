@@ -144,7 +144,7 @@ class WareHouse {
   void init() {
     List<FoodResource> food = FoodResource.values;
     for (FoodResource resource in food) {
-      foods[resource] = 0;
+      foods[resource] = 400;
       foodsLimit[resource] = 5000;
     }
     List<BuildingResource> build = BuildingResource.values;

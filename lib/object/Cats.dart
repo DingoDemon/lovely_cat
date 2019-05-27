@@ -47,11 +47,11 @@ class Cat implements CatInterface {
         json['exp'],
         getAgeFromJson(json['age']),
         getCatJobFromJson(json['originType']),
-        getBloodLinesFromJson(json['bloodLines']),
+        getBloodLinesFromJson(json['BloodLines']),
         json['dec'],
         json['level'],
         json['sex'],
-        json[getCatJobFromJson(json['arrange'])]);
+        getCatJobFromJson(json['arrange']));
   }
 
   void levelUp() {
@@ -72,7 +72,7 @@ enum BloodLines {
 
 BloodLines getBloodLinesFromJson(String s) {
   for (BloodLines element in BloodLines.values) {
-    if (element.toString() == s || 'Season.${element.toString()}' == s)
+    if (element.toString() == s || 'BloodLines.${element.toString()}' == s)
       return element;
   }
   return null;

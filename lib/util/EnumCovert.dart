@@ -142,7 +142,7 @@ class EnumCovert {
       case CatJob.Miner:
         return '挖矿喵';
       case CatJob.Sleeper:
-        return '';
+        return '懒觉喵';
     }
   }
 

@@ -53,9 +53,16 @@ class CatsManagerState extends State<CatsManagerPage> {
               style: TextStyle(
                   color: Colors.purple[200], fontSize: 20, fontFamily: 'Miao')),
         ),
-        Text("$lazy只喵喵在睡懒觉，快把${lazy > 1 ? '它们' : '它'}叫醒",
-            style: TextStyle(
-                color: Colors.purple[200], fontSize: 14, fontFamily: 'Miao')),
+        lazy == 0
+            ? SizedBox(
+                width: 0,
+                height: 0,
+              )
+            : Text("$lazy只喵喵在睡懒觉，快把${lazy > 1 ? '它们' : '它'}叫醒",
+                style: TextStyle(
+                    color: Colors.purple[200],
+                    fontSize: 14,
+                    fontFamily: 'Miao')),
         ListView.builder(
           itemBuilder: (BuildContext context, int index) {
             return Container(
@@ -71,42 +78,46 @@ class CatsManagerState extends State<CatsManagerPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Expanded(
-                      child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Text(list[index].name),
-                      Text(EnumCovert().getBloodName(list[index].bloodLines))
-                    ],
-                  )),
-                  Expanded(
-                    child: Text('等级:${list[index].level}'),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Text(list[index].name),
+                        Text(EnumCovert().getBloodName(list[index].bloodLines))
+                      ],
+                    ),
+                    flex: 1,
                   ),
                   Expanded(
-                    child: Text('经验:${list[index].exp}'),
+                    child: Center(child: Text('等级:${list[index].level}')),
+                    flex: 1,
                   ),
                   Expanded(
-                    child: Column(children: <Widget>[
-                      Text('职业:${list[index].exp}'),
-                      DropdownButton<CatJob>(
-                        items: FuncUtil()
-                            .getCatJobs()
-                            .map<DropdownMenuItem<CatJob>>((CatJob value) {
-                          return DropdownMenuItem<CatJob>(
-                            value: value,
-                            child: Text(EnumCovert().getAmbitionName(value)),
-                          );
-                        }).toList(),
-                        onChanged: (job) {
-                          list[index].arrange = job;
-                          setState(() {
-                            replaceAllCatsJob();
-                          });
-                        },
-                      )
-                    ]),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text('职业:  ',style: TextStyle(fontSize: 15)),
+                          DropdownButton<CatJob>(
+                            items: FuncUtil()
+                                .getCatJobs()
+                                .map<DropdownMenuItem<CatJob>>((CatJob value) {
+                              return DropdownMenuItem<CatJob>(
+                                value: value,
+                                child:
+                                    Text(EnumCovert().getAmbitionName(value),style: TextStyle(fontSize: 15),),
+                              );
+                            }).toList(),
+                            onChanged: (job) {
+                              list[index].arrange = job;
+                              setState(() {
+                                replaceAllCatsJob();
+                              });
+                            },
+                            value: list[index].arrange,
+                          ),
+                        ]),
+                    flex: 2,
                   ),
                   IconButton(
-                    tooltip: 'collection',
                     onPressed: () {
                       if (Application.gameContext.leader != list[index])
                         Application.gameContext.leader = list[index];
@@ -118,7 +129,7 @@ class CatsManagerState extends State<CatsManagerPage> {
                     icon: Icon(Application.gameContext.leader == list[index]
                         ? Icons.favorite
                         : Icons.favorite_border),
-                  )
+                  ),
                 ],
               ),
             );
