@@ -1,6 +1,7 @@
 import 'dart:collection';
 import 'dart:convert';
 import 'dart:math' as math;
+import 'dart:math';
 
 import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ import 'package:lovely_cats/util/shared_preferences.dart';
 import 'package:lovely_cats/widget/Callback.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'BranchOutputMachine.dart';
 import 'CatmintOutputMachine.dart';
 
 class Engine {
@@ -62,11 +64,35 @@ class Engine {
     _addShouldShowBuilding();
     _checkEmptyForCat();
     _machineOutput();
+    _catConsume();
+    _catLeaderGrowUp();
     Application.gameContext.gameEndTime += 1000;
   }
 
+  ///计算各种产出
   void _machineOutput() {
     CatmintOutputMachine().process();
+    BranchOutputMachine().process();
+  }
+
+  void _catLeaderGrowUp() {}
+
+  ///猫猫吃猫粮
+  void _catConsume() {
+    if (Application.gameContext.cats == null) {
+      return;
+    }
+    double need = Arith()
+        .multiplication(Application.gameContext.cats.length.toDouble(), 6);
+    if (Application.gameContext.wareHouse
+        .resourcesEnough({FoodResource.catmint: need})) {
+      Application.gameContext.wareHouse
+          .consumeResource(FoodResource.catmint, need);
+    } else {
+      Random random = new Random();
+      Application.gameContext.cats
+          .remove(random.nextInt(Application.gameContext.cats.length));
+    }
   }
 
   void _checkEmptyForCat() {
@@ -116,6 +142,11 @@ class Engine {
         case BuildingExample.college:
           break;
         case BuildingExample.loggingCamp:
+          if (!Application.gameContext.buildings
+                  .containsKey(BuildingExample.loggingCamp) &&
+              ChickenCoopBuilder.instance.couldShow(Application.gameContext)) {
+            Application.gameContext.buildings[BuildingExample.loggingCamp] = 0;
+          }
           break;
         case BuildingExample.researchInstitute:
           break;

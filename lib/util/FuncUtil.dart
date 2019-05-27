@@ -79,7 +79,7 @@ class FuncUtil {
   ///计算幸福度
   double saturability(int catsNum, double happinessResource) {
     double denominator = 100;
-    double numerator = 100 - (catsNum * catsNum / 10) + happinessResource;
+    double numerator = 100 - (catsNum * catsNum / 15) + happinessResource;
     if (numerator < 0) {
       return 0.01;
     } else {

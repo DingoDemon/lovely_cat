@@ -56,14 +56,14 @@ packages:
       name: faker
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.0.1"
+    version: "1.1.0"
   fish_redux:
     dependency: "direct main"
     description:
       name: fish_redux
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.1.8"
+    version: "0.1.9"
   fluro:
     dependency: "direct main"
     description:

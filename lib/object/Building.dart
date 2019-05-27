@@ -162,9 +162,7 @@ class ChickenCoopBuilder extends StaticBuilder {
   }
 
   @override
-  void change(Context c) {
-    c.catsLimit++;
-  }
+  void change(Context c) {}
 
   @override
   bool couldShow(Context c) {
@@ -180,7 +178,7 @@ class ChickenCoopBuilder extends StaticBuilder {
   Map<Object, double> buildNeedResource(Context c) {
     Map<Object, double> origin = {
       BuildingResource.branch: Arith().multiplication(
-          3.0,
+          10.0,
           math.pow(2.0,
               Application.gameContext.buildings[BuildingExample.chickenCoop]))
     };
@@ -193,5 +191,48 @@ class ChickenCoopBuilder extends StaticBuilder {
       }
       return processed;
     }
+  }
+}
+
+class LoggingCamp extends StaticBuilder {
+  @override
+  void build(Context c) {
+    if (couldBuild(c)) {
+      Application.gameContext.wareHouse.consumeResources(buildNeedResource(c));
+      Application.gameContext.buildings[BuildingExample.loggingCamp]++;
+      change(c);
+    }
+  }
+
+  @override
+  Map<Object, double> buildNeedResource(Context c) {
+    Map<Object, double> origin = {
+      BuildingResource.branch: Arith().multiplication(
+          50.0,
+          math.pow(1.5,
+              Application.gameContext.buildings[BuildingExample.chickenCoop]))
+    };
+    if (interceptors.length == 0) {
+      return origin;
+    } else {
+      Map<Object, double> processed;
+      for (Interceptor interceptor in interceptors) {
+        processed = interceptor.changeBuildResourceRequire(origin);
+      }
+      return processed;
+    }
+  }
+
+  @override
+  void change(Context c) {}
+
+  @override
+  bool couldShow(Context c) {
+    return c.cats.length > 1;
+  }
+
+  @override
+  String getDescribe() {
+    return '喵喵采集到了足够的木材，可以搭建伐木场了。每一个伐木场能让喵喵采集树枝的速度提高10%';
   }
 }

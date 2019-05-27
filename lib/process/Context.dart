@@ -15,7 +15,7 @@ class Context {
   WareHouse wareHouse; //仓库
   Map<BuildingExample, int> buildings; //建筑
   List<Cat> cats;
-  int catsLimit; //人口上限
+  int _catsLimit; //人口上限
   Map<CatJob, int> catProfession; //喵子分工
   Map<ExpeditionResource, double> expeditions; //冒险资源
   int gameStartTime;
@@ -29,7 +29,7 @@ class Context {
     wareHouse = new WareHouse();
     buildings = new Map();
     cats = new List();
-    catsLimit = 0;
+    _catsLimit = 0;
     catProfession = new Map();
     gameStartTime = DateTime.now().millisecondsSinceEpoch;
     things = List();
@@ -38,6 +38,10 @@ class Context {
     gameEndTime = DateTime.now().millisecondsSinceEpoch;
     initCatProfession();
   }
+
+  int get catsLimit => buildings[BuildingExample.chickenCoop] == null
+      ? 0
+      : buildings[BuildingExample.chickenCoop] ;
 
   void initCatProfession() {
     for (CatJob catJob in CatJob.values) {
@@ -52,7 +56,7 @@ class Context {
         'wareHouse': wareHouse.toJson(),
         'buildings': new JsonEncoder().convert(covertToStringMapInt(buildings)),
         'cats': jsonEncode(covertListToStringList(cats)),
-        'catsLimit': catsLimit,
+        'catsLimit': _catsLimit,
         'catProfession':
             new JsonEncoder().convert(covertToStringMapInt(catProfession)),
         'expeditions': expeditions,
@@ -75,7 +79,7 @@ class Context {
         cats = json['cats'] == '[]'
             ? []
             : covertListToCatList((jsonDecode(json['cats']) as List)),
-        catsLimit = json['catsLimit'],
+        _catsLimit = json['catsLimit'],
         catProfession = covertToCatJobMap(covertToObjectMapInt(new JsonDecoder()
             .convert(json['catProfession']) as Map<String, dynamic>)),
         expeditions = (json['expeditions'] as Map).isEmpty

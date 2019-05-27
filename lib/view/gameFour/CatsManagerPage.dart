@@ -1,3 +1,4 @@
+import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:lovely_cats/application.dart';
 import 'package:lovely_cats/object/Cats.dart';
@@ -49,6 +50,12 @@ class CatsManagerState extends State<CatsManagerPage> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Center(
+          child: Text(
+              "幸福度${NumUtil.getNumByValueDouble(Application.gameContext.saturability * 100, 1)} %",
+              style: TextStyle(
+                  color: Colors.purple[200], fontSize: 20, fontFamily: 'Miao')),
+        ),
+        Center(
           child: Text("这里一共有$count只喵喵",
               style: TextStyle(
                   color: Colors.purple[200], fontSize: 20, fontFamily: 'Miao')),
@@ -89,15 +96,17 @@ class CatsManagerState extends State<CatsManagerPage> {
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Text('职业:  ',style: TextStyle(fontSize: 15)),
+                          Text('职业:  ', style: TextStyle(fontSize: 15)),
                           DropdownButton<CatJob>(
                             items: FuncUtil()
                                 .getCatJobs()
                                 .map<DropdownMenuItem<CatJob>>((CatJob value) {
                               return DropdownMenuItem<CatJob>(
                                 value: value,
-                                child:
-                                    Text(EnumCovert().getAmbitionName(value),style: TextStyle(fontSize: 15),),
+                                child: Text(
+                                  EnumCovert().getAmbitionName(value),
+                                  style: TextStyle(fontSize: 15),
+                                ),
                               );
                             }).toList(),
                             onChanged: (job) {

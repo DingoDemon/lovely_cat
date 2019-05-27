@@ -4,4 +4,6 @@ abstract class Callback {
   void callBack();
 
   void receiveACat(Cat c) {}
+
+
 }

@@ -244,7 +244,7 @@ class EnumCovert {
       case BuildingExample.refinery:
         return "";
       case BuildingExample.loggingCamp:
-        return "";
+        return "images/building_03.png";
       case BuildingExample.college:
         return "";
       case BuildingExample.library:
