@@ -180,8 +180,10 @@ class ChickenCoopBuilder extends StaticBuilder {
     Map<Object, double> origin = {
       BuildingResource.branch: Arith().multiplication(
           10.0,
-          math.pow(2.0,
-              Application.gameContext.buildings[BuildingExample.chickenCoop]))
+          Arith().multiplication(
+              2.0,
+              Application.gameContext.buildings[BuildingExample.chickenCoop]
+                  .toDouble()))
     };
     if (interceptors.length == 0) {
       return origin;
@@ -210,8 +212,10 @@ class LoggingCampBuilder extends StaticBuilder {
     Map<Object, double> origin = {
       BuildingResource.branch: Arith().multiplication(
           50.0,
-          math.pow(1.5,
-              Application.gameContext.buildings[BuildingExample.loggingCamp]))
+          Arith().multiplication(
+              1.5,
+              Application.gameContext.buildings[BuildingExample.loggingCamp]
+                  .toDouble()))
     };
     if (interceptors.length == 0) {
       return origin;
