@@ -19,7 +19,7 @@ class InformationState extends State<InformationPage> {
     return Container(
         margin: EdgeInsets.only(top: 20, bottom: 20),
         child: Card(
-            color: Colors.cyan[50],
+            color: Color(0xff67eaca),
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(30.0))),
             child: Container(

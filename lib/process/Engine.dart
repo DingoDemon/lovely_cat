@@ -106,7 +106,7 @@ class Engine {
   void _checkEmptyForCat() {
     if (Application.gameContext.cats.length <
             Application.gameContext.catsLimit &&
-        FuncUtil().getRandom(5 * Application.gameContext.catsLimit) == 1) {
+        FuncUtil().getRandom(4 * Application.gameContext.catsLimit) == 1) {
       Cat cat = createOneCat(Application.gameContext.age);
       Application.gameContext.cats.add(cat);
       if (Application.gameContext.catProfession.isNotEmpty) {

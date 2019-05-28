@@ -51,7 +51,7 @@ class BuildingsState extends State<BuildingsPage>
     return Container(
       margin: EdgeInsets.only(top: 20, bottom: 20),
       child: Card(
-        color: Colors.brown[50],
+        color: Color(0xfffcf9ec),
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(30.0))),
         child: Container(

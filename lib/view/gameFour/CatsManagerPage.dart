@@ -22,7 +22,7 @@ class CatsManagerState extends State<CatsManagerPage> {
     return Container(
       margin: EdgeInsets.only(top: 20, bottom: 20),
       child: Card(
-          color: Colors.yellow[50],
+          color: Color(0xffb0f4e6),
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(30.0))),
           child: Container(

@@ -18,7 +18,7 @@ class WorkbenchState extends State<WorkbenchPage> {
     return Container(
         margin: EdgeInsets.only(top: 20, bottom: 20),
         child: Card(
-            color: Colors.indigo[50],
+            color: Color(0xff12d3cf),
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(30.0))),
             child: Container(
