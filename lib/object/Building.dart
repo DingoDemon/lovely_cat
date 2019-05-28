@@ -211,7 +211,7 @@ class LoggingCampBuilder extends StaticBuilder {
       BuildingResource.branch: Arith().multiplication(
           50.0,
           math.pow(1.5,
-              Application.gameContext.buildings[BuildingExample.chickenCoop]))
+              Application.gameContext.buildings[BuildingExample.loggingCamp]))
     };
     if (interceptors.length == 0) {
       return origin;

@@ -19,7 +19,7 @@ class InformationState extends State<InformationPage> {
     return Container(
         margin: EdgeInsets.only(top: 20, bottom: 20),
         child: Card(
-            color: Color(0xffc7ffff),
+            color: Colors.teal[50],
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(30.0))),
             child: Container(
@@ -43,7 +43,7 @@ class InformationState extends State<InformationPage> {
                                 child: Text(
                                   Application.gameContext.eventInfos[index],
                                   style: TextStyle(
-                                      color: Color(0xff7e80ff),
+                                      color: Colors.grey[800],
                                       fontSize: 16,
                                       fontFamily: 'Miao'),
                                 ),

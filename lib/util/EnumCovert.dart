@@ -117,9 +117,9 @@ class EnumCovert {
       case CatJob.Hunter:
         return "狩猎哪里是为了生存，更重要的是抓住猎物的满足感";
       case CatJob.Faller:
-        return "嘿哟嘿哟嘿哟喵～!";
+        return "嘿哟嘿哟嘿哟伐木喵～!";
       case CatJob.Miner:
-        return '咦呀!!咦呀!!又一块';
+        return '咦呀!!咦呀!!挖矿喵';
       case CatJob.Sleeper:
         return '';
     }
