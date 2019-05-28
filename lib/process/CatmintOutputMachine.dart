@@ -6,9 +6,11 @@ import 'package:lovely_cats/object/ResourceEnum.dart';
 import 'package:lovely_cats/util/Arith.dart';
 import 'dart:math' as math;
 
+import '../Const.dart';
 import 'Engine.dart';
 
 class CatmintOutputMachine extends PartOutputMachine {
+
   @override
   Map<Object, double> computeBuildOutput() {
     Map<Object, double> output = {FoodResource.catmint: 0};
@@ -32,18 +34,22 @@ class CatmintOutputMachine extends PartOutputMachine {
 
   @override
   Map<Object, double> computeCatOutput() {
+    ///基础产出
     double except = 0;
     if (Application.gameContext.catProfession.containsKey(CatJob.Farmer) &&
         Application.gameContext.catProfession[CatJob.Farmer] > 0) {
-      except += Arith().multiplication(
-          7.5, Application.gameContext.catProfession[CatJob.Farmer].toDouble());
+      except += Arith().multiplication(Const.farmerCat,
+          Application.gameContext.catProfession[CatJob.Farmer].toDouble());
     }
+
+    ///领导是农民，增加产量
     if (Application.gameContext.leader != null &&
         Application.gameContext.leader.originType == CatJob.Farmer) {
       double leaderCoefficient =
           math.pow(1.15, Application.gameContext.leader.level);
       except = Arith().multiplication(except, leaderCoefficient);
     }
+
     return {FoodResource.catmint: except};
   }
 

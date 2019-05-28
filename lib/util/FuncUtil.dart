@@ -25,6 +25,12 @@ class FuncUtil {
     return random.nextInt(max);
   }
 
+  int getRandomWithMin(int max, int min) {
+    Random random = new Random();
+    int result = random.nextInt(max);
+    return result < min ? getRandomWithMin(max, min) : result;
+  }
+
   double getRandomDouble() {
     Random random = new Random();
     double result = random.nextDouble();
@@ -58,9 +64,15 @@ class FuncUtil {
   List<CatJob> getCatJobs() {
     switch (Application.gameContext.age) {
       case Age.Chaos:
-        return [CatJob.Sleeper,CatJob.Farmer, CatJob.Faller];
+        return [CatJob.Sleeper, CatJob.Farmer, CatJob.Faller];
       case Age.Stone:
-        return [CatJob.Sleeper,CatJob.Farmer, CatJob.Faller, CatJob.Miner, CatJob.Hunter];
+        return [
+          CatJob.Sleeper,
+          CatJob.Farmer,
+          CatJob.Faller,
+          CatJob.Miner,
+          CatJob.Hunter
+        ];
       case Age.Bronze:
         return [CatJob.Sleeper];
       case Age.Iron:

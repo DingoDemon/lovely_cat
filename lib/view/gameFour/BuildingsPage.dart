@@ -5,7 +5,7 @@ import 'package:lovely_cats/object/ResourceEnum.dart';
 import 'package:lovely_cats/util/EnumCovert.dart';
 import 'package:lovely_cats/util/FuncUtil.dart';
 import 'package:lovely_cats/widget/BuildCard.dart';
-import 'package:lovely_cats/widget/Callback.dart';
+import 'package:lovely_cats/Callback.dart';
 
 import '../GamePage.dart';
 
@@ -51,7 +51,7 @@ class BuildingsState extends State<BuildingsPage>
     return Container(
       margin: EdgeInsets.only(top: 20, bottom: 20),
       child: Card(
-        color: Color(0xfffcf9ec),
+        color: Color(0xffc7ffff),
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(30.0))),
         child: Container(

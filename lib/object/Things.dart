@@ -43,6 +43,7 @@ abstract class Interceptor {
   Interceptor(this.buildingExample, this.tag);
 }
 
+
 class ZaxInterceptor extends Interceptor {
   ZaxInterceptor(BuildingExample buildingExample, String tag)
       : super(buildingExample, tag);
@@ -55,7 +56,6 @@ class ZaxInterceptor extends Interceptor {
 
   @override
   Map<Object, double> changeOutPut(Map<Object, double> output) {
-
     return null;
   }
 }

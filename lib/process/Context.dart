@@ -4,7 +4,6 @@ import 'package:common_utils/common_utils.dart';
 import 'package:lovely_cats/application.dart';
 import 'package:lovely_cats/object/Cats.dart';
 import 'package:lovely_cats/object/ResourceEnum.dart';
-import 'package:lovely_cats/object/ResourceEnum.dart';
 import 'package:lovely_cats/util/Arith.dart';
 import 'package:lovely_cats/util/EnumCovert.dart';
 import 'package:lovely_cats/util/FuncUtil.dart';
@@ -23,6 +22,7 @@ class Context {
   double saturability; //幸福度
   List<Handicrafts> things;
   int gameEndTime;
+  List<String> eventInfos;
 
   Context() {
     age = Age.Chaos;
@@ -38,6 +38,7 @@ class Context {
     expeditions = Map();
     gameEndTime = DateTime.now().millisecondsSinceEpoch;
     initCatProfession();
+    eventInfos = [];
   }
 
   int get catsLimit => buildings[BuildingExample.chickenCoop] == null
@@ -47,6 +48,15 @@ class Context {
   void initCatProfession() {
     for (CatJob catJob in CatJob.values) {
       catProfession[catJob] = 0;
+    }
+  }
+
+  void receiveAMessage(String s) {
+    if (eventInfos.length < 10) {
+      eventInfos.add(s);
+    } else {
+      eventInfos.removeAt(0);
+      eventInfos.add(s);
     }
   }
 
@@ -64,7 +74,8 @@ class Context {
         'gameStartTime': gameStartTime,
         'saturability': saturability,
         'things': jsonEncode(covertListToStringList(things)),
-        'gameEndTime': gameEndTime
+        'gameEndTime': gameEndTime,
+        'eventInfos': jsonEncode(eventInfos)
       };
 
   Context.fromJSON(Map json)
@@ -92,7 +103,10 @@ class Context {
         saturability = json['saturability'],
         things = json['things'] == '[]'
             ? []
-            : covertListToHandicraftsList((jsonDecode(json['things']) as List));
+            : covertListToHandicraftsList((jsonDecode(json['things']) as List)),
+        eventInfos = (json['eventInfos'] == '[]' || json['eventInfos'] == null)
+            ? []
+            : covertListToStringList(jsonDecode(json['eventInfos']));
 }
 
 class WareHouse {
@@ -428,7 +442,7 @@ Map<ExpeditionResource, double> covertToExpeditionResourceMap(
   return result;
 }
 
-List<String> covertListToStringList(List<Object> origin) {
+List<String> covertListToStringList(List<dynamic> origin) {
   List<String> result = [];
   origin.forEach((o) {
     result.add(o.toString());

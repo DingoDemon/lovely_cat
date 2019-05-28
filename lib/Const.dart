@@ -21,7 +21,6 @@ class Const {
 
   static const double CHICKEN_COOP_BUILD_SEED = 3;
 
-
   static const String CONTEXT = "context";
 
   static const int PASS_TIME_COUNT = 10;
@@ -32,5 +31,11 @@ class Const {
 
   static const int TOTAL_GAME_PAGE = 4;
 
+  static double farmerCat = 7.5;
 
+  static const double farmerCatOrigin = 7.5;
+
+  static double fallerCat = 0.225;
+
+  static const double fallerCatOrigin = 0.225;
 }

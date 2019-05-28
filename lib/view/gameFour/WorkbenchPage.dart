@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lovely_cats/application.dart';
 import 'package:lovely_cats/object/ResourceEnum.dart';
+import 'package:lovely_cats/util/EnumCovert.dart';
 import 'package:lovely_cats/util/FuncUtil.dart';
 
 import '../GamePage.dart';
@@ -18,7 +19,7 @@ class WorkbenchState extends State<WorkbenchPage> {
     return Container(
         margin: EdgeInsets.only(top: 20, bottom: 20),
         child: Card(
-            color: Color(0xff12d3cf),
+            color: Color(0xffc7ffff),
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(30.0))),
             child: Container(
@@ -32,6 +33,16 @@ class WorkbenchState extends State<WorkbenchPage> {
                               fontFamily: 'Miao'),
                         ),
                       )
-                    : Column())));
+                    : Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                              "${EnumCovert().getAgeName(Application.gameContext.age)}",
+                              style: TextStyle(
+                                  color: Colors.lime[300],
+                                  fontSize: 20,
+                                  fontFamily: 'Miao'))
+                        ],
+                      ))));
   }
 }

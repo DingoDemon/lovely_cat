@@ -11,7 +11,7 @@ import 'package:lovely_cats/util/FuncUtil.dart';
 import 'package:lovely_cats/view/active/ActivePage.dart';
 import 'package:lovely_cats/view/gameFour/BuildingsPage.dart';
 import 'package:lovely_cats/view/gameFour/CatsManagerPage.dart';
-import 'package:lovely_cats/widget/Callback.dart';
+import 'package:lovely_cats/Callback.dart';
 import 'package:lovely_cats/view/gameFour/InformationPage.dart';
 import 'package:lovely_cats/view/gameFour/WorkbenchPage.dart';
 
@@ -103,7 +103,7 @@ class GamePageStates extends State<GamePage>
                       addRepaintBoundaries: true,
                       itemBuilder: (BuildContext context, int index) {
                         bool plus = Application.gameContext.wareHouse
-                                .receiveInfo[items[index]] >
+                                .receiveInfo[items[index]] >=
                             0;
                         return Column(
                           children: <Widget>[
@@ -132,7 +132,7 @@ class GamePageStates extends State<GamePage>
                                 Application.gameContext.wareHouse.receiveInfo
                                         .containsKey(items[index])
                                     ? Text(
-                                        ' ${plus ? '+' :''} ${Application.gameContext.wareHouse.receiveInfo[items[index]]} '
+                                        ' ${plus ? '+' : ''} ${Application.gameContext.wareHouse.receiveInfo[items[index]]} '
                                         '/s',
                                         style: TextStyle(
                                             color: EnumCovert()

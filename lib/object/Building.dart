@@ -64,6 +64,7 @@ class CatmintFieldBuilder extends OperativeBuilder {
   }
 
   CatmintFieldBuilder.create() {
+    print("dingo!!!");
     example = BuildingExample.catmintField;
     if (Application.gameContext == null) {
       throw StateError("Application.gameContext ==null");

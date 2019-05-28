@@ -9,13 +9,14 @@ import 'package:lovely_cats/application.dart';
 import 'package:lovely_cats/object/Building.dart';
 import 'package:lovely_cats/object/Cats.dart';
 import 'package:lovely_cats/Const.dart';
+import 'package:lovely_cats/object/RandomEvent.dart';
 import 'package:lovely_cats/object/ResourceEnum.dart';
 import 'package:lovely_cats/process/Context.dart';
 import 'package:lovely_cats/util/Arith.dart';
 import 'package:lovely_cats/util/EnumCovert.dart';
 import 'package:lovely_cats/util/FuncUtil.dart';
 import 'package:lovely_cats/util/shared_preferences.dart';
-import 'package:lovely_cats/widget/Callback.dart';
+import 'package:lovely_cats/Callback.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'BranchOutputMachine.dart';
@@ -66,7 +67,13 @@ class Engine {
     _machineOutput();
     _catConsume();
     _catLeaderGrowUp();
+    _randomEvent();
     Application.gameContext.gameEndTime += 1000;
+  }
+
+  ///随机事件
+  void _randomEvent() {
+      RandomEvent().makeCatEventOneIfNone();
   }
 
   ///计算各种产出
@@ -77,6 +84,7 @@ class Engine {
 
   void _catLeaderGrowUp() {
     if (Application.gameContext.leader != null) {
+      print("dingo ${Application.gameContext.leader.exp}");
       Application.gameContext.leader.expAdd();
     }
   }
@@ -103,12 +111,14 @@ class Engine {
     }
   }
 
+  ///是否有空位容纳新猫
   void _checkEmptyForCat() {
     if (Application.gameContext.cats.length <
             Application.gameContext.catsLimit &&
         FuncUtil().getRandom(4 * Application.gameContext.catsLimit) == 1) {
       Cat cat = createOneCat(Application.gameContext.age);
       Application.gameContext.cats.add(cat);
+      Application.gameContext.receiveAMessage('来了一只小喵喵:${cat.dec}');
       if (Application.gameContext.catProfession.isNotEmpty) {
         Application.gameContext.catProfession[CatJob.Sleeper] += 1;
       } else {

@@ -8,7 +8,7 @@ import 'package:lovely_cats/util/EnumCovert.dart';
 import 'package:lovely_cats/util/FuncUtil.dart';
 import 'package:lovely_cats/view/gameFour/BuildingsPage.dart';
 
-import 'Callback.dart';
+import 'package:lovely_cats/Callback.dart';
 
 // ignore: must_be_immutable
 class BuildingView extends Dialog {

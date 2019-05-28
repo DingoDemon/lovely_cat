@@ -38,8 +38,8 @@ class Cat implements CatInterface {
     return jsonEncode(this.toJson());
   }
 
-  Cat(this.name, this._exp, this.age, this.originType, this.bloodLines, this.dec,
-      this.level, this.sex, this.arrange);
+  Cat(this.name, this._exp, this.age, this.originType, this.bloodLines,
+      this.dec, this.level, this.sex, this.arrange);
 
   factory Cat.fromJSON(Map<String, dynamic> json) {
     return new Cat(
@@ -54,18 +54,21 @@ class Cat implements CatInterface {
         getCatJobFromJson(json['arrange']));
   }
 
-  void expAdd(){
+  void expAdd() {
     _exp++;
-    if(_exp == Const.CAT_LEVEL_ONE||
-        _exp == Const.CAT_LEVEL_TWO||_exp == Const.CAT_LEVEL_THREE||
-        _exp == Const.CAT_LEVEL_FOUR||_exp == Const.CAT_LEVEL_FIVE){
+    if (_exp == Const.CAT_LEVEL_ONE ||
+        _exp == Const.CAT_LEVEL_TWO ||
+        _exp == Const.CAT_LEVEL_THREE ||
+        _exp == Const.CAT_LEVEL_FOUR ||
+        _exp == Const.CAT_LEVEL_FIVE) {
       _levelUp();
     }
-
   }
 
+  int get exp => _exp;
+
   void _levelUp() {
-    level++;
+    level += 1;
   }
 }
 

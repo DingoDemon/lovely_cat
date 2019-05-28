@@ -2,6 +2,7 @@ import 'package:lovely_cats/object/ResourceEnum.dart';
 import 'package:lovely_cats/util/Arith.dart';
 import 'dart:math' as math;
 
+import '../Const.dart';
 import '../application.dart';
 import 'Engine.dart';
 
@@ -16,7 +17,7 @@ class BranchOutputMachine extends PartOutputMachine {
     double except = 0;
     if (Application.gameContext.catProfession.containsKey(CatJob.Faller) &&
         Application.gameContext.catProfession[CatJob.Faller] > 0) {
-      except += Arith().multiplication(0.225,
+      except += Arith().multiplication(Const.fallerCat,
           Application.gameContext.catProfession[CatJob.Faller].toDouble());
     }
     if (Application.gameContext.leader != null &&
