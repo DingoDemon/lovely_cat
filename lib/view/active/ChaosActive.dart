@@ -21,39 +21,21 @@ class _ChaosDialogState extends State<ChaosDialog> {
   Widget build(BuildContext context) {
     makeBranchEnable =
         Application.gameContext.wareHouse.foods[FoodResource.catmint] >= 20;
-    switch (Application.gameContext.age) {
-      case Age.Chaos:
-        if (!Application.gameContext.buildings
-            .containsKey(BuildingExample.catmintField)) {
-          tip = '去林子里采点猫薄荷回来吧';
-          chaosStep = ChaosStep.one;
-        } else if (Application.gameContext.buildings
-                .containsKey(BuildingExample.catmintField) &&
-            !Application.gameContext.buildings
-                .containsKey(BuildingExample.chickenCoop)) {
-          tip = '树枝制成的鸡窝，能吸引新的喵宝贝';
-          chaosStep = ChaosStep.two;
-        } else {
-          tip = '建造更多的鸡窝,吸引更多的喵喵';
-          chaosStep = ChaosStep.three;
-        }
-        break;
-      case Age.Bronze:
-        break;
-      case Age.Feudal:
-        break;
-      case Age.Industry:
-        break;
-      case Age.Iron:
-        break;
-      case Age.Modern:
-        break;
-      case Age.Space:
-        break;
-      case Age.Stone:
-        break;
-      default:
-        break;
+    if (!Application.gameContext.buildings
+        .containsKey(BuildingExample.catmintField)) {
+      tip = '去林子里采点猫薄荷回来吧';
+      chaosStep = ChaosStep.one;
+    } else if (Application.gameContext.buildings
+            .containsKey(BuildingExample.catmintField) &&
+        (!Application.gameContext.buildings
+                .containsKey(BuildingExample.chickenCoop) ||
+            Application.gameContext.buildings[BuildingExample.chickenCoop] ==
+                0)) {
+      tip = '做一点鸡窝把,树枝制成的鸡窝，能吸引新的喵宝贝';
+      chaosStep = ChaosStep.two;
+    } else {
+      tip = '建造更多的鸡窝,吸引更多的喵喵';
+      chaosStep = ChaosStep.three;
     }
     return AlertDialog(
       content: getWidget(context),
@@ -106,8 +88,7 @@ class _ChaosDialogState extends State<ChaosDialog> {
           onPressed: () {
             double value = Engine().pickSomeCatmint();
             Fluttertoast.showToast(
-                msg:
-                    "从林子里采集到里$value猫薄荷",
+                msg: "从林子里采集到里$value猫薄荷",
                 toastLength: Toast.LENGTH_SHORT,
                 gravity: ToastGravity.BOTTOM,
                 timeInSecForIos: 1,
@@ -136,8 +117,7 @@ class _ChaosDialogState extends State<ChaosDialog> {
               onPressed: () {
                 double value = Engine().pickSomeCatmint();
                 Fluttertoast.showToast(
-                    msg:
-                        "从林子里采集到里$value猫薄荷",
+                    msg: "从林子里采集到里$value猫薄荷",
                     toastLength: Toast.LENGTH_SHORT,
                     gravity: ToastGravity.BOTTOM,
                     timeInSecForIos: 1,

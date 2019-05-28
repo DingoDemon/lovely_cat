@@ -5,6 +5,7 @@ import 'package:lovely_cats/object/Building.dart';
 import 'package:lovely_cats/object/ResourceEnum.dart';
 import 'package:lovely_cats/process/Engine.dart';
 import 'ChaosActive.dart';
+import 'StoneActive.dart';
 
 class ActivePage extends AlertDialog {
   @override
@@ -19,10 +20,6 @@ class MyDialog extends StatefulWidget {
 }
 
 class _MyDialogState extends State<MyDialog> {
-  String tip;
-  ChaosStep chaosStep;
-  bool makeBranchEnable;
-
   @override
   Widget build(BuildContext context) {
     return getWidget(context);
@@ -45,11 +42,9 @@ class _MyDialogState extends State<MyDialog> {
       case Age.Space:
         return Container();
       case Age.Stone:
-        return Container();
+        return StoneDialog();
       default:
         return Container();
     }
   }
 }
-
-enum ChaosStep { one, two, three }

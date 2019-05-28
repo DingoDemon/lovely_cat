@@ -35,7 +35,7 @@ class RandomEvent {
         Application.gameContext.receiveAMessage('喵喵恢复常态');
       }
     } else {
-      int seed = FuncUtil().getRandom(399);
+      int seed = FuncUtil().getRandom(390);
       if (seed > 388) {
         int times = FuncUtil().getRandomWithMin(21, 10);
         CatEvent event = getEvent();
