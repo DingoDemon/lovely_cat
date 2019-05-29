@@ -27,11 +27,11 @@ class Context {
   Context() {
     age = Age.Chaos;
     season = Season.Winter;
-    wareHouse = new WareHouse();
-    buildings = new Map();
-    cats = new List();
+    wareHouse = WareHouse();
+    buildings = Map();
+    cats = List();
     _catsLimit = 0;
-    catProfession = new Map();
+    catProfession = Map();
     gameStartTime = DateTime.now().millisecondsSinceEpoch;
     things = List();
     saturability = 1;

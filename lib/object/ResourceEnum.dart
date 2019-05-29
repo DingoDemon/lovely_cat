@@ -3,8 +3,7 @@ enum FoodResource { catmint }
 
 FoodResource getFoodResourceFromJson(String s) {
   for (FoodResource element in FoodResource.values) {
-    if (element.toString() == s)
-      return element;
+    if (element.toString() == s) return element;
   }
   return null;
 }
@@ -22,7 +21,7 @@ enum BuildingResource {
 
 BuildingResource getBuildingResourceFromJson(String s) {
   for (BuildingResource element in BuildingResource.values) {
-    if (element.toString() == s ) return element;
+    if (element.toString() == s) return element;
   }
   return null;
 }
@@ -35,12 +34,12 @@ enum PointResource {
 
 PointResource getPointResourceFromJson(String s) {
   for (PointResource element in PointResource.values) {
-    if (element.toString() == s )
-      return element;
+    if (element.toString() == s) return element;
   }
   return null;
 }
 
+///建筑
 enum BuildingExample {
   catmintField, //猫粮牧场
   chickenCoop, //鸡窝
@@ -56,13 +55,12 @@ enum BuildingExample {
   loggingCamp, //伐木场
   mineField, //矿场
   warehouse, //仓库
-  workbench,//工作台
+  workbench, //工作台
 }
 
 BuildingExample getBuildingExampleFromJson(String s) {
   for (BuildingExample element in BuildingExample.values) {
-    if (element.toString() == s )
-      return element;
+    if (element.toString() == s) return element;
   }
   return null;
 }
@@ -141,8 +139,7 @@ enum Season { Spring, Summer, Fall, Winter }
 
 Season getSeasonFromJson(String s) {
   for (Season element in Season.values) {
-    if (element.toString() == s)
-      return element;
+    if (element.toString() == s) return element;
   }
   return null;
 }
