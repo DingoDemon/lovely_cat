@@ -9,20 +9,20 @@ import 'package:lovely_cats/util/EnumCovert.dart';
 import 'package:lovely_cats/util/FuncUtil.dart';
 
 class Context {
-  Age age;
-  Season season;
-  Cat leader;
+  Age age; //年代
+  Season season; //季节
+  Cat leader; //领导喵
   WareHouse wareHouse; //仓库
   Map<BuildingExample, int> buildings; //建筑
-  List<Cat> cats;
+  List<Cat> cats; //喵喵s
   int _catsLimit; //人口上限
   Map<CatJob, int> catProfession; //喵子分工
   Map<ExpeditionResource, double> expeditions; //冒险资源
-  int gameStartTime;
+  int gameStartTime; //gameStartTime
   double saturability; //幸福度
   List<Handicrafts> things;
-  int gameEndTime;
-  List<String> eventInfos;
+  int gameEndTime; //最后一次储存的事件
+  List<String> eventInfos; //发生事件提示
 
   Context() {
     age = Age.Chaos;
@@ -110,12 +110,12 @@ class Context {
 }
 
 class WareHouse {
-  Map<FoodResource, double> foods = Map();
-  Map<FoodResource, double> foodsLimit = Map();
-  Map<BuildingResource, double> buildingMaterials = Map();
-  Map<BuildingResource, double> buildingMaterialsLimit = Map();
-  Map<PointResource, double> points = Map();
-  Map<PointResource, double> pointsLimit = Map();
+  Map<FoodResource, double> _foods = Map();
+  Map<FoodResource, double> _foodsLimit = Map();
+  Map<BuildingResource, double> _buildingMaterials = Map();
+  Map<BuildingResource, double> _buildingMaterialsLimit = Map();
+  Map<PointResource, double> _points = Map();
+  Map<PointResource, double> _pointsLimit = Map();
 
   Map<Object, double> receiveInfo = Map();
 
@@ -126,15 +126,16 @@ class WareHouse {
   }
 
   Map<String, dynamic> toJson() => {
-        'foods': new JsonEncoder().convert(covertToStringMap(foods)),
-        'foodsLimit': new JsonEncoder().convert(covertToStringMap(foodsLimit)),
-        'buildingMaterials':
-            new JsonEncoder().convert(covertToStringMap(buildingMaterials)),
-        'buildingMaterialsLimit': new JsonEncoder()
-            .convert(covertToStringMap(buildingMaterialsLimit)),
-        'points': new JsonEncoder().convert(covertToStringMap(points)),
-        'pointsLimit':
-            new JsonEncoder().convert(covertToStringMap(pointsLimit)),
+        '_foods': new JsonEncoder().convert(covertToStringMap(_foods)),
+        '_foodsLimit':
+            new JsonEncoder().convert(covertToStringMap(_foodsLimit)),
+        '_buildingMaterials':
+            new JsonEncoder().convert(covertToStringMap(_buildingMaterials)),
+        '_buildingMaterialsLimit': new JsonEncoder()
+            .convert(covertToStringMap(_buildingMaterialsLimit)),
+        '_points': new JsonEncoder().convert(covertToStringMap(_points)),
+        '_pointsLimit':
+            new JsonEncoder().convert(covertToStringMap(_pointsLimit)),
         'receiveInfo':
             new JsonEncoder().convert(covertToStringMap(receiveInfo)),
         'showItem': new JsonEncoder().convert(covertToStringMap(showItem)),
@@ -142,40 +143,41 @@ class WareHouse {
 
   WareHouse.fromJSON(Map json)
       : receiveInfo = covertToObjectMap(new JsonDecoder()
-            .convert(json['receiveInfo']) as Map<String, dynamic>),
-        pointsLimit = covertToPointMap(covertToObjectMap(new JsonDecoder()
-            .convert(json['pointsLimit']) as Map<String, dynamic>)),
-        points = covertToPointMap(covertToObjectMap(
-            new JsonDecoder().convert(json['points']) as Map<String, dynamic>)),
-        buildingMaterialsLimit = covertToBuildingResourceMap(covertToObjectMap(
-            new JsonDecoder().convert(json['buildingMaterialsLimit'])
+            .convert(json['_receiveInfo']) as Map<String, dynamic>),
+        _pointsLimit = covertToPointMap(covertToObjectMap(new JsonDecoder()
+            .convert(json['_pointsLimit']) as Map<String, dynamic>)),
+        _points = covertToPointMap(covertToObjectMap(new JsonDecoder()
+            .convert(json['_points']) as Map<String, dynamic>)),
+        _buildingMaterialsLimit = covertToBuildingResourceMap(covertToObjectMap(
+            new JsonDecoder().convert(json['_buildingMaterialsLimit'])
                 as Map<String, dynamic>)),
-        buildingMaterials = covertToBuildingResourceMap(covertToObjectMap(
-            new JsonDecoder().convert(json['buildingMaterials'])
+        _buildingMaterials = covertToBuildingResourceMap(covertToObjectMap(
+            new JsonDecoder().convert(json['_buildingMaterials'])
                 as Map<String, dynamic>)),
-        foodsLimit = covertToFoodResourceMap(covertToObjectMap(new JsonDecoder()
-            .convert(json['foodsLimit']) as Map<String, dynamic>)),
-        foods = covertToFoodResourceMap(covertToObjectMap(
-            new JsonDecoder().convert(json['foods']) as Map<String, dynamic>)),
+        _foodsLimit = covertToFoodResourceMap(covertToObjectMap(
+            new JsonDecoder().convert(json['_foodsLimit'])
+                as Map<String, dynamic>)),
+        _foods = covertToFoodResourceMap(covertToObjectMap(
+            new JsonDecoder().convert(json['_foods']) as Map<String, dynamic>)),
         showItem = covertToObjectMap(new JsonDecoder().convert(json['showItem'])
             as Map<String, dynamic>);
 
   void init() {
     List<FoodResource> food = FoodResource.values;
     for (FoodResource resource in food) {
-      foods[resource] = 400;
-      foodsLimit[resource] = 7500;
+      _foods[resource] = 400;
+      _foodsLimit[resource] = 7500;
     }
     List<BuildingResource> build = BuildingResource.values;
     for (BuildingResource resource in build) {
-      buildingMaterials[resource] = 0;
-      buildingMaterialsLimit[resource] = 300;
+      _buildingMaterials[resource] = 0;
+      _buildingMaterialsLimit[resource] = 300;
     }
 
     List<PointResource> point = PointResource.values;
     for (PointResource resource in point) {
-      points[resource] = 0;
-      pointsLimit[resource] = 300;
+      _points[resource] = 0;
+      _pointsLimit[resource] = 300;
     }
   }
 
@@ -188,13 +190,14 @@ class WareHouse {
 
   void consumeResource(Object o, double require) {
     if (o is FoodResource) {
-      foods[o] = Arith().subtraction(foods[o], require);
+      _foods[o] = Arith().subtraction(_foods[o], require);
     }
     if (o is BuildingResource) {
-      buildingMaterials[o] = Arith().subtraction(buildingMaterials[o], require);
+      _buildingMaterials[o] =
+          Arith().subtraction(_buildingMaterials[o], require);
     }
     if (o is PointResource) {
-      points[o] = Arith().subtraction(points[o], require);
+      _points[o] = Arith().subtraction(_points[o], require);
     }
   }
 
@@ -212,13 +215,13 @@ class WareHouse {
 
   bool resourceEnough(Object o, double value) {
     if (o is FoodResource) {
-      return foods[o] >= value;
+      return _foods[o] >= value;
     }
     if (o is BuildingResource) {
-      return buildingMaterials[o] >= value;
+      return _buildingMaterials[o] >= value;
     }
     if (o is PointResource) {
-      return points[o] >= value;
+      return _points[o] >= value;
     }
     return true;
   }
@@ -230,17 +233,17 @@ class WareHouse {
 
   ///获取所有item
   List<Object> getShowItems() {
-    foods.forEach((key, value) {
+    _foods.forEach((key, value) {
       if (value != null && value > 0 && !showItem.containsKey(key)) {
         showItem[key] = -1;
       }
     });
-    buildingMaterials.forEach((key, value) {
+    _buildingMaterials.forEach((key, value) {
       if (value != null && value > 0) {
         showItem[key] = -1;
       }
     });
-    points.forEach((key, value) {
+    _points.forEach((key, value) {
       if (value != null && value > 0) {
         showItem[key] = -1;
       }
@@ -255,20 +258,20 @@ class WareHouse {
   ///获取仓库资源存量
   double getItemReserves(Object o) {
     if (o is PointResource) {
-      if (!points.containsKey(o)) {
-        points[o] = 0;
+      if (!_points.containsKey(o)) {
+        _points[o] = 0;
       }
-      return points[o];
+      return _points[o];
     } else if (o is BuildingResource) {
-      if (!buildingMaterials.containsKey(o)) {
-        buildingMaterials[o] = 0;
+      if (!_buildingMaterials.containsKey(o)) {
+        _buildingMaterials[o] = 0;
       }
-      return buildingMaterials[o];
+      return _buildingMaterials[o];
     } else if (o is FoodResource) {
-      if (!foods.containsKey(o)) {
-        foods[o] = 0;
+      if (!_foods.containsKey(o)) {
+        _foods[o] = 0;
       }
-      return foods[o];
+      return _foods[o];
     } else {
       return 0.0;
     }
@@ -277,11 +280,11 @@ class WareHouse {
   ///获取仓库资源存量上限
   double getItemReservesLimit(Object o) {
     if (o is PointResource) {
-      return pointsLimit[o];
+      return _pointsLimit[o];
     } else if (o is BuildingResource) {
-      return buildingMaterialsLimit[o];
+      return _buildingMaterialsLimit[o];
     } else if (o is FoodResource) {
-      return foodsLimit[o];
+      return _foodsLimit[o];
     } else {
       return 0.0;
     }
@@ -289,10 +292,11 @@ class WareHouse {
 
   ///收取猫薄荷
   void receiveCatmint(double d, bool isHandwork) {
-    if (foods[FoodResource.catmint] + d < foodsLimit[FoodResource.catmint]) {
-      foods[FoodResource.catmint] = Arith().add(foods[FoodResource.catmint], d);
+    if (_foods[FoodResource.catmint] + d <= _foodsLimit[FoodResource.catmint]) {
+      _foods[FoodResource.catmint] =
+          Arith().add(_foods[FoodResource.catmint], d);
     } else {
-      foods[FoodResource.catmint] = foodsLimit[FoodResource.catmint];
+      _foods[FoodResource.catmint] = _foodsLimit[FoodResource.catmint];
     }
     if (!isHandwork) {
       double receive =
@@ -304,13 +308,13 @@ class WareHouse {
 
   ///收取树枝
   void receiveBranch(double d, bool isHandwork) {
-    if (buildingMaterials[BuildingResource.branch] + d <
-        buildingMaterialsLimit[BuildingResource.branch]) {
-      buildingMaterials[BuildingResource.branch] =
-          Arith().add(buildingMaterials[BuildingResource.branch], d);
+    if (_buildingMaterials[BuildingResource.branch] + d <
+        _buildingMaterialsLimit[BuildingResource.branch]) {
+      _buildingMaterials[BuildingResource.branch] =
+          Arith().add(_buildingMaterials[BuildingResource.branch], d);
     } else {
-      buildingMaterials[BuildingResource.branch] =
-          buildingMaterialsLimit[BuildingResource.branch];
+      _buildingMaterials[BuildingResource.branch] =
+          _buildingMaterialsLimit[BuildingResource.branch];
     }
     if (!isHandwork) {
       receiveInfo[BuildingResource.branch] = NumUtil.getNumByValueDouble(d, 2);

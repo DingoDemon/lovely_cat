@@ -55,7 +55,8 @@ enum BuildingExample {
   researchInstitute, //研究院
   loggingCamp, //伐木场
   mineField, //矿场
-  warehouse //仓库
+  warehouse, //仓库
+  workbench,//工作台
 }
 
 BuildingExample getBuildingExampleFromJson(String s) {

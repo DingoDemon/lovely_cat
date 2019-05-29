@@ -71,7 +71,7 @@ class CatmintFieldBuilder extends OperativeBuilder {
     }
     for (Handicrafts handicrafts in Application.gameContext.things) {
       Interceptor interceptor = Things().getInterceptor(handicrafts);
-      if (example == interceptor.buildingExample) {
+      if (interceptor != null && example == interceptor.buildingExample) {
         interceptors.add(interceptor);
       }
     }
@@ -87,7 +87,7 @@ class CatmintFieldBuilder extends OperativeBuilder {
 
   @override
   bool couldShow(Context c) {
-    return c.wareHouse.foods[FoodResource.catmint] > 5;
+    return c.wareHouse.resourcesEnough({FoodResource.catmint: 5});
   }
 
   @override
@@ -147,7 +147,7 @@ class ChickenCoopBuilder extends StaticBuilder {
     }
     for (Handicrafts handicrafts in Application.gameContext.things) {
       Interceptor interceptor = Things().getInterceptor(handicrafts);
-      if (example == interceptor.buildingExample) {
+      if (interceptor != null && example == interceptor.buildingExample) {
         interceptors.add(interceptor);
       }
     }
@@ -167,7 +167,7 @@ class ChickenCoopBuilder extends StaticBuilder {
 
   @override
   bool couldShow(Context c) {
-    return c.wareHouse.buildingMaterials[BuildingResource.branch] >= 2;
+    return c.wareHouse.resourcesEnough({BuildingResource.branch: 3});
   }
 
   @override
@@ -197,7 +197,29 @@ class ChickenCoopBuilder extends StaticBuilder {
   }
 }
 
+///伐木屋
 class LoggingCampBuilder extends StaticBuilder {
+  BuildingExample example;
+
+  static final LoggingCampBuilder instance = new LoggingCampBuilder.create();
+
+  factory LoggingCampBuilder() {
+    return instance;
+  }
+
+  LoggingCampBuilder.create() {
+    example = BuildingExample.loggingCamp;
+    if (Application.gameContext == null) {
+      throw StateError("Application.gameContext ==null");
+    }
+    for (Handicrafts handicrafts in Application.gameContext.things) {
+      Interceptor interceptor = Things().getInterceptor(handicrafts);
+      if (interceptor != null && example == interceptor.buildingExample) {
+        interceptors.add(interceptor);
+      }
+    }
+  }
+
   @override
   void build(Context c) {
     if (couldBuild(c)) {

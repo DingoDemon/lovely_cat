@@ -33,9 +33,30 @@ class EnumCovert {
         return "鸡窝";
       case BuildingExample.loggingCamp:
         return "伐木喵厂";
-
-      default:
-        return "";
+      case BuildingExample.box:
+        return "纸盒子";
+      case BuildingExample.refinery:
+        return "喵の加工厂";
+      case BuildingExample.coalMine:
+        return "煤矿";
+      case BuildingExample.college:
+        return "喵喵学院";
+      case BuildingExample.cattery:
+        return "猫窝";
+      case BuildingExample.advancedCattery:
+        return "猫别墅";
+      case BuildingExample.library:
+        return "喵书馆";
+      case BuildingExample.university:
+        return "喵喵大学";
+      case BuildingExample.researchInstitute:
+        return "喵の研究院";
+      case BuildingExample.mineField:
+        return "矿场";
+      case BuildingExample.warehouse:
+        return "仓库";
+      case BuildingExample.workbench:
+        return "工作台";
     }
   }
 
@@ -222,21 +243,21 @@ class EnumCovert {
   }
 
   String getFoodReceiveInfo(FoodResource f) {
-    return '${NumUtil.getNumByValueDouble(Application.gameContext.wareHouse.foods[f], 2)} '
+    return '${NumUtil.getNumByValueDouble(Application.gameContext.wareHouse.getItemReserves(f), 2)} '
         '/ '
-        '${NumUtil.getNumByValueDouble(Application.gameContext.wareHouse.foodsLimit[f], 2)}';
+        '${NumUtil.getNumByValueDouble(Application.gameContext.wareHouse.getItemReserves(f), 2)}';
   }
 
   String getBuildingResourceReceiveInfo(BuildingResource b) {
-    return '${NumUtil.getNumByValueDouble(Application.gameContext.wareHouse.buildingMaterials[b], 2)} '
+    return '${NumUtil.getNumByValueDouble(Application.gameContext.wareHouse.getItemReserves(b), 2)} '
         '/'
-        ' ${NumUtil.getNumByValueDouble(Application.gameContext.wareHouse.buildingMaterialsLimit[b], 2)}';
+        ' ${NumUtil.getNumByValueDouble(Application.gameContext.wareHouse.getItemReserves(b), 2)}';
   }
 
   String getPointResourceReceiveInfo(PointResource p) {
-    return '${NumUtil.getNumByValueDouble(Application.gameContext.wareHouse.points[p], 2)} '
+    return '${NumUtil.getNumByValueDouble(Application.gameContext.wareHouse.getItemReserves(p), 2)} '
         '/'
-        ' ${NumUtil.getNumByValueDouble(Application.gameContext.wareHouse.pointsLimit[p], 2)}';
+        ' ${NumUtil.getNumByValueDouble(Application.gameContext.wareHouse.getItemReserves(p), 2)}';
   }
 
   String getBuildIconPath(BuildingExample b) {
@@ -265,8 +286,15 @@ class EnumCovert {
         return "";
       case BuildingExample.university:
         return "";
-      default:
-        return "";
+      case BuildingExample.coalMine:
+        // TODO: Handle this case.
+        break;
+      case BuildingExample.warehouse:
+        // TODO: Handle this case.
+        break;
+      case BuildingExample.workbench:
+        // TODO: Handle this case.
+        break;
     }
   }
 }

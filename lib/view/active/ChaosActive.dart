@@ -19,8 +19,8 @@ class _ChaosDialogState extends State<ChaosDialog> {
 
   @override
   Widget build(BuildContext context) {
-    makeBranchEnable =
-        Application.gameContext.wareHouse.foods[FoodResource.catmint] >= 20;
+    makeBranchEnable = Application.gameContext.wareHouse
+        .resourcesEnough({FoodResource.catmint: 20});
     if (!Application.gameContext.buildings
         .containsKey(BuildingExample.catmintField)) {
       tip = '去林子里采点猫薄荷回来吧';
@@ -101,7 +101,7 @@ class _ChaosDialogState extends State<ChaosDialog> {
           splashColor: Colors.blueGrey,
         ),
       );
-    } else if (s == ChaosStep.two || s == ChaosStep.three) {
+    } else {
       return Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[

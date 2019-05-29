@@ -73,7 +73,7 @@ class Engine {
 
   ///随机事件
   void _randomEvent() {
-      RandomEvent().makeCatEventOneIfNone();
+    RandomEvent().makeCatEventOneIfNone();
   }
 
   ///计算各种产出
@@ -178,6 +178,8 @@ class Engine {
           break;
         case BuildingExample.coalMine:
           break;
+        case BuildingExample.workbench:
+          break;
       }
     }
   }
@@ -210,12 +212,11 @@ class Engine {
 
   ///手动操作，将猫薄荷转化成树枝
   bool makeCatmintToBranch() {
-    if (Application.gameContext.wareHouse.foods[FoodResource.catmint] < 20) {
+    if (Application.gameContext.wareHouse
+        .resourcesEnough({FoodResource.catmint: 20})) {
       return false;
     }
-    Application.gameContext.wareHouse.foods[FoodResource.catmint] = Arith()
-        .subtraction(
-            Application.gameContext.wareHouse.foods[FoodResource.catmint], 20);
+    Application.gameContext.wareHouse.consumeResource(FoodResource.catmint, 20);
     Application.gameContext.wareHouse.receiveBranch(1.0, true);
     return true;
   }
